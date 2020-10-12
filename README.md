@@ -8,7 +8,7 @@
 >- vuex模块user.js文件中```RESET_STATE: (state) => { Object.assign(state, getDefaultState()) }```,关于Object.assign()的用法
 
 #### 1013路由表&&用户登陆&&vuex内容&&axios跨域请求的疏通②
->- api中moc虚假api两个文件夹后续需要删除
+>- api中mock虚假api两个文件夹后续需要删除
 >- axios拦截器写在utilj夹request.js文件中。跨域后续提上``` config.headers.Authorization = `Bearer${getToken()}` ```和```baseURL: 'http://localhost:7001'```。
 
 ## Build Setup
