@@ -1,12 +1,12 @@
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
+import NProgress from 'nprogress' //顶部进度条控件
+import 'nprogress/nprogress.css' //nprogress样式必须引入
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({ showSpinner: false }) // 配置showSpinner：进度环显示隐藏
 
 const whiteList = ['/login'] // no redirect whitelist
 
@@ -14,7 +14,7 @@ router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
 
-  // set page title
+  // set page title JS中的document.title可以获取当前网页的标题 web api
   document.title = getPageTitle(to.meta.title)
 
   // determine whether the user has logged in
