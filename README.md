@@ -11,6 +11,11 @@
 >- api中mock虚假api两个文件夹后续需要删除
 >- axios拦截器写在utilj夹request.js文件中。跨域后续提上``` config.headers.Authorization = `Bearer${getToken()}` ```和```baseURL: 'http://localhost:7001'```。
 
+#### 1014路由表&&用户登陆&&vuex内容&&axios跨域请求的疏通③
+>- login页面沿用模板，loginform的校验器username不需要验证
+>- el-form-item元素的prop属性绑定字段名name，表单验证时，就会验证el-input元素绑定的变量的值是否符合验证规则
+>- sass和scss内容学习
+
 ## Build Setup
 
 ```bash
