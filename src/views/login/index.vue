@@ -132,6 +132,9 @@ $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
 
+//-webkit-mask：蒙版，用于将固定形状设置透明度，形状可以是一个div，也可以是一张图片
+//caret-color:可以改变输入框插入光标的颜色，同时又不改变输入框里面的内容的颜色。
+//这段代码主要是让光标颜色和文字颜色一致
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
