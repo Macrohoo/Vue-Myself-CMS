@@ -5,11 +5,11 @@
 >- 所有权限通用路由表constantRouters和动态需要根据权限加载的路由表asyncRouters
 >- utils文件auth.js中改```const TokenKey = 'access_token'```
 >- 游览器cookie设置过期期限时长暂时没有设置,设置需如下:```Cookies.set("access_token", token, { expires: 7 })```
->- vuex模块user.js文件中```RESET_STATE: (state) => { Object.assign(state, getDefaultState()) }```,关于Object.assign()的用法
+>- vuex模块user.js文件中```RESET_STATE: (state) => { Object.assign(state, getDefaultState()) }```,关于Object.assign()的用法。```Object.assign(target, ...sources)【target：目标对象】,【souce：源对象（可多个）】```用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
 
 #### 1013路由表&&用户登陆&&vuex内容&&axios跨域请求的疏通②
 >- api中mock虚假api两个文件夹后续需要删除
->- axios拦截器写在utilj夹request.js文件中。跨域后续提上``` config.headers.Authorization = `Bearer${getToken()}` ```和```baseURL: 'http://localhost:7001'```。
+>- axios拦截器写在utilj夹request.js文件中。跨域后续提上``` config.headers.Authorization = `Bearer ${getToken()}` ```和```baseURL: 'http://localhost:7001'```。
 
 #### 1014路由表&&用户登陆&&vuex内容&&axios跨域请求的疏通③
 >- login页面沿用模板，loginform的校验器username不需要验证
@@ -31,6 +31,15 @@
 >- ```@keyup.enter.native="handleLogin"```vue回车触发聚焦
 >- vim查找关键字的好方法,命令模式下敲斜杆( / )这时在状态栏（也就是屏幕左下脚）就出现了 “/” 然后输入你要查找的关键字敲回车就可以了。如果你要继续查找此关键字，敲字符n就可以继续查找了。敲字符N（大写N）就会向前查询；
 
+#### 1016路由表&&用户登陆&&vuex内容&&axios跨域请求的疏通&&sass和scss⑤
+>- 子组件：要想实现父组件内的点击事件，子组件必须监听点击并触发父组件定义的click。方法有两种①子组件可以通过调用内建的 $emit 方法并传入事件名称来触发一个事件：```<button v-on:click="$emit('enlarge-text')">Enlarge text</button>```。②在封装好的子组件上使用，所以要加上.native才能click。如：```<el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>```另外：prevent是用来阻止默认的事件。就相当于…event.preventDefault()，父组件想在子组件上监听自己的click的话，需要加上native修饰符。
+>- watch时有一个特点，就是当值第一次绑定的时候，不会执行监听函数，只有值发生改变才会执行。如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。
+>- handler方法和immediate属性:①当父组件向子组件动态传值时，子组件props首次获取到父组件传来的默认值时，也需要执行函数，此时就需要将immediate设为true。②之前我们写的 watch 方法其实默认写的就是这个handler，Vue.js会去处理这个逻辑，最终编译出来其实就是这个handler。③immediate:true代表如果在 wacth 里声明了 viewDetials之后，就会立即先去执行里面的handler方法，如果为 false就跟我们以前的效果一样，不会在绑定的时候就执行
+>- deep属性:①watch 里面还有一个属性 deep，默认值是 false，代表是否深度监听当需要监听一个对象的改变时，普通的watch方法无法监听到对象内部属性的改变，只有data中的数据才能够监听到变化，此时就需要deep属性对对象进行深度监听。②设置deep: true 则可以监听到newTemplateForm 的变化，此时会给newTemplateForm 的所有属性都加上这个监听器，当对象属性较多时，每个属性值的变化都会执行handler。如果只需要监听对象中的一个属性值，则可以做以下优化：使用字符串的形式监听对象属性：'newTemplateForm .cycleUpkeep'
+>- ```document.getElementById("myAnchor").focus()``` focus() 方法用于为元素设置焦点(如果可以设置)。把光标聚焦到指定DOM上
+>- ```vm.$nextTick( [callback] )```用法:①将回调延迟到下次 DOM 更新循环之后执行。②在修改数据之后立即使用它，然后等待 DOM 更新。③它跟全局方法 Vue.nextTick 一样，不同的是回调的this自动绑定到调用它的实例上。
+>- 在后端中除了login APi是不需要判断verify外，其余所有接口都需要判断islogin。在后端getUserInfo()登录查询个人信息的时候验证了token，验证完token后把当前用户信息都放入了session中。所以getUserInfo()这个API是必须要走的一步。
+>- 后续改permission中的动态添加addRoutes可访问路由表。路由文件中asyncRoutes：那些需求动态判断权限并通过addRoutes动态添加的页面完善。
 
 
 ## Build Setup

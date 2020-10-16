@@ -31,7 +31,7 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else {
         try {
-          // get user info
+          //get userinfo并放入store中
           await store.dispatch('user/getInfo')
 
           next()

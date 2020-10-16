@@ -17,7 +17,7 @@ service.interceptors.request.use(
   config => {
     NProgress.start()
     if (store.getters.token) {
-      //config.headers.Authorization = `Bearer${getToken()}`
+      //config.headers.Authorization = `Bearer ${getToken()}`
       config.headers['X-Token'] = getToken()
     }
     return config
