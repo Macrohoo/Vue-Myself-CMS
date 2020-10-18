@@ -66,7 +66,7 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      //fetchGetUserInfo()  修改
+      //fetchGetUserInfo()  修改 这个API是不携带参数的，所以state是不是也可以去掉，上面的token：getToken()是否应该改成token: '',
       getInfo(state.token).then(response => {
         const { data } = response
 
@@ -82,7 +82,6 @@ const actions = {
         commit('SET_AUTHORITYROUTER', authorityRouter)
         commit('SET_PERMISSIONBUTTON', permissionButton)
         commit('SET_UID', id)
-        
         resolve(data)
       }).catch(error => {
         reject(error)

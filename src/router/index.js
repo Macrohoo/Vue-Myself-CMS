@@ -52,32 +52,32 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/article',
-    name: 'Article',
-    component: Layout,
-    meta: { title: '文章管理', icon: 'el-icon-tickets' },
-    children: [
-      {
-        path: 'addArticleEditor',
-        name: 'PublishArticle',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '发表文章', icon: 'el-icon-edit-outline' }
-      },
-      {
-        path: 'articleList',
-        name: 'ArticleList',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '文章列表', icon: 'el-icon-edit-outline' }
-      },
-      {
-        path: 'commentList',
-        name: 'CommentList',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '评论列表', icon: 'el-icon-edit-outline' }
-      }
-    ]
-  },
+  // {
+  //   path: '/article',
+  //   name: 'Article',
+  //   component: Layout,
+  //   meta: { title: '文章管理', icon: 'el-icon-tickets' },
+  //   children: [
+  //     {
+  //       path: 'addArticleEditor',
+  //       name: 'PublishArticle',
+  //       component: () => import('@/views/dashboard/index'),
+  //       meta: { title: '发表文章', icon: 'el-icon-edit-outline' }
+  //     },
+  //     {
+  //       path: 'articleList',
+  //       name: 'ArticleList',
+  //       component: () => import('@/views/dashboard/index'),
+  //       meta: { title: '文章列表', icon: 'el-icon-edit-outline' }
+  //     },
+  //     {
+  //       path: 'commentList',
+  //       name: 'CommentList',
+  //       component: () => import('@/views/dashboard/index'),
+  //       meta: { title: '评论列表', icon: 'el-icon-edit-outline' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/example',
@@ -193,7 +193,7 @@ export const asyncRouters = [
     path: '/article',
     name: 'Article',
     component: Layout,
-    meta: { title: '文章管理', icon: 'el-icon-tickets' },
+    meta: { title: '文章管理', icon: 'el-icon-tickets', role: ['超级管理员'] },
     children: [
       {
         path: 'addArticleEditor',

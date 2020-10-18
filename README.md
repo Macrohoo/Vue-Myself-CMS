@@ -39,7 +39,13 @@
 >- ```document.getElementById("myAnchor").focus()``` focus() 方法用于为元素设置焦点(如果可以设置)。把光标聚焦到指定DOM上
 >- ```vm.$nextTick( [callback] )```用法:①将回调延迟到下次 DOM 更新循环之后执行。②在修改数据之后立即使用它，然后等待 DOM 更新。③它跟全局方法 Vue.nextTick 一样，不同的是回调的this自动绑定到调用它的实例上。
 >- 在后端中除了login APi是不需要判断verify外，其余所有接口都需要判断islogin。在后端getUserInfo()登录查询个人信息的时候验证了token，验证完token后把当前用户信息都放入了session中。所以getUserInfo()这个API是必须要走的一步。
->- 后续改permission中的动态添加addRoutes可访问路由表。路由文件中asyncRoutes：那些需求动态判断权限并通过addRoutes动态添加的页面完善。
+>- ①后续改permission中的动态添加addRoutes可访问路由表。②路由文件中asyncRoutes：那些需求动态判断权限并通过addRoutes动态添加的页面完善。③创建一个routerpermission，通过用户的权限和之前在router.js里面asyncRouterMap的每一个页面所需要的权限做匹配，最后返回一个该用户能够访问路由表
+
+#### 1018路由表&&用户登陆&&vuex内容&&axios跨域请求的疏通&&sass和scss⑥
+>- [session](https://stackoverflow.com/questions/3804209/what-are-sessions-how-do-they-work):由于HTTP是无状态的，因此为了将请求与任何其他请求相关联，您需要一种在HTTP请求之间存储用户数据的方法。
+>- 仔细看了一下后台的refresh_token和access_token的逻辑暂时没问题，在前端暂时先不尝试加入refresh_token来保证无感知刷新，因为permission控制中对于有token的情况下抓取了token过期而返回的错误，会直接resetToken并返回登录界面,为了前期连桥实现，暂不加入这个功能。
+>- array.some() 方法测试数组中是不是至少有1个元素通过了被提供的函数测试。它返回的是一个Boolean类型的值。
+>- array.filter() 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。
 
 
 ## Build Setup
