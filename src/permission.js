@@ -32,8 +32,12 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           //get userinfo并放入store中
-          await store.dispatch('user/getInfo')
-
+          // const res = await store.dispatch('user/getInfo')
+          // const roles = res.role
+          // store.dispatch('routerpermission/GenerateRoutes', {roles}).then(()=>{
+          //   router.addRoutes(store.getters.addRouters)
+          //   next({...to, replace: true})
+          // })
           next()
         } catch (error) {
           // remove token and go to login page to re-login

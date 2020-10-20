@@ -1,4 +1,4 @@
-import { router, asyncRouters } from "@/router/index";
+import { constantRoutes, asyncRouters } from "@/router/index";
 
 function hasPermission(roles, route) {
   if (route.meta && route.meta.role) {
@@ -10,13 +10,13 @@ function hasPermission(roles, route) {
 
 const routerpermission = {
   state: {
-    routers: router,
+    routers: constantRoutes,
     addRouters: []
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
-      state.routers = router.concat(routers)
+      state.routers = constantRoutes.concat(routers)
     }
   },
   actions: {

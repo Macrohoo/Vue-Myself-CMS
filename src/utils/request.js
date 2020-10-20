@@ -6,8 +6,8 @@ import NProgress from "nprogress"
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  //baseURL: 'http://localhost:7001', //暂时写死，后续再调
+  //baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: '/api', //暂时写死，后续再调
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000
 })
@@ -17,8 +17,8 @@ service.interceptors.request.use(
   config => {
     NProgress.start()
     if (store.getters.token) {
-      //config.headers.Authorization = `Bearer ${getToken()}`
-      config.headers['X-Token'] = getToken()
+      config.headers.Authorization = `Bearer ${getToken()}`
+      //config.headers['Bearer '] = getToken()
     }
     return config
   },

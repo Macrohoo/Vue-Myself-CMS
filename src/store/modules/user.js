@@ -52,10 +52,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       //有时候用户输入信息的时候，可能会过多的填写空格，或者有些时候就使用空格做为数据了，结果造成程序出错~为了使我们的数据紧凑并且不会出现空格错误 我们就需要使用到trim（）函数
       //fetchLogin() 修改
-      login({ username: username.trim(), password: password }).then(response => {
+      //login({ username: username.trim(), password: password }).then(response => {
+      fetchLogin({ username: username.trim(), password: password }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)  //把token放到Cookie中
+        commit('SET_TOKEN', data.access_token)
+        setToken(data.access_token)  //把token放到Cookie中
         resolve()
       }).catch(error => {
         reject(error)
@@ -64,17 +65,17 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       //fetchGetUserInfo()  修改 这个API是不携带参数的，所以state是不是也可以去掉，上面的token：getToken()是否应该改成token: '',
-      getInfo(state.token).then(response => {
-        const { data } = response
+      //getInfo(state.token).then(response => {
+      fetchGetUserInfo().then(response => {
 
-        if (!data) {
+        if (!response) {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar, role, authorityRouter, permissionButton, id } = data
+        const { name, avatar, role, authorityRouter, permissionButton, id } = response
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)

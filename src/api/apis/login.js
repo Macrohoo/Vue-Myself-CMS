@@ -6,6 +6,6 @@ export function fetchLogin(data) {
   return request({
     url: loginUrls.login,
     method: "post",
-    params: { data }
+    data
   });
 }

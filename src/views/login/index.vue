@@ -57,13 +57,6 @@
 export default {
   name: 'Login',
   data() {
-    // const validateUsername = (rule, value, callback) => {
-    //   if (!validUsername(value)) {
-    //     callback(new Error('Please enter the correct user name'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 3) {
         callback(new Error('The password can not be less than 3 digits'))
@@ -110,6 +103,7 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
+            //console.log(this.$store.state)
             this.loading = false
           }).catch(() => {
             this.loading = false
