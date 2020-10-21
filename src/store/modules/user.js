@@ -1,4 +1,3 @@
-import { login, logout, getInfo } from '@/api/user'
 import { fetchLogin } from '@/api/apis/login'
 import { fetchGetUserInfo } from '@/api/apis/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
@@ -51,8 +50,7 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       //有时候用户输入信息的时候，可能会过多的填写空格，或者有些时候就使用空格做为数据了，结果造成程序出错~为了使我们的数据紧凑并且不会出现空格错误 我们就需要使用到trim（）函数
-      //fetchLogin() 修改
-      //login({ username: username.trim(), password: password }).then(response => {
+      //console.log(fetchLogin({ username: username.trim(), password: password }))
       fetchLogin({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.access_token)
@@ -68,7 +66,6 @@ const actions = {
   getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       //fetchGetUserInfo()  修改 这个API是不携带参数的，所以state是不是也可以去掉，上面的token：getToken()是否应该改成token: '',
-      //getInfo(state.token).then(response => {
       fetchGetUserInfo().then(response => {
 
         if (!response) {
@@ -83,7 +80,7 @@ const actions = {
         commit('SET_AUTHORITYROUTER', authorityRouter)
         commit('SET_PERMISSIONBUTTON', permissionButton)
         commit('SET_UID', id)
-        resolve(data)
+        resolve(response)
       }).catch(error => {
         reject(error)
       })
@@ -91,17 +88,23 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  // logout({ commit, state }) {
+  //   return new Promise((resolve, reject) => {
+  //     logout(state.token).then(() => {
+  //       removeToken() // must remove  token  first
+  //       resetRouter()
+  //       commit('RESET_STATE')
+  //       resolve()
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  // },
+
+  logout({ commit }) {
+    removeToken() // must remove  token  first
+    resetRouter()
+    commit('RESET_STATE')
   },
 
   // remove token

@@ -49,7 +49,12 @@
 
 #### 1020完成了用户登录基本疏通
 >- addRoutes需要疏通完成
->- logout需要完后一下先
+>- logout需要完善一下先
+
+#### 1022logout完成&&权限sidebar显示完成
+>- rouerpermission的state中{ routers, addRouters }都需要在getters中被计算保存到vuex全局状态中。①其中addRouters是为了把根据权限遍历出来的动态路由最终添加到可访问路由表，实现```router.addRoutes(store.getters.addRouters)```这步。②修改layout/components/Sidebar/index.vue ，遍历路由生成菜单的时候不要使用siderbar，而要使用routers。此时的routers已经是该用户权下可以访问的页面路由表了，这样sidebar才会最终渲染成我们想要的样子。
+>- 在routerpermission中如果role不是超级管理员的时候会进行另一个逻辑判断，就会用到前面定义的hasPermission函数，但需要保证参数roles是一个数组才能使用array.some()等方法，所以在action中需要定义一个数组```const roles = []```，把参数data(role)赋值到roles中，让其成为一个数组，后面才能去调用数组方法进行权限遍历动态路由表。
+>- logout暂时不需要用到promise，修改掉模板源码中的promise写法。
 
 
 ## Build Setup
