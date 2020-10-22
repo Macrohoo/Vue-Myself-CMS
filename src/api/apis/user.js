@@ -9,3 +9,11 @@ export function fetchGetUserInfo() {
     params: {}
   });
 }
+
+export function fetchUserList(data) {
+  return request({
+    url: userUrls.userList,
+    method: "post",
+    data
+  })
+}

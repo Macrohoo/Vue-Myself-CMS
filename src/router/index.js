@@ -52,33 +52,6 @@ export const constantRoutes = [
     }]
   },
 
-  // {
-  //   path: '/article',
-  //   name: 'Article',
-  //   component: Layout,
-  //   meta: { title: '文章管理', icon: 'el-icon-tickets' },
-  //   children: [
-  //     {
-  //       path: 'addArticleEditor',
-  //       name: 'PublishArticle',
-  //       component: () => import('@/views/dashboard/index'),
-  //       meta: { title: '发表文章', icon: 'el-icon-edit-outline' }
-  //     },
-  //     {
-  //       path: 'articleList',
-  //       name: 'ArticleList',
-  //       component: () => import('@/views/dashboard/index'),
-  //       meta: { title: '文章列表', icon: 'el-icon-edit-outline' }
-  //     },
-  //     {
-  //       path: 'commentList',
-  //       name: 'CommentList',
-  //       component: () => import('@/views/dashboard/index'),
-  //       meta: { title: '评论列表', icon: 'el-icon-edit-outline' }
-  //     }
-  //   ]
-  // },
-
   {
     path: '/example',
     component: Layout,
@@ -215,6 +188,37 @@ export const asyncRouters = [
       }
     ]
   },
+
+  {
+    path: '/systemManage',
+    name: 'SystemManage',
+    component: Layout,
+    meta: { title: '系统管理', icon: 'el-icon-s-tools', role: ['超级管理员']},
+    children:[
+      {
+        path: 'roleManage',
+        name: 'RoleManage',
+        component: () => import('@/views/dashboard/index'),
+        meta: {title: '角色权限管理', icon: 'el-icon-edit', role: ['超级管理员']}
+      },
+      {
+        path: 'userMange',
+        name: 'UserMange',
+        component: () => import('@/views/dashboard/index'),
+        meta: {title: '用户管理', icon: 'el-icon-user-solid', role: ['超级管理员']},
+        children:[
+          {
+            path: 'userList',
+            name: 'UserList',
+            component: () => import('@/views/dashboard/index'),
+            meta: {title: '用户列表', icon: 'el-icon-thumb', role: ['超级管理员']},
+            children: []          
+          }
+        ]
+      }
+    ]
+
+  }
 ]
 
 const createRouter = () => new Router({

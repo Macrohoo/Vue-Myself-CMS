@@ -51,10 +51,16 @@
 >- addRoutes需要疏通完成
 >- logout需要完善一下先
 
-#### 1022logout完成&&权限sidebar显示完成
+#### 1022logout完成&&权限sidebar显示完成&&用户列表页面sidebar&&通用组件之userinfo.vue
 >- rouerpermission的state中{ routers, addRouters }都需要在getters中被计算保存到vuex全局状态中。①其中addRouters是为了把根据权限遍历出来的动态路由最终添加到可访问路由表，实现```router.addRoutes(store.getters.addRouters)```这步。②修改layout/components/Sidebar/index.vue ，遍历路由生成菜单的时候不要使用siderbar，而要使用routers。此时的routers已经是该用户权下可以访问的页面路由表了，这样sidebar才会最终渲染成我们想要的样子。
 >- 在routerpermission中如果role不是超级管理员的时候会进行另一个逻辑判断，就会用到前面定义的hasPermission函数，但需要保证参数roles是一个数组才能使用array.some()等方法，所以在action中需要定义一个数组```const roles = []```，把参数data(role)赋值到roles中，让其成为一个数组，后面才能去调用数组方法进行权限遍历动态路由表。
 >- logout暂时不需要用到promise，修改掉模板源码中的promise写法。
+>- GET后退按钮/刷新无害，POST数据会被重新提交（浏览器应该告知用户数据会被重新提交）。GET书签可收藏，POST为书签不可收藏。GET能被缓存，POST不能缓存 。GET编码类型application/x-www-form-url，POST编码类型encodedapplication/x-www-form-urlencoded 或 multipart/form-data。为二进制数据使用多重编码。GET历史参数保留在浏览器历史中。POST参数不会保存在浏览器历史中。GET对数据长度有限制，当发送数据时，GET 方法向 URL 添加数据；URL 的长度是受限制的（URL 的最大长度是 2048 个字符）。POST无限制。GET只允许 ASCII 字符。POST没有限制。也允许二进制数据。与 POST 相比，GET 的安全性较差，因为所发送的数据是 URL 的一部分。在发送密码或其他敏感信息时绝不要使用 GET ！POST 比 GET 更安全，因为参数不会被保存在浏览器历史或 web 服务器日志中。GET的数据在 URL 中对所有人都是可见的。POST的数据不会显示在 URL 中。
+>- ```:visible.sync="visible"```表示双向绑定值。初始情况下通过visible该值控制dialog显示。
+>- destroy-on-close表示关闭时销毁 Dialog 中的元素。vue原生中可以用v-if，在关闭dialog标签的的时候将v-if设置为false这样el-form会直接将其从DOM结构中抹除。
+>- props的作用是父组件中引用了子组件并给子组件加了一个属性，这个属性可以是静态的，可以是动态的，可以是数字，可以是字符串，可以是数组，还可以是对象。总结：子P父传子。
+
+
 
 
 ## Build Setup
