@@ -60,6 +60,10 @@
 >- destroy-on-close表示关闭时销毁 Dialog 中的元素。vue原生中可以用v-if，在关闭dialog标签的的时候将v-if设置为false这样el-form会直接将其从DOM结构中抹除。
 >- props的作用是父组件中引用了子组件并给子组件加了一个属性，这个属性可以是静态的，可以是动态的，可以是数字，可以是字符串，可以是数组，还可以是对象。总结：子P父传子。
 
+#### 1023用户列表页面
+>- 添加了global插件，暂时实现了一个$getDateDiff的实例方法。[Vue插件开发](https://cn.vuejs.org/v2/guide/plugins.html)
+>- ```ilter-placement="bottom-end"```userList中这个元素属性是不是没有必要？
+
 
 
 

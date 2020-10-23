@@ -68,6 +68,10 @@
 </template>
 
 <script>
+
+import { fetchGetUserInfoId } from '@/api/apis/user'
+import { fetchGetRoleList } from '@/api/apis/role'
+
 export default {
   name: "userInfo",
   props: {
@@ -159,39 +163,22 @@ export default {
       return isLt2M && isJPG || isPNG
     },
     getList () {
-      let that = this
-      this.$request.fetchGetRoleList().then(function (response) {
-        that.roleData = response.data.rows
-        let userId = that.userId
-        if (!userId) {
-          return false
-        }
-        that.$request.fetchGetUserInfoId({id: userId})
-          .then(function (res) {
-            console.log(res)
-            res.data.password = ""
-            if (res.data.status === "1") {
-              res.data.status = true
-            } else {
-              res.data.status = false
-            }
-
-            that.ruleForm2 = res.data
-            that.roleName = true
-            for (let i = 0; i < that.roleData.length; i++) {
-                //这里info需要去掉
-              if (that.$store.getters.info.role === "超级管理员" && that.$store.getters.info.uid !== userId) {
-                that.roleName = false
-              }
-            }
+        if(!this.userId){
             return false
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      })
-        .catch(function (error) {
-          console.log(error)
+        }
+        Promise.all([fetchGetRoleList(), fetchGetUserInfoId({id: this.userId})]).then(([roleListResponse, userInfoResponse]) => {
+            this.roleData = roleListResponse.rows
+            if(userInfoResponse.status === "1") {
+                userInfoResponse.status = true
+            } else {
+                userInfoResponse.status = false
+            }
+            this.ruleForm2 = userInfoResponse
+            this.roleName = true
+            for(let i = 0; i < this.roleData.length; i++) {
+                if(this.$store.getters.role === "超级管理员" && this.$store.getters.uid !== this.userId)
+                this.roleName = flase
+            }
         })
     },
     submitForm (formName) {

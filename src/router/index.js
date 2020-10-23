@@ -204,13 +204,13 @@ export const asyncRouters = [
       {
         path: 'userMange',
         name: 'UserMange',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/commerViews'),
         meta: {title: '用户管理', icon: 'el-icon-user-solid', role: ['超级管理员']},
         children:[
           {
             path: 'userList',
             name: 'UserList',
-            component: () => import('@/views/dashboard/index'),
+            component: () => import('@/views/user/userList'),
             meta: {title: '用户列表', icon: 'el-icon-thumb', role: ['超级管理员']},
             children: []          
           }
