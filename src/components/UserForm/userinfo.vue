@@ -4,10 +4,10 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="ruleForm2.username" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item v-if="!userId" label="密码" prop="password">
+      <el-form-item v-if="!this.userId" label="密码" prop="password">
         <el-input type="password" v-model="ruleForm2.password" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item v-if="!userId" label="确认密码" prop="checkPass">
+      <el-form-item v-if="!this.userId" label="确认密码" prop="checkPass">
         <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="角色">
@@ -164,22 +164,31 @@ export default {
     },
     getList () {
         if(!this.userId){
-            return false
+            fetchGetRoleList().then(res =>{
+                console.log(res)
+                this.roleData = res.rows
+                for(let i = 0; i< this.roleData.length; i++) {
+                    if(this.$store.getters.role === "超级管理员" && this.$store.getters.uid !== this.userId)
+                    this.roleName = false                    
+                }
+            })
+        }else{
+            Promise.all([fetchGetRoleList(), fetchGetUserInfoId({id: this.userId})]).then(([roleListResponse, userInfoResponse]) => {
+                this.roleData = roleListResponse.rows
+                if(userInfoResponse.status === "1") {
+                    userInfoResponse.status = true
+                } else {
+                    userInfoResponse.status = false
+                }
+                this.ruleForm2 = userInfoResponse
+                this.roleName = true
+                for(let i = 0; i < this.roleData.length; i++) {
+                    if(this.$store.getters.role === "超级管理员" && this.$store.getters.uid !== this.userId)
+                    this.roleName = false
+                }
+            })
         }
-        Promise.all([fetchGetRoleList(), fetchGetUserInfoId({id: this.userId})]).then(([roleListResponse, userInfoResponse]) => {
-            this.roleData = roleListResponse.rows
-            if(userInfoResponse.status === "1") {
-                userInfoResponse.status = true
-            } else {
-                userInfoResponse.status = false
-            }
-            this.ruleForm2 = userInfoResponse
-            this.roleName = true
-            for(let i = 0; i < this.roleData.length; i++) {
-                if(this.$store.getters.role === "超级管理员" && this.$store.getters.uid !== this.userId)
-                this.roleName = flase
-            }
-        })
+
     },
     submitForm (formName) {
       let that = this

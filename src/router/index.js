@@ -157,8 +157,6 @@ export const constantRoutes = [
     ]
   },
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export const asyncRouters = [
@@ -193,32 +191,34 @@ export const asyncRouters = [
     path: '/systemManage',
     name: 'SystemManage',
     component: Layout,
-    meta: { title: '系统管理', icon: 'el-icon-s-tools', role: ['超级管理员']},
+    meta: { title: '系统管理', icon: 'el-icon-s-tools', role: ['超级管理员', '管理员']},
     children:[
       {
         path: 'roleManage',
         name: 'RoleManage',
         component: () => import('@/views/dashboard/index'),
-        meta: {title: '角色权限管理', icon: 'el-icon-edit', role: ['超级管理员']}
+        meta: {title: '角色权限管理', icon: 'el-icon-edit', role: ['超级管理员', '管理员']}
       },
       {
         path: 'userMange',
         name: 'UserMange',
         component: () => import('@/views/commerViews'),
-        meta: {title: '用户管理', icon: 'el-icon-user-solid', role: ['超级管理员']},
+        meta: {title: '用户管理', icon: 'el-icon-user-solid', role: ['超级管理员', '管理员']},
         children:[
           {
             path: 'userList',
             name: 'UserList',
             component: () => import('@/views/user/userList'),
-            meta: {title: '用户列表', icon: 'el-icon-thumb', role: ['超级管理员']},
+            meta: {title: '用户列表', icon: 'el-icon-thumb', role: ['超级管理员', '管理员']},
             children: []          
           }
         ]
       }
     ]
+  },
 
-  }
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

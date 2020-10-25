@@ -33,17 +33,18 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     NProgress.done()
-    const res = response.data
-    if (response.status !== 200) {
-      Message({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-      return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
-    }
+    // const res = response.data
+    // if (response.status !== 200) {
+    //   Message({
+    //     message: res.message || 'Error',
+    //     type: 'error',
+    //     duration: 5 * 1000
+    //   })
+    //   return Promise.reject(new Error(res.message || 'Error'))
+    // } else {
+    //   return res
+    // }
+    return response.data
   },
   error => {
     console.log('err' + error) // for debug

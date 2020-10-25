@@ -22,12 +22,18 @@ const mutations = {
 
 const actions = {
   GenerateRoutes({ commit }, data) {
-    const roles = []
-    var that = this
+    // const roles = []
+    // var that = this
     return new Promise(resolve => {
-      that.roles = data
+      const roles = []
+      if (data instanceof Array) {
+        roles.concat(data)
+      } else {
+        roles.push(data)
+      }
+      //that.roles = data
       const accessedRouters = asyncRouters.filter(v => {
-        if (that.roles.indexOf("超级管理员") >= 0) return true;
+        if (roles.indexOf("超级管理员") >= 0) return true;
         if (hasPermission(roles, v)) {
           if (v.children && v.children.length > 0) {
             v.children = v.children.filter(child => {
