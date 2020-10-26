@@ -66,12 +66,12 @@
     >
     </el-pagination>
     </div>
-    <user-info v-if="dialogVisible" :title="title" :dialogVisible="dialogVisible" :userId="userId" @successCallback="successCallback"/>
+    <UserInfo v-if="dialogVisible" :title="title" :dialogVisible="dialogVisible" :userId="userId" @successCallback="successCallback"/>
   </div>
 </template>
 
 <script>
-import UserInfo from "@/components/UserForm/userinfo"
+import UserInfo from "@/components/UserForm/userInfo"
 import { fetchUserList } from '@/api/apis/user'
 
 export default {

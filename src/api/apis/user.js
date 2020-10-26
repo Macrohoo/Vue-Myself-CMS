@@ -11,7 +11,7 @@ export function fetchGetUserInfo() {
 }
 
 //获取用户列表
-export function fetchUserList(data) {
+export function fetchUserList( data ) {
   return request({
     url: userUrls.userList,
     method: 'post',
@@ -20,9 +20,27 @@ export function fetchUserList(data) {
 }
 
 //获取用户信息
-export function fetchGetUserInfoId(data){
+export function fetchGetUserInfoId( data ){
   return request({
     url: userUrls.getUserInfoId,
+    method: 'post',
+    data
+  })
+}
+
+//注册账号
+export function fetchRegister( data ) {
+  return request({
+    url: userUrls.register,
+    method: 'post',
+    data
+  })
+}
+
+//修改用户信息
+export function fetchEditUser( data ){
+  return request({
+    url: userUrls.editUser,
     method: 'post',
     data
   })

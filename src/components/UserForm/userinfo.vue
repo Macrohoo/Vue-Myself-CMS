@@ -1,31 +1,59 @@
 <template>
-  <el-dialog :title="title" width="600px" :visible.sync="visible" destroy-on-close @close="closeCallback">
-    <el-form :model="ruleForm2" status-icon :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+  <el-dialog
+    :title="title"
+    width="600px"
+    :visible.sync="visible"
+    destroy-on-close
+    @close="closeCallback"
+  >
+    <el-form
+      :model="ruleForm2"
+      status-icon
+      :rules="rules"
+      ref="ruleForm2"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
       <el-form-item label="用户名" prop="username">
         <el-input v-model="ruleForm2.username" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-if="!this.userId" label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm2.password" autocomplete="off"></el-input>
+        <el-input
+          type="password"
+          v-model="ruleForm2.password"
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
       <el-form-item v-if="!this.userId" label="确认密码" prop="checkPass">
-        <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
+        <el-input
+          type="password"
+          v-model="ruleForm2.checkPass"
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
       <el-form-item label="角色">
-        <el-select v-if="roleName" v-model="ruleForm2.role_id" disabled  placeholder="请选择等级">
-          <el-option
-            v-for="item in roleData"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-        <el-select v-else v-model="ruleForm2.role_id"  placeholder="请选择等级">
+        <el-select
+          v-if="roleName"
+          v-model="ruleForm2.role_id"
+          disabled
+          placeholder="请选择等级"
+        >
           <el-option
             v-for="item in roleData"
             :key="item.id"
             :label="item.name"
             :value="item.id"
-            :disabled="item.disabled">
+          >
+          </el-option>
+        </el-select>
+        <el-select v-else v-model="ruleForm2.role_id" placeholder="请选择等级">
+          <el-option
+            v-for="item in roleData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+            :disabled="item.disabled"
+          >
           </el-option>
         </el-select>
       </el-form-item>
@@ -42,7 +70,10 @@
         <el-input v-model="ruleForm2.age" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="手机号" prop="mobile_phone">
-        <el-input v-model="ruleForm2.mobile_phone" autocomplete="off"></el-input>
+        <el-input
+          v-model="ruleForm2.mobile_phone"
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
       <el-form-item label="是否启用">
         <el-switch v-model="ruleForm2.status"></el-switch>
@@ -53,24 +84,30 @@
           action="/api/editor/uploadImg"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="ruleForm2.avatar" :src="ruleForm2.avatar" class="avatar">
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="ruleForm2.avatar" :src="ruleForm2.avatar" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm2')">确 定</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm2')"
+          >确 定</el-button
+        >
         <el-button @click="resetForm('ruleForm2')">重 置</el-button>
       </el-form-item>
     </el-form>
-<!--    </div>-->
+    <!--    </div>-->
   </el-dialog>
 </template>
 
 <script>
-
-import { fetchGetUserInfoId } from '@/api/apis/user'
-import { fetchGetRoleList } from '@/api/apis/role'
+import {
+  fetchGetUserInfoId,
+  fetchRegister,
+  fetchEditUser
+} from "@/api/apis/user";
+import { fetchGetRoleList } from "@/api/apis/role";
 
 export default {
   name: "userInfo",
@@ -88,26 +125,26 @@ export default {
       default: ""
     }
   },
-  data () {
+  data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入密码"))
+        callback(new Error("请输入密码"));
       } else {
         if (this.ruleForm2.checkPass !== "") {
-          this.$refs.ruleForm2.validateField("checkPass")
+          this.$refs.ruleForm2.validateField("checkPass");
         }
-        callback()
+        callback();
       }
-    }
+    };
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请再次输入密码"))
+        callback(new Error("请再次输入密码"));
       } else if (value !== this.ruleForm2.password) {
-        callback(new Error("两次输入密码不一致!"))
+        callback(new Error("两次输入密码不一致!"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       roleName: false,
       roleData: "",
@@ -130,145 +167,139 @@ export default {
           { min: 3, max: 18, message: "长度在 3 到 18 个字符", trigger: "blur" }
         ],
         password: [
-          {required: true, validator: validatePass, trigger: "blur"}
+          { required: true, validator: validatePass, trigger: "blur" }
         ],
         checkPass: [
-          {required: true, validator: validatePass2, trigger: "blur"}
+          { required: true, validator: validatePass2, trigger: "blur" }
         ],
         role_id: [
           { required: true, message: "请选择用户角色", trigger: "change" }
         ]
       }
-    }
+    };
   },
   methods: {
-    handleAvatarSuccess (res, file) {
-      this.ruleForm2.avatar = res.data[0]
+    handleAvatarSuccess(res, file) {
+      this.ruleForm2.avatar = res.data[0];
     },
-    closeCallback () {
-      this.$emit("successCallback")
+    closeCallback() {
+      this.$emit("successCallback");
     },
-    beforeAvatarUpload (file) {
-      const isJPG = file.type === "image/jpeg"
-      const isPNG = file.type === "image/png"
-      const isLt2M = file.size / 1024 / 1024 < 2
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isPNG = file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!(isJPG || isPNG)) {
-        this.$message.error("上传头像图片只能是 JPG/PNG 格式!")
+        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!")
+        this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       // eslint-disable-next-line no-mixed-operators
-      return isLt2M && isJPG || isPNG
+      return (isLt2M && isJPG) || isPNG;
     },
-    getList () {
-        if(!this.userId){
-            fetchGetRoleList().then(res =>{
-                console.log(res)
-                this.roleData = res.rows
-                for(let i = 0; i< this.roleData.length; i++) {
-                    if(this.$store.getters.role === "超级管理员" && this.$store.getters.uid !== this.userId)
-                    this.roleName = false                    
-                }
-            })
-        }else{
-            Promise.all([fetchGetRoleList(), fetchGetUserInfoId({id: this.userId})]).then(([roleListResponse, userInfoResponse]) => {
-                this.roleData = roleListResponse.rows
-                if(userInfoResponse.status === "1") {
-                    userInfoResponse.status = true
-                } else {
-                    userInfoResponse.status = false
-                }
-                this.ruleForm2 = userInfoResponse
-                this.roleName = true
-                for(let i = 0; i < this.roleData.length; i++) {
-                    if(this.$store.getters.role === "超级管理员" && this.$store.getters.uid !== this.userId)
-                    this.roleName = false
-                }
-            })
-        }
-
-    },
-    submitForm (formName) {
-      let that = this
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          let newData = {}
-          let fetchFn = this.$request.fetchEditUser
-          if (!that.userId) {
-            for (let item in that.ruleForm2) {
-              if (item !== "checkPass") {
-                newData[item] = that.ruleForm2[item]
-              }
-            }
-            fetchFn = this.$request.fetchRegister
-          } else {
-            for (let item in that.ruleForm2) {
-              if (item !== "password" && item !== "checkPass") {
-                newData[item] = that.ruleForm2[item]
-              }
-            }
+    getList() {
+      if (!this.userId) {
+        fetchGetRoleList().then(res => {
+          console.log(res);
+          this.roleData = res.rows;
+          for (let i = 0; i < this.roleData.length; i++) {
+            if (
+              this.$store.getters.role === "超级管理员" &&
+              this.$store.getters.uid !== this.userId
+            )
+              this.roleName = false;
           }
-          fetchFn(newData).then((res) => {
-            that.$message({
-              showClose: true,
-              message: res.data.message,
-              type: "success"
-            })
-            that.visible = false
-          }).catch((err) => {
-            console.log(err)
-          })
-        } else {
-          console.log("error submit!!")
-          return false
-        }
-      })
+        });
+      } else {
+        Promise.all([
+          fetchGetRoleList(),
+          fetchGetUserInfoId({ id: this.userId })
+        ]).then(([roleListResponse, userInfoResponse]) => {
+          this.roleData = roleListResponse.rows;
+          if (userInfoResponse.status === "1") {
+            userInfoResponse.status = true;
+          } else {
+            userInfoResponse.status = false;
+          }
+          this.ruleForm2 = userInfoResponse;
+          this.roleName = true;
+          for (let i = 0; i < this.roleData.length; i++) {
+            if (
+              this.$store.getters.role === "超级管理员" &&
+              this.$store.getters.uid !== this.userId
+            )
+              this.roleName = false;
+          }
+        });
+      }
     },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          const newData = {};
+          for (let item in this.ruleForm2) {
+            newData[item] = this.ruleForm2[item];
+          }
+          if (!this.userId) {
+            fetchRegister(newData).then(res => {
+              this.visible = false;
+            });
+          } else {
+            fetchEditUser(newData).then(res => {
+              this.visible = false;
+            });
+          }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   },
-  mounted () {
-    this.getList()
+  mounted() {
+    this.getList();
   }
-}
+};
 </script>
 <style scoped>
-  .demo-ruleForm {
-    width: 460px;
-    padding-top: 25px;
-  }
-  .el-select {
-    width: 100%;
-  }
-  .card {
-    width: 560px;
-    padding-bottom: 15px;
-    margin: 0px auto;
-  }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
+.demo-ruleForm {
+  width: 460px;
+  padding-top: 25px;
+}
+.el-select {
+  width: 100%;
+}
+.card {
+  width: 560px;
+  padding-bottom: 15px;
+  margin: 0px auto;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>
