@@ -41,7 +41,7 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleLogin">Login</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -103,9 +103,13 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
-            //console.log(this.$store.state)
             this.loading = false
-          }).catch(() => {
+          }).catch((err) => {
+            this.$message({
+              showClose: true,
+              message: '用户名或密码错误！',
+              type: "error"
+            })
             this.loading = false
           })
         } else {

@@ -28,7 +28,7 @@
 >- ```@keyup.enter.native="handleLogin"```vue回车触发聚焦
 >- vim查找关键字的好方法,命令模式下敲斜杆( / )这时在状态栏（也就是屏幕左下脚）就出现了 “/” 然后输入你要查找的关键字敲回车就可以了。如果你要继续查找此关键字，敲字符n就可以继续查找了。敲字符N（大写N）就会向前查询；
 #### 1016 路由表&&用户登陆&&vuex内容&&axios跨域请求的疏通&&sass和scss⑤
->- 子组件：要想实现父组件内的点击事件，子组件必须监听点击并触发父组件定义的click。方法有两种①子组件可以通过调用内建的 $emit 方法并传入事件名称来触发一个事件：```<button v-on:click="$emit('enlarge-text')">Enlarge text</button>```。②在封装好的子组件上使用，所以要加上.native才能click。如：```<el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>```另外：prevent是用来阻止默认的事件。就相当于…event.preventDefault()，父组件想在子组件上监听自己的click的话，需要加上native修饰符。
+>- @keyup.enter.native="handleLogin",表示允许进行enter键盘按钮。
 >- watch时有一个特点，就是当值第一次绑定的时候，不会执行监听函数，只有值发生改变才会执行。如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。
 >- handler方法和immediate属性:①当父组件向子组件动态传值时，子组件props首次获取到父组件传来的默认值时，也需要执行函数，此时就需要将immediate设为true。②之前我们写的 watch 方法其实默认写的就是这个handler，Vue.js会去处理这个逻辑，最终编译出来其实就是这个handler。③immediate:true代表如果在 wacth 里声明了 viewDetials之后，就会立即先去执行里面的handler方法，如果为 false就跟我们以前的效果一样，不会在绑定的时候就执行
 >- deep属性:①watch 里面还有一个属性 deep，默认值是 false，代表是否深度监听当需要监听一个对象的改变时，普通的watch方法无法监听到对象内部属性的改变，只有data中的数据才能够监听到变化，此时就需要deep属性对对象进行深度监听。②设置deep: true 则可以监听到newTemplateForm 的变化，此时会给newTemplateForm 的所有属性都加上这个监听器，当对象属性较多时，每个属性值的变化都会执行handler。如果只需要监听对象中的一个属性值，则可以做以下优化：使用字符串的形式监听对象属性：'newTemplateForm .cycleUpkeep'
@@ -63,6 +63,19 @@
 >- eval() 函数会将传入的字符串当做 JavaScript 代码进行执行。```console.log(eval('2 + 2'));  // expected output: 4```
 >- for ... of和for ... in的到底哪个更适合哪种业务场景呢？Array.prototype.forEach()和for ... of最常用的地方应该是用于调试，可以更方便的去检查对象属性（通过输出到控制台或其他方式），尽管对于处理存储数据，数组更实用些。但在处理有key-value数据（比如属性用作“键”），需要检查其中的任何键是否为某值的情况时，还是推荐用for ... in。且for...in不应该用于迭代一个关注索引顺序的 Array。
 >- Layout全局子组件上的click监听，都需要用到native。
+>- FormData 接口的append() 方法 会添加一个新值到 FormData 对象内的一个已存在的键中，如果键不存在则会添加该键。FormData.set 和 append() 的区别在于，如果指定的键已经存在， FormData.set 会使用新值覆盖已有的值，而 append() 会把新值添加到已有值集合的后面。
+#### 1028添加组件editpassword页面修改&&修改部分layout全局组件的内容&&完善了login页面
+>-[Element Dropdown 下拉菜单](https://element.eleme.cn/#/zh-CN/component/dropdown#dropdown-menu-item-attributes)。在下拉菜单中，有一个click事件和command事件的区分。command：点击菜单项触发的事件回调，回调dropdown-item的指令。
+>- 子组件上绑定一个事件监听器监听父组件给的事件，子组件内部处理close事件然后向外发送：$emit.
+>- 在一般html的tag上使用时：<div @click="方法"></div> 点击可以生效，但是在<component @click="方法" />点击不会生效。任何组件必须挂在到具体的DOM上，DOM本身具有事件属性，组件也有自己的事件系统，vue处理这两种事件的逻辑是不同的，所以你在component组件上定义事件，vue必须要知道是那种类型的事件好进入相应的处理逻辑，.native 就是区分的标识。
+>- location.reload()方法类似于你浏览器上的刷新页面按钮，是Bom的Api方法。
+>- 完善了登录界面因密码账号错误而显式提示。后续需要再补充一个功能，不能让用户多次尝试密码，最多尝试5次。
+
+
+
+
+
+
 
 
 

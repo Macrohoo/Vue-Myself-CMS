@@ -20,6 +20,8 @@
 
 <script>
 import Cookies from "js-cookie"
+import { fetchEditPassword } from "@/api/apis/user"
+
 export default {
   name: "editPassword",
   props: {
@@ -77,26 +79,25 @@ export default {
       this.$emit("editPwdCallback")
     },
     submitForm (formName) {
-      let that = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$request.fetchEditPassword({
-            oldPassword: that.ruleForm2.oldPassword,
-            newPassword: that.ruleForm2.password
+          fetchEditPassword({
+            oldPassword: this.ruleForm2.oldPassword,
+            newPassword: this.ruleForm2.checkPass
           }).then((res) => {
-            that.$message({
+            this.$message({
               showClose: true,
-              message: res.data.message,
+              message: res.message,
               type: "success"
             })
             setTimeout(function () {
               Cookies.remove("access_token")
               location.reload()
-            }, 3000)
+            }, 1000)
           }).catch((err) => {
-            that.$message({
+            this.$message({
               showClose: true,
-              message: err.data.message,
+              message: err.message,
               type: "error"
             })
           })

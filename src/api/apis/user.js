@@ -45,3 +45,12 @@ export function fetchEditUser( data ){
     data
   })
 }
+
+//修改密码
+export function fetchEditPassword( data ) {
+  return request({
+    url: userUrls.editPassword,
+    method: 'post',
+    data
+  })
+}

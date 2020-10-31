@@ -50,7 +50,6 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       //有时候用户输入信息的时候，可能会过多的填写空格，或者有些时候就使用空格做为数据了，结果造成程序出错~为了使我们的数据紧凑并且不会出现空格错误 我们就需要使用到trim（）函数
-      //console.log(fetchLogin({ username: username.trim(), password: password }))
       fetchLogin({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.access_token)

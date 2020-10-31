@@ -5,7 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown class="avatar-container" trigger="click" @command="handleCommand">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
@@ -19,7 +19,7 @@
           <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
-          <el-dropdown-item @click="editpassword">
+          <el-dropdown-item command="editPassword">
             <span style="display:block;">修改密码</span>
           </el-dropdown-item>     
           <el-dropdown-item divided @click.native="logout">
@@ -28,7 +28,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <edit-password v-if="dialogPassVisible" :dialogVisible="dialogPassVisible" @editPwdCallback="editPwdCallback"/>
+    <EditPassword v-if="dialogPassVisible" :dialogVisible="dialogPassVisible" @editPwdCallback="editPwdCallback"/>
   </div>
 </template>
 
@@ -63,7 +63,14 @@ export default {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
-
+    handleCommand (command) {
+      if (command === "editPassword") {
+        this.dialogPassVisible = true
+      }
+    },
+    editPwdCallback () {
+      this.dialogPassVisible = false
+    }    
   }
 }
 </script>
