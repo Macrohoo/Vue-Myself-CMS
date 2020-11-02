@@ -161,24 +161,28 @@ export const constantRoutes = [
 
 export const asyncRouters = [
   {
+    r_id: 100022,
     path: '/article',
     name: 'Article',
     component: Layout,
     meta: { title: '文章管理', icon: 'el-icon-tickets', role: ['超级管理员'] },
     children: [
       {
+        r_id: 100023,
         path: 'addArticleEditor',
         name: 'PublishArticle',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '发表文章', icon: 'el-icon-edit-outline' }
       },
       {
+        r_id: 100024,
         path: 'articleList',
         name: 'ArticleList',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '文章列表', icon: 'el-icon-edit-outline' }
       },
       {
+        r_id: 100025,
         path: 'commentList',
         name: 'CommentList',
         component: () => import('@/views/dashboard/index'),
@@ -188,24 +192,28 @@ export const asyncRouters = [
   },
 
   {
+    r_id: 100000,
     path: '/systemManage',
     name: 'SystemManage',
     component: Layout,
     meta: { title: '系统管理', icon: 'el-icon-s-tools', role: ['超级管理员', '管理员']},
     children:[
       {
+        r_id: 100005,
         path: 'roleManage',
         name: 'RoleManage',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/systemManage/roleManage'),
         meta: {title: '角色权限管理', icon: 'el-icon-edit', role: ['超级管理员', '管理员']}
       },
       {
+        r_id: 100026,
         path: 'userMange',
         name: 'UserMange',
         component: () => import('@/views/commerViews'),
         meta: {title: '用户管理', icon: 'el-icon-user-solid', role: ['超级管理员', '管理员']},
         children:[
           {
+            r_id: 100029,
             path: 'userList',
             name: 'UserList',
             component: () => import('@/views/user/userList'),

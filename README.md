@@ -65,11 +65,14 @@
 >- Layout全局子组件上的click监听，都需要用到native。
 >- FormData 接口的append() 方法 会添加一个新值到 FormData 对象内的一个已存在的键中，如果键不存在则会添加该键。FormData.set 和 append() 的区别在于，如果指定的键已经存在， FormData.set 会使用新值覆盖已有的值，而 append() 会把新值添加到已有值集合的后面。
 #### 1028添加组件editpassword页面修改&&修改部分layout全局组件的内容&&完善了login页面
->-[Element Dropdown 下拉菜单](https://element.eleme.cn/#/zh-CN/component/dropdown#dropdown-menu-item-attributes)。在下拉菜单中，有一个click事件和command事件的区分。command：点击菜单项触发的事件回调，回调dropdown-item的指令。
+>- [Element Dropdown 下拉菜单](https://element.eleme.cn/#/zh-CN/component/dropdown#dropdown-menu-item-attributes)。在下拉菜单中，有一个click事件和command事件的区分。command：点击菜单项触发的事件回调，回调dropdown-item的指令。
 >- 子组件上绑定一个事件监听器监听父组件给的事件，子组件内部处理close事件然后向外发送：$emit.
 >- 在一般html的tag上使用时：<div @click="方法"></div> 点击可以生效，但是在<component @click="方法" />点击不会生效。任何组件必须挂在到具体的DOM上，DOM本身具有事件属性，组件也有自己的事件系统，vue处理这两种事件的逻辑是不同的，所以你在component组件上定义事件，vue必须要知道是那种类型的事件好进入相应的处理逻辑，.native 就是区分的标识。
 >- location.reload()方法类似于你浏览器上的刷新页面按钮，是Bom的Api方法。
 >- 完善了登录界面因密码账号错误而显式提示。后续需要再补充一个功能，不能让用户多次尝试密码，最多尝试5次。
+#### 1102修改部分layout全局组件的内容&&roleManage角色权限页面雏形
+>- 完善NavBar中dialogInfoVisible个人信息部分按钮组件。
+>- 需要完善routerpermission的内容，把permission_page和permission_button的二层权限锁也加入进去，完成完善的权限路由验证，且保证了权限的页面可视化。并要解决获取当前uid所拥有的permission_page和permission_button权限，放入vuex状态管理中。
 
 
 

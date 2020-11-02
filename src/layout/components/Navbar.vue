@@ -11,14 +11,12 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+          <a target="_blank" href="https://github.com/Marhooo/vue-blog-cms">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
+          <el-dropdown-item command="userInfo">
+            <span style="display:block;">个人信息</span>
+          </el-dropdown-item> 
           <el-dropdown-item command="editPassword">
             <span style="display:block;">修改密码</span>
           </el-dropdown-item>     
@@ -29,6 +27,7 @@
       </el-dropdown>
     </div>
     <EditPassword v-if="dialogPassVisible" :dialogVisible="dialogPassVisible" @editPwdCallback="editPwdCallback"/>
+    <UserInfo v-if="dialogInfoVisible" :title="title" :dialogVisible="dialogInfoVisible" :userId="userId" @successCallback="successCallback"/>
   </div>
 </template>
 
@@ -37,16 +36,21 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import EditPassword from '@/components/UserForm/editPassword'
+import UserInfo from '@/components/UserForm/userInfo'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    EditPassword
+    EditPassword,
+    UserInfo
   },
   data () {
     return {
+      dialogInfoVisible: false,
       dialogPassVisible: false,
+      title: "",
+      userId: ""
     }
   },
   computed: {
@@ -66,11 +70,18 @@ export default {
     handleCommand (command) {
       if (command === "editPassword") {
         this.dialogPassVisible = true
+      } else if (command === "userInfo") {
+        this.dialogInfoVisible = true
+        this.title = "个人信息"
+        this.userId = this.$store.getters.uid
       }
     },
     editPwdCallback () {
       this.dialogPassVisible = false
-    }    
+    },
+    successCallback () {
+      this.dialogInfoVisible = false
+    }   
   }
 }
 </script>
