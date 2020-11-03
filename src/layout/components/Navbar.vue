@@ -65,6 +65,7 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
+      location.reload()  //动态删除路由权限表
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     handleCommand (command) {

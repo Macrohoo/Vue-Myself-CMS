@@ -33,8 +33,19 @@ router.beforeEach(async(to, from, next) => {
         try {
           //get userinfo并放入store中
           store.dispatch('user/getInfo').then(res => {
-            const roles = res.role
-            store.dispatch('routerpermission/GenerateRoutes', roles).then(()=>{
+            const data = {}
+            data.roles = res.role.split(" ")
+            let authorityRouter = []
+            let permissionButton = []
+            if (res.authorityRouter) {
+              authorityRouter = res.authorityRouter.split(',')              
+            }
+            if (res.permissionButton) {
+              permissionButton = res.permissionButton.split(',')
+            }
+            data.pageBtn_permission = permissionButton.concat(authorityRouter)
+            console.log(data)
+            store.dispatch('routerpermission/GenerateRoutes', data).then(()=>{
               router.addRoutes(store.getters.addRouters)
               next({ ...to, replace: true })
             })            

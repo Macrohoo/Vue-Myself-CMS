@@ -86,13 +86,14 @@ const actions = {
     })
   },
 
-  // user logout
+  // // user logout
   // logout({ commit, state }) {
   //   return new Promise((resolve, reject) => {
   //     logout(state.token).then(() => {
-  //       removeToken() // must remove  token  first
+  //       commit('SET_TOKEN', '')
+  //       commit('SET_ROLE', '')
+  //       removeToken()
   //       resetRouter()
-  //       commit('RESET_STATE')
   //       resolve()
   //     }).catch(error => {
   //       reject(error)

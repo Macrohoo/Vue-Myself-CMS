@@ -73,7 +73,11 @@
 #### 1102修改部分layout全局组件的内容&&roleManage角色权限页面雏形
 >- 完善NavBar中dialogInfoVisible个人信息部分按钮组件。
 >- 需要完善routerpermission的内容，把permission_page和permission_button的二层权限锁也加入进去，完成完善的权限路由验证，且保证了权限的页面可视化。并要解决获取当前uid所拥有的permission_page和permission_button权限，放入vuex状态管理中。
-
+#### 1104roleManage角色权限页面雏形&&routerpermission权限修改（完善实现）&&permission验证修改（完善实现）
+>- 整个为了完善最终的permission_page和permission_button的二级路由页面权限锁，思路是①修改routerpermission.js的内容。②修改permission.js中，页面切换时需要异步提交routerpermission中的data参数数据。
+>- ①修改routerpermission.js实现：【第一步hasPermission函数加入pageBtn_permission参数及后续boolean值判断逻辑。第二步：在action异步部分中，GenerateRoutes异步提交函数携带过来的data参数进行roles和pageBtn_permission的解构，借助Array.filter()数组Api进行用户的权限和之前在router.js里面asyncRouters的每一个页面所需要的权限做匹配，最后返回一个该用户能够访问路由】
+>- ②修改permission.js实现（需要注意roles、authorityRouter、permissionButton为空字符串的情况）：【data参数设计成一个对象实例，包裹当前登录用户的roles信息和authorityRouter信息和permissionButton信息。第一步：res.role直接从字符串变成单个数组放入data对象中。第二步：authorityRouter信息和permissionButton信息，并且用string.split()方法把json键值对里的字符串值用“，”进行分割转化成array，再进行concat后放入data对象。】
+>- 需要解决动态添加的路由无法删除的功能。现在暂时用登出后location.reload()刷新页面的方式实现。改进思路：后端实现logout（）接口，完成session会话的清空。前端去提交这个接口，并用resetRouter()方法生成一个新的路由表。[Detail see](https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465)
 
 
 

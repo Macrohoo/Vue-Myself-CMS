@@ -1,8 +1,8 @@
 import { constantRoutes, asyncRouters } from "@/router/index";
 
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.role) {
-    return roles.some(role => route.meta.role.indexOf(role) >= 0);
+function hasPermission(roles, pageBtn_permission, route) {
+  if (route.meta && route.meta.role && route.r_id) {
+    return roles.some(role => route.meta.role.indexOf(role) >= 0) && pageBtn_permission.some(role => route.r_id.indexOf(role) >= 0);
   } else {
     return true;
   }
@@ -22,22 +22,15 @@ const mutations = {
 
 const actions = {
   GenerateRoutes({ commit }, data) {
-    // const roles = []
-    // var that = this
     return new Promise(resolve => {
-      const roles = []
-      if (data instanceof Array) {
-        roles.concat(data)
-      } else {
-        roles.push(data)
-      }
-      //that.roles = data
+      const { roles } = data
+      const { pageBtn_permission } = data
       const accessedRouters = asyncRouters.filter(v => {
         if (roles.indexOf("超级管理员") >= 0) return true;
-        if (hasPermission(roles, v)) {
+        if (hasPermission(roles, pageBtn_permission, v)) {
           if (v.children && v.children.length > 0) {
             v.children = v.children.filter(child => {
-              if (hasPermission(roles, child)) {
+              if (hasPermission(roles, pageBtn_permission, child)) {
                 return child;
               }
               return false;
@@ -49,7 +42,6 @@ const actions = {
         }
         return false;
       });
-      //console.log(accessedRouters)
       commit("SET_ROUTERS", accessedRouters);
       resolve();
     });

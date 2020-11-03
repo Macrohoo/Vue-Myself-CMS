@@ -49,9 +49,9 @@ export default {
     variables() {
       return variables
     },
-    // isCollapse() {
-    //   return !this.routers.opened
-    // }
+    isCollapse() {
+      return false
+    }
   }
 }
 </script>
