@@ -8,9 +8,16 @@ function hasPermission(roles, pageBtn_permission, route) {
   }
 }
 
+function ToRoleTree( asyncRouters ){
+  for (let i = 0; i < asyncRouters.length; i++) {
+
+  }
+}
+
 const state = {
   routers: constantRoutes,
-  addRouters: []
+  addRouters: [],
+  roleTree: []
 }
 
 const mutations = {

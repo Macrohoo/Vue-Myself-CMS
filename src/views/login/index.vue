@@ -102,14 +102,20 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
+            this.$message({
+              showClose: false,
+              message: '登录成功!',
+              type: 'success'
+            })
             this.loading = false
-          }).catch((err) => {
+          }).catch((error) => {
             this.$message({
               showClose: true,
               message: '用户名或密码错误！',
-              type: "error"
+              type: 'error'
             })
             this.loading = false
+            console.log(Promise.reject(error))
           })
         } else {
           console.log('error submit!!')

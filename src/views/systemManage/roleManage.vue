@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import router from "../../router"
+import {fetchGetRoleList, fetchAddRole, fetchDelRole, fetchRolePermissions, fetchSearchRolePermissions} from '@/api/apis/role'
 
 export default {
   name: "roleManage",
@@ -152,7 +152,7 @@ export default {
         })
         return false
       }
-      this.$request.fetchAddRole(this.form).then((res) => {
+      fetchAddRole(this.form).then((res) => {
         that.$message({
           showClose: true,
           message: res.data.message,
@@ -170,7 +170,7 @@ export default {
         selectPermission: that.$refs.permission.getCheckedKeys(),
         rid: that.selectRoleId
       }
-      this.$request.fetchRolePermissions(rolePermissionData).then(res => {
+      fetchRolePermissions(rolePermissionData).then(res => {
         that.$restBack(res.data, () => {
           that.dialogFormVisible2 = false
           that.getList()
@@ -186,7 +186,7 @@ export default {
       this.dialogFormVisible2 = true
     },
     setRoleData () {
-      this.$request.fetchSearchRolePermissions({rid: this.selectRoleId}).then(res => {
+      fetchSearchRolePermissions({rid: this.selectRoleId}).then(res => {
         this.$refs.permission.setCheckedKeys([])
         let permissionData = res.data.data.permissionPage + "," + res.data.data.permissionButton
         this.$refs.permission.setCheckedKeys(permissionData.split(","))
@@ -194,7 +194,7 @@ export default {
     },
     handleDelete (index, row) {
       let that = this
-      this.$request.fetchDelRole({
+      fetchDelRole({
         id: row.id
       })
         .then(response => {
@@ -212,17 +212,17 @@ export default {
     },
     getList () {
       let that = this
-      this.$request.fetchGetRoleList()
+      fetchGetRoleList()
         .then(function (response) {
           console.log(response)
-          for (let i = 0; i < response.data.rows.length; i++) {
-            if (response.data.rows[i].status) {
-              response.data.rows[i].status = "启用"
+          for (let i = 0; i < response.rows.length; i++) {
+            if (response.rows[i].status) {
+              response.rows[i].status = "启用"
             } else {
-              response.data.rows[i].status = "禁用"
+              response.rows[i].status = "禁用"
             }
           }
-          that.tableData = response.data.rows
+          that.tableData = response.rows
         })
         .catch(function (error) {
           console.log(error)

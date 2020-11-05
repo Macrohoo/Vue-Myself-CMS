@@ -5,8 +5,7 @@ import userUrls from "../urls/user";
 export function fetchGetUserInfo() {
   return request({
     url: userUrls.getUserInfo,
-    method: 'get',
-    params: {}
+    method: 'get'
   });
 }
 

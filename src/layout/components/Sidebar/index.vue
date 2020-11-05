@@ -28,12 +28,9 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      //'sidebar'
+      'sidebar',
       'routers'
     ]),
-    // routes() {
-    //   return this.$router.options.routes
-    // },
     activeMenu() {
       const route = this.$route
       const { meta, path } = route
@@ -50,7 +47,7 @@ export default {
       return variables
     },
     isCollapse() {
-      return false
+      return !this.sidebar.opened
     }
   }
 }

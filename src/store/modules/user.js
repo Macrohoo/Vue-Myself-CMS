@@ -1,7 +1,7 @@
-import { fetchLogin } from '@/api/apis/login'
+import { fetchLogin, fetchLogout } from '@/api/apis/login'
 import { fetchGetUserInfo } from '@/api/apis/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+//import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
@@ -86,26 +86,20 @@ const actions = {
     })
   },
 
-  // // user logout
-  // logout({ commit, state }) {
-  //   return new Promise((resolve, reject) => {
-  //     logout(state.token).then(() => {
-  //       commit('SET_TOKEN', '')
-  //       commit('SET_ROLE', '')
-  //       removeToken()
-  //       resetRouter()
-  //       resolve()
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
-
+  // user logout
   logout({ commit }) {
-    removeToken() // must remove  token  first
-    resetRouter()
-    commit('RESET_STATE')
+    return new Promise((resolve, reject) => {
+      fetchLogout().then(() => {
+        removeToken()
+        //resetRouter()
+        commit('RESET_STATE')
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
   },
+
 
   // remove token
   resetToken({ commit }) {

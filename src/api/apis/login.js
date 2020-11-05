@@ -9,3 +9,12 @@ export function fetchLogin(data) {
     data
   });
 }
+
+//用户登出
+export function fetchLogout() {
+  return request({
+    url: loginUrls.logout,
+    method: "post",
+    params: {}
+  })
+}

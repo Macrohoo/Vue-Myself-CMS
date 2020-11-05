@@ -3,6 +3,7 @@ import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import NProgress from "nprogress"
+import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
@@ -33,27 +34,22 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     NProgress.done()
-    // const res = response.data
-    // if (response.status !== 200) {
-    //   Message({
-    //     message: res.message || 'Error',
-    //     type: 'error',
-    //     duration: 5 * 1000
-    //   })
-    //   return Promise.reject(new Error(res.message || 'Error'))
-    // } else {
-    //   return res
-    // }
     return response.data
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log(error) // for debug
     Message({
       message: error.message,
       type: 'error',
       duration: 5 * 1000
     })
-    return Promise.reject(error)
+    if (error.response.status == 401) {
+      store.dispatch('user/resetToken')
+      router.replace({
+        path: '/login'
+      })
+    }
+    return Promise.reject(error.response.data)
   }
 )
 

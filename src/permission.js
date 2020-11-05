@@ -44,7 +44,6 @@ router.beforeEach(async(to, from, next) => {
               permissionButton = res.permissionButton.split(',')
             }
             data.pageBtn_permission = permissionButton.concat(authorityRouter)
-            console.log(data)
             store.dispatch('routerpermission/GenerateRoutes', data).then(()=>{
               router.addRoutes(store.getters.addRouters)
               next({ ...to, replace: true })
@@ -53,8 +52,8 @@ router.beforeEach(async(to, from, next) => {
           //next()
         } catch (error) {
           // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
+          await store.dispatch('user/resetToken')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
@@ -62,7 +61,6 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()
