@@ -8,23 +8,37 @@ function hasPermission(roles, pageBtn_permission, route) {
   }
 }
 
-function ToRoleTree( asyncRouters ){
-  for (let i = 0; i < asyncRouters.length; i++) {
-
-  }
+//el-trees权限路由树结构建立函数
+function ToRoleTree( data ){
+  data.forEach(element => {
+    if (element.r_id) {
+      element.r_id = element.r_id.toString()
+    }
+    delete element.path
+    delete element.component
+    delete element.meta
+    if (element.children) {
+      ToRoleTree(element.children)
+    }
+  })
+  return data
 }
 
 const state = {
   routers: constantRoutes,
   addRouters: [],
-  roleTree: []
+  roleTree: [],
 }
 
 const mutations = {
   SET_ROUTERS: (state, routers) => {
     state.addRouters = routers
     state.routers = constantRoutes.concat(routers)
-  }  
+  },
+  SET_ROLETREE: (state, roleTree) => {
+    state.roleTree = ToRoleTree(roleTree)
+    state.roleTree.pop() //删除404页面
+  },
 }
 
 const actions = {
@@ -52,7 +66,7 @@ const actions = {
       commit("SET_ROUTERS", accessedRouters);
       resolve();
     });
-  }  
+  },
 }
 
 export default {

@@ -5,10 +5,13 @@ import NProgress from 'nprogress' //顶部进度条控件
 import 'nprogress/nprogress.css' //nprogress样式必须引入
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import { asyncRouters } from "@/router/index";
 
 NProgress.configure({ showSpinner: false }) // 配置showSpinner：进度环显示隐藏
 
 const whiteList = ['/login'] // no redirect whitelist
+
+let elTree = JSON.parse(JSON.stringify(asyncRouters)) //深拷贝原始动态路由表
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -34,7 +37,9 @@ router.beforeEach(async(to, from, next) => {
           //get userinfo并放入store中
           store.dispatch('user/getInfo').then(res => {
             const data = {}
-            data.roles = res.role.split(" ")
+            if (res.role) {
+              data.roles = res.role.split(" ")
+            }
             let authorityRouter = []
             let permissionButton = []
             if (res.authorityRouter) {
@@ -44,17 +49,25 @@ router.beforeEach(async(to, from, next) => {
               permissionButton = res.permissionButton.split(',')
             }
             data.pageBtn_permission = permissionButton.concat(authorityRouter)
+            store.commit('routerpermission/SET_ROLETREE', elTree)
             store.dispatch('routerpermission/GenerateRoutes', data).then(()=>{
               router.addRoutes(store.getters.addRouters)
               next({ ...to, replace: true })
             })            
           })
+          //console.log(store.getters.roleTree)
           //next()
         } catch (error) {
           // remove token and go to login page to re-login
-          Message.error(error || 'Has Error')
-          await store.dispatch('user/resetToken')
-          next(`/login?redirect=${to.path}`)
+          Message({
+            message: error.message || 'Has Error',
+            type: 'error',
+            duration: 5 * 1000
+          })
+          store.dispatch('user/resetToken')
+          router.replace({
+            path: '/login'
+          })
           NProgress.done()
         }
       }

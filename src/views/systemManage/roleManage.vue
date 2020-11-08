@@ -118,8 +118,7 @@ export default {
       formLabelWidth: "120px",
       defaultProps: {
         children: "children",
-        label: "r_name",
-        id: "r_id"
+        label: "name"
       },
       selectRoleId: "",
       selectData: [],
@@ -240,13 +239,8 @@ export default {
   },
   computed: {
     roleTree: function () {
-      let roleData = this.$store.getters.roleData
-      for (let i = 0; i < roleData.length; i++) {
-        if (roleData[i].redirect === "/404") {
-          roleData.splice(i, 1)
-        }
-      }
-      return roleData
+      const roleTree = this.$store.getters.roleTree
+      return roleTree
     }
   },
   mounted () {

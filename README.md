@@ -81,8 +81,13 @@
 >- 401错误是因为token过期，页面无法跳转，无法resetToken的问题需要跟进。
 >- 后端logout接口实现，实现了session会话的清空。但是前端动态路由还是无法resetRouter()，暂时只能通过location.reload()刷新页面的方式实现。
 >- 拦截器继续优化了一下。
->- el-trees权限路由树结构建立，需要再vuex（routerpermission）中建立一个roleTree。然后根据permission_page和permission_button合并的data数组来进行操作。
-
+>- el-trees权限路由树结构建立，需要在vuex（routerpermission）中建立一个roleTree。然后根据permission_page和permission_button合并的data数组来进行操作。
+#### 1108routerpermission中roleTree初步完成&&permission中完成异步提交支持
+>- el-trees权限路由树结构建立，roleTree实现。但是roleTree中r_id元素是一个数组，改成字符串不知道为什么toString（）方法并不在这个array中。
+>- 用实践理清楚了①dispatch：含有异步操作，数据提交至 actions ，可用于向后台提交数据。②commit：同步操作，数据提交至 mutations ，可用于读取用户信息写到缓存里。
+>- 实际roleTree的实现并没有去调用后端Api，所以不需要用异步提交，只需要用同步操作就能实现。所以permission.js中同步提交代码：`store.commit('routerpermission/SET_ROLETREE', elTree)`，并保证elTree的深拷贝前提。
+>- roleTree中r_id元素是一个数组，改成字符串用array的toString方法。前提是r_id存在，并保证把数组转换成字符串后再赋值给r_id元素。
+>- 1.this.$router.push()描述：跳转到不同的url，但这个方法会向history栈添加一个记录，点击后退会返回到上一个页面。2.this.$router.replace()描述：同样是跳转到指定的url，但是这个方法不会向history里面添加新的记录，点击返回，会跳转到上上一个页面。上一个记录是不存在的。3.this.$router.go()相对于当前页面向前或向后跳转多少个页面,类似 window.history.go(n)。n可为正数可为负数。正数返回上一个页面
 
 
 

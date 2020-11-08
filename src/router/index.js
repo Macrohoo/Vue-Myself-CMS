@@ -163,28 +163,28 @@ export const asyncRouters = [
   {
     r_id: ['100022'],
     path: '/article',
-    name: 'Article',
+    name: '文章管理',  //'Article'
     component: Layout,
     meta: { title: '文章管理', icon: 'el-icon-tickets', role: ['超级管理员', '管理员'] },
     children: [
       {
         r_id: ['100023'],
         path: 'addArticleEditor',
-        name: 'PublishArticle',
+        name: '发表文章',   //'PublishArticle'
         component: () => import('@/views/dashboard/index'),
         meta: { title: '发表文章', icon: 'el-icon-edit-outline', role: ['超级管理员', '管理员']}
       },
       {
         r_id: ['100024'],
         path: 'articleList',
-        name: 'ArticleList',
+        name: '文章列表',  //'ArticleList'
         component: () => import('@/views/dashboard/index'),
         meta: { title: '文章列表', icon: 'el-icon-edit-outline', role: ['超级管理员', '管理员']}
       },
       {
         r_id: ['100025'],
         path: 'commentList',
-        name: 'CommentList',
+        name: '评论列表',  //'CommentList'
         component: () => import('@/views/dashboard/index'),
         meta: { title: '评论列表', icon: 'el-icon-edit-outline', role: ['超级管理员', '管理员']}
       }
@@ -194,28 +194,28 @@ export const asyncRouters = [
   {
     r_id: ['100000'],
     path: '/systemManage',
-    name: 'SystemManage',
+    name: '系统管理',  //'SystemManage'
     component: Layout,
     meta: { title: '系统管理', icon: 'el-icon-s-tools', role: ['超级管理员', '管理员']},
     children:[
       {
         r_id: ['100005'],
         path: 'roleManage',
-        name: 'RoleManage',
+        name: '角色权限管理',  //'RoleManage'
         component: () => import('@/views/systemManage/roleManage'),
         meta: {title: '角色权限管理', icon: 'el-icon-edit', role: ['超级管理员', '管理员']}
       },
       {
         r_id: ['100026'],
         path: 'userMange',
-        name: 'UserMange',
+        name: '用户管理',  //'UserMange'
         component: () => import('@/views/commerViews'),
         meta: {title: '用户管理', icon: 'el-icon-user-solid', role: ['超级管理员', '管理员']},
         children:[
           {
             r_id: ['100029'],
             path: 'userList',
-            name: 'UserList',
+            name: '用户列表',  //'UserList'
             component: () => import('@/views/user/userList'),
             meta: {title: '用户列表', icon: 'el-icon-thumb', role: ['超级管理员', '管理员']},
             children: []          
