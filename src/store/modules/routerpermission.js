@@ -1,4 +1,5 @@
 import { constantRoutes, asyncRouters } from "@/router/index";
+import { removeToken } from '@/utils/auth'
 
 function hasPermission(roles, pageBtn_permission, route) {
   if (route.meta && route.meta.role && route.r_id) {
@@ -43,29 +44,34 @@ const mutations = {
 
 const actions = {
   GenerateRoutes({ commit }, data) {
-    return new Promise(resolve => {
-      const { roles } = data
-      const { pageBtn_permission } = data
-      const accessedRouters = asyncRouters.filter(v => {
-        if (roles.indexOf("超级管理员") >= 0) return true;
-        if (hasPermission(roles, pageBtn_permission, v)) {
-          if (v.children && v.children.length > 0) {
-            v.children = v.children.filter(child => {
-              if (hasPermission(roles, pageBtn_permission, child)) {
-                return child;
-              }
-              return false;
-            });
-            return v;
-          } else {
-            return v;
+    try {
+      return new Promise(resolve => {
+        const { roles } = data
+        const { pageBtn_permission } = data
+        const accessedRouters = asyncRouters.filter(v => {
+          if (roles.indexOf("超级管理员") >= 0) return true;
+          if (hasPermission(roles, pageBtn_permission, v)) {
+            if (v.children && v.children.length > 0) {
+              v.children = v.children.filter(child => {
+                if (hasPermission(roles, pageBtn_permission, child)) {
+                  return child;
+                }
+                return false;
+              });
+              return v;
+            } else {
+              return v;
+            }
           }
-        }
-        return false;
+          return false;
+        });
+        commit("SET_ROUTERS", accessedRouters);
+        resolve();
       });
-      commit("SET_ROUTERS", accessedRouters);
-      resolve();
-    });
+    } catch (error) {
+      removeToken()
+      location.reload()
+    }
   },
 }
 

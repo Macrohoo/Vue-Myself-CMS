@@ -10,17 +10,16 @@
         type="index">
       </el-table-column>
       <el-table-column
-        property="name"
+        prop="name"
         label="角色名">
       </el-table-column>
       <el-table-column
-        property="describe"
+        prop="describe"
         label="角色描述">
       </el-table-column>
       <el-table-column
         prop="status"
-        label="状态"
-        filter-placement="bottom-end">
+        label="状态">
         <template slot-scope="scope">
           <el-tag
             :type="scope.row.status === '启用' ? 'primary' : 'danger'"
@@ -37,6 +36,7 @@
           </el-button>
           <el-button
             size="mini"
+            type="success"
             :disabled="scope.row.name=='超级管理员'"
             @click="roleEdit(scope.$index, scope.row)">权限分配
           </el-button>

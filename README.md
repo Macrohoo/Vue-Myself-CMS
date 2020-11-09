@@ -1,5 +1,7 @@
 # vue-admin-template
-*Alt + M快捷键Markdown*
+
+![用户列表](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/20201110032520.jpg?raw=true)
+![动态权限分配](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/20201110032453.jpg?raw=true)
 
 #### 1012 路由表&&用户登陆&&vuex内容的疏通①
 >- 所有权限通用路由表constantRouters和动态需要根据权限加载的路由表asyncRouters
@@ -88,6 +90,11 @@
 >- 实际roleTree的实现并没有去调用后端Api，所以不需要用异步提交，只需要用同步操作就能实现。所以permission.js中同步提交代码：`store.commit('routerpermission/SET_ROLETREE', elTree)`，并保证elTree的深拷贝前提。
 >- roleTree中r_id元素是一个数组，改成字符串用array的toString方法。前提是r_id存在，并保证把数组转换成字符串后再赋值给r_id元素。
 >- 1.this.$router.push()描述：跳转到不同的url，但这个方法会向history栈添加一个记录，点击后退会返回到上一个页面。2.this.$router.replace()描述：同样是跳转到指定的url，但是这个方法不会向history里面添加新的记录，点击返回，会跳转到上上一个页面。上一个记录是不存在的。3.this.$router.go()相对于当前页面向前或向后跳转多少个页面,类似 window.history.go(n)。n可为正数可为负数。正数返回上一个页面
+#### 1110roleManage角色权限页面完善中&&修复一个bug
+>- 修复页面token过期后游览器刷新页面报出的indexOf这个方法无法使用的问题。路由前置守卫的原因，需要向vuex异步提交一些数据，但这些数据其实没有，也没不能用像indexof这个方法。修改在routerpermission.js中`catch (error) { router.replace({ path: '/login' })`
+>- el-form中show-word-limit表示“常显示字数限制提示”
+>- 各种UI组件库中都有自己的事件或者数据绑定参数。
+>- autocomplete 属性是 HTML5 中的新属性，在input中autocomplete属性是默认开启的。属性规范表单是否启用bai自动完成功能。自动完成允许浏览器对字段的输入，是基于之前输入过的值。
 
 
 
@@ -95,6 +102,8 @@
 
 
 
+
+*Alt + M快捷键Markdown*
 ## Build Setup
 
 ```bash
