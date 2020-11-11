@@ -109,27 +109,20 @@ export default {
       tableData: [],
       dialogFormVisible: false,
       dialogFormVisible2: false,
-      form: {
-        name: "",
-        describe: "",
-        status: true,
-        permission: []
-      },
+      form: {},
       formLabelWidth: "120px",
       defaultProps: {
         children: "children",
         label: "name"
       },
       selectRoleId: "",
-      selectData: [],
       filterText: ""
     }
   },
   methods: {
     handleEdit (index, row) {
-      for (let item in row) {
-        this.form[item] = row[item]
-      }
+      this.form.name = row.name
+      this.form.describe = row.describe
       this.form.status = row.status === "启用"
       this.dialogFormVisible = true
     },
@@ -142,52 +135,62 @@ export default {
       this.dialogFormVisible = true
     },
     addRoleSubmit () {
-      let that = this
       if (!this.form.name) {
-        that.$message({
+        this.$message({
           showClose: true,
           message: "角色名称不能为空",
           type: "error"
         })
-        return false
+        return false   //为了跳出函数结束
       }
       fetchAddRole(this.form).then((res) => {
-        that.$message({
+        this.$message({
           showClose: true,
-          message: res.data.message,
+          message: res.message,
           type: "success"
         })
         this.dialogFormVisible = false
         this.getList()
       }).catch((err) => {
+        this.$message({
+          showClose: true,
+          message: err.message,
+          type: "error"
+        })        
         console.log(err)
       })
     },
     rolePermissionSubmit () {
-      let that = this
       let rolePermissionData = {
-        selectPermission: that.$refs.permission.getCheckedKeys(),
-        rid: that.selectRoleId
+        selectPermission: this.$refs.permission.getCheckedKeys(),
+        rid: this.selectRoleId
       }
       fetchRolePermissions(rolePermissionData).then(res => {
-        that.$restBack(res.data, () => {
-          that.dialogFormVisible2 = false
-          that.getList()
-        })
-      }).catch((err) => {
+        this.$message({
+          showClose: true,
+          message: res.message,
+          type: "success"
+        })        
+        this.dialogFormVisible2 = false
+        this.getList()
+        location.reload()        
+      })
+      .catch((err) => {
+        this.$message({
+          showClose: true,
+          message: '该角色权限分配失败!',
+          type: "error"
+        })        
         console.log(err)
       })
     },
     roleEdit (index, row) {
-      console.log(index, row)
       this.selectRoleId = row.id
-      this.selectData = row.permission ? row.permission.split(",") : []
       this.dialogFormVisible2 = true
     },
     setRoleData () {
       fetchSearchRolePermissions({rid: this.selectRoleId}).then(res => {
-        this.$refs.permission.setCheckedKeys([])
-        let permissionData = res.data.data.permissionPage + "," + res.data.data.permissionButton
+        let permissionData = res.data.permissionPage + "," + res.data.permissionButton
         this.$refs.permission.setCheckedKeys(permissionData.split(","))
       })
     },
@@ -229,7 +232,7 @@ export default {
     },
     filterNode (value, data) {
       if (!value) return true
-      return data.r_name.indexOf(value) !== -1
+      return data.name.indexOf(value) !== -1
     }
   },
   watch: {

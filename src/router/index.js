@@ -203,7 +203,16 @@ export const asyncRouters = [
         path: 'roleManage',
         name: '角色权限管理',  //'RoleManage'
         component: () => import('@/views/systemManage/roleManage'),
-        meta: {title: '角色权限管理', icon: 'el-icon-edit', role: ['超级管理员', '管理员']}
+        meta: {title: '角色权限管理', icon: 'el-icon-edit', role: ['超级管理员', '管理员']},
+        children: [
+          {
+            r_id: ['btn_100002'],
+            name: "btn:增加",
+            path: "",
+            type: "button",
+            children: []
+          }          
+        ]
       },
       {
         r_id: ['100026'],

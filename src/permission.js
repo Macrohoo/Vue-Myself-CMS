@@ -3,7 +3,7 @@ import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' //顶部进度条控件
 import 'nprogress/nprogress.css' //nprogress样式必须引入
-import { getToken } from '@/utils/auth' // get token from cookie
+import { getToken, removeToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import { asyncRouters } from "@/router/index";
 
@@ -53,7 +53,15 @@ router.beforeEach(async(to, from, next) => {
             store.dispatch('routerpermission/GenerateRoutes', data).then(()=>{
               router.addRoutes(store.getters.addRouters)
               next({ ...to, replace: true })
-            })            
+            }).catch(() => {
+              Message({
+                message: '令牌已过期，权限生成失败！',
+                type: 'error',
+                duration: 5 * 1000
+              })
+              removeToken()
+              location.reload()
+            })
           })
           //console.log(store.getters.roleTree)
           //next()

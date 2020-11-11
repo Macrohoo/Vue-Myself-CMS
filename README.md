@@ -91,14 +91,16 @@
 >- roleTree中r_id元素是一个数组，改成字符串用array的toString方法。前提是r_id存在，并保证把数组转换成字符串后再赋值给r_id元素。
 >- 1.this.$router.push()描述：跳转到不同的url，但这个方法会向history栈添加一个记录，点击后退会返回到上一个页面。2.this.$router.replace()描述：同样是跳转到指定的url，但是这个方法不会向history里面添加新的记录，点击返回，会跳转到上上一个页面。上一个记录是不存在的。3.this.$router.go()相对于当前页面向前或向后跳转多少个页面,类似 window.history.go(n)。n可为正数可为负数。正数返回上一个页面
 #### 1110roleManage角色权限页面完善中&&修复一个bug
->- 修复页面token过期后游览器刷新页面报出的indexOf这个方法无法使用的问题。路由前置守卫的原因，需要向vuex异步提交一些数据，但这些数据其实没有，也没不能用像indexof这个方法。修改在routerpermission.js中`catch (error) { router.replace({ path: '/login' })`
+>- 修复页面token过期后游览器刷新页面报出的indexOf这个方法无法使用的问题。路由前置守卫的原因，需要向vuex异步提交一些数据，但这些数据其实没有，也没不能用像indexof这个方法。修改在routerpermission.js中`catch (error) { removeToken() location.reload() }`的方法并不行，<font color=#008000 >***因为try catch并不能抓取到异步执行的错误，只能抓取同步执行代码的错误***</font>。正确修改方法应该是permission.js中修改第56-63行。
 >- el-form中show-word-limit表示“常显示字数限制提示”
 >- 各种UI组件库中都有自己的事件或者数据绑定参数。
 >- autocomplete 属性是 HTML5 中的新属性，在input中autocomplete属性是默认开启的。属性规范表单是否启用bai自动完成功能。自动完成允许浏览器对字段的输入，是基于之前输入过的值。
-
-
-
-
+>- `this.$refs.permission.setCheckedKeys([])`如何获取和设置选中节点。获取和设置各有两种方式：通过 node 或通过 key。这里表示通过 key 来获取或设置。如果setCheckedKeys()方法中没有内容表示重置清空。
+>- el-Dialog中的内容是懒渲染的，即在第一次被打开之前，传入的默认 slot 不会被渲染到 DOM 上。因此，如果需要执行 DOM 操作，或通过 ref 获取相应组件，请在 open 事件回调中进行。
+>- el-Tree中getCheckedKeys：若节点可被选择（即 show-checkbox 为 true），则返回目前被选中的节点的 key 所组成的数组。参数部分：(leafOnly) 接收一个 boolean 类型的参数，若为 true 则仅返回被选中的叶子节点的 keys，默认值为 false。
+>- el-Tree中setCheckedNodes: 设置目前勾选的节点，使用此方法必须设置 node-key 属性。参数部分：(nodes) 接收勾选节点数据的数组。其中node-key是每个树节点用来作为唯一标识的属性，整棵树应该是唯一的。
+>- vm.$el:提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。在实例挂载之后，元素可以用 vm.$el 访问。
+>- mounted 不会保证所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以在 mounted 内部使用 vm.$nextTick。
 
 
 
