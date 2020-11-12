@@ -1,5 +1,4 @@
 import { constantRoutes, asyncRouters } from "@/router/index";
-import { removeToken } from '@/utils/auth'
 
 function hasPermission(roles, pageBtn_permission, route) {
   if (route.meta && route.meta.role && route.r_id) {

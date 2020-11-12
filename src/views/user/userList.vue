@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <div class="cardshadow roleListTable">
-      <div>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="addUserFn" plain>添加账号</el-button>
-      </div>
+  <div class="userList">
+    <div>
+      <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="addUserFn" plain>添加账号</el-button>
+    </div>
     <el-table
       :data="userListData">
       <el-table-column
@@ -65,7 +64,6 @@
       @next-click="currentChange"
     >
     </el-pagination>
-    </div>
     <UserInfo v-if="dialogVisible" :title="title" :dialogVisible="dialogVisible" :userId="userId" @successCallback="successCallback"/>
   </div>
 </template>
@@ -159,5 +157,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .userList {
+    margin-top: 20px;
+  }
 </style>

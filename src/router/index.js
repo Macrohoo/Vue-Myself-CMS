@@ -171,7 +171,7 @@ export const asyncRouters = [
         r_id: ['100023'],
         path: 'addArticleEditor',
         name: '发表文章',   //'PublishArticle'
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/article/addArticleEditor'),
         meta: { title: '发表文章', icon: 'el-icon-edit-outline', role: ['超级管理员', '管理员']}
       },
       {
@@ -207,12 +207,13 @@ export const asyncRouters = [
         children: [
           {
             r_id: ['btn_100002'],
-            name: "btn:增加",
-            path: "",
+            name: "Btn_角色增加",
+            path: "/roleManage",  //路由重定到上一级无所谓
             type: "button",
+            hidden: true, // 不在侧边栏线上
             children: []
           }          
-        ]
+        ]        
       },
       {
         r_id: ['100026'],

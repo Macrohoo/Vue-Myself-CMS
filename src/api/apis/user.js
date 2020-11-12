@@ -53,3 +53,11 @@ export function fetchEditPassword( data ) {
     data
   })
 }
+
+export function fetchDelUser ( data ) {
+  return request({
+    url: userUrls.delUser,
+    method: 'post',
+    data
+  })
+}

@@ -1,7 +1,7 @@
 <template>
-  <div class="cardshadow roleListTable">
+  <div class="roleListTable">
     <div>
-      <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="addRole" plain v-role-btn="'btn_100002'">新增</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="addRole" plain v-roleBtn="'btn_100002'">新增</el-button>
     </div>
     <el-table
       :data="tableData"
@@ -116,7 +116,7 @@ export default {
         label: "name"
       },
       selectRoleId: "",
-      filterText: ""
+      filterText: "",
     }
   },
   methods: {
@@ -195,28 +195,34 @@ export default {
       })
     },
     handleDelete (index, row) {
-      let that = this
-      fetchDelRole({
-        id: row.id
-      })
-        .then(response => {
-          console.log(response)
-          that.$message({
-            showClose: true,
-            message: response.data.message,
-            type: "success"
+      this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        fetchDelRole({ id: row.id} ).then(response =>{
+          this.$message({
+            type: 'success',
+            message: response.message
           })
-          that.getList()
+          this.getList()
+        }).catch(err =>{
+          this.$message({
+            message: '角色删除失败!',
+            type: "error"
+          })          
+          console.log(err)         
         })
-        .catch(err => {
-          console.log(err)
-        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作!'
+        });          
+      });
     },
     getList () {
-      let that = this
       fetchGetRoleList()
-        .then(function (response) {
-          console.log(response)
+        .then(response => {
           for (let i = 0; i < response.rows.length; i++) {
             if (response.rows[i].status) {
               response.rows[i].status = "启用"
@@ -224,9 +230,14 @@ export default {
               response.rows[i].status = "禁用"
             }
           }
-          that.tableData = response.rows
+          this.tableData = response.rows
         })
         .catch(function (error) {
+          this.$message({
+            showClose: true,
+            message: '获取角色权限列表失败!',
+            type: "error"
+          })          
           console.log(error)
         })
     },
@@ -253,6 +264,10 @@ export default {
 </script>
 
 <style scoped>
+  .roleListTable {
+    margin-top: 20px;
+  }
+
   .nameinput {
     width: 150px;
   }

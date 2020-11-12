@@ -101,6 +101,17 @@
 >- el-Tree中setCheckedNodes: 设置目前勾选的节点，使用此方法必须设置 node-key 属性。参数部分：(nodes) 接收勾选节点数据的数组。其中node-key是每个树节点用来作为唯一标识的属性，整棵树应该是唯一的。
 >- vm.$el:提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。在实例挂载之后，元素可以用 vm.$el 访问。
 >- mounted 不会保证所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以在 mounted 内部使用 vm.$nextTick。
+#### 1111roleManage角色权限页面完成&&权限按钮指令v-roleBtn完成&&addArticleEditor页面初步添加
+>- 角色按钮权限实现:自定义指令指定一个权限按钮，和当前用户拥有的权限按钮比较，决定是否在页面删除按钮div。需要通过[自定义指令](https://cn.vuejs.org/v2/guide/custom-directive.html)的建立完成。全局的自定义指令（权限按钮指令v-roleBtn)写在了button.js文件中。逻辑用if...else if....else实现切换。<font color=#008000 >这个案例已经是UI组件库如何通过Vue指令绑定的小实现例子</font>。
+>- 暂时懒得写法，直接把按钮权限也写进路由里面，用hidden: true, 不在侧边栏线上显示，把按钮路由隐藏起来，因为我们根本不需要按钮路由。
+>- if...else if....else 语句，使用该语句来选择多个代码块之一来执行。
+>- handleDelete()事件重新写，增加一个MessageBox美化的confirm。原生Window.confirm() 方法显示一个具有一个可选消息和两个按钮(确定和取消)的模态对话框。
+>- 安装Typescript开发的Web富文本编辑器wangEditor：`npm i wangeditor -S`
+>- [Vue插槽](https://cn.vuejs.org/v2/guide/components-slots.html)
+>- <font color=#008000 >Vue具名插槽</font>:就是子组件中的提供给父组件使用的一个占位符，用`<slot> </slot>`表示，父组件可以在这个占位符中填充任何模板代码，如 HTML、组件等，填充的内容会替换子组件的`<slot> </slot>`标签。6以后的版本中的用法是这样的：`<template v-slot:header>`// 在父组件中使用模板语法，使用v-slot绑定插槽的名字。`<slot name="header">default</slot>`// 在子组件中仍然使用name来作为插槽的标识符。
+>- <font color=#008000 >Vue作用域插槽</font>:有时让插槽内容能够访问子组件中才有的数据是很有用的，但是因为只有子组件可以访问到例如user数据，而我们提供的内容是在父级渲染的。为了让user数据在父级的插槽内容中可用，第一步：我们可以将user作为 <slot> 元素的一个 attribute 绑定上去，`<slot v-bind:user="user"> {{ user.lastName }} </slot>`，第二步：绑定在 <slot> 元素上的 attribute 被称为插槽 prop。现在在父级作用域中，我们可以使用带值的 v-slot 来定义我们提供的插槽 prop 的名字。`<template v-slot:default="slotProps"> {{ slotProps.user.firstName }} </template>`，在这个例子中，我们选择将包含所有插槽 prop 的对象命名为 slotProps，但你也可以使用任意你喜欢的名字。
+>- el-form中`:inline="true"`行内表单模式：每个el-form-item横排
+
 
 
 
