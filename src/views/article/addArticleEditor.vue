@@ -16,11 +16,9 @@
       <el-form-item label="是否置顶">
         <el-switch v-model="article.top"/>
       </el-form-item>
-
       <el-form-item>
         <el-button class="subBtn" type="primary" @click="submitArticle">发布</el-button>
       </el-form-item>
-      <br />
       <el-form-item label="缩略图上传" label-width="95px">
         <el-upload
           class="avatar-uploader"
@@ -175,14 +173,14 @@ export default {
     width: 100px;
     margin: 0 auto;
   }
-  .avatar-uploader .el-upload {
+  .avatar-uploader /deep/ .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
   }
-  .avatar-uploader .el-upload:hover {
+  .avatar-uploader /deep/ .el-upload:hover {
     border-color: #409EFF;
   }
   .avatar-uploader-icon {

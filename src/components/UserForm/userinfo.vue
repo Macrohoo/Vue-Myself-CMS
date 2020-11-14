@@ -181,6 +181,7 @@ export default {
   methods: {
     handleAvatarSuccess(res, file) {
       this.ruleForm2.avatar = res.data[0];
+      console.log(res.data)
     },
     closeCallback() {
       this.$emit("successCallback");
@@ -196,8 +197,7 @@ export default {
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      // eslint-disable-next-line no-mixed-operators
-      return (isLt2M && isJPG) || isPNG;
+      return (isLt2M && isJPG) || (isPNG && isLt2M);
     },
     getList() {
       if (!this.userId) {
@@ -240,19 +240,41 @@ export default {
         if (valid) {
           const newData = {};
           for (let item in this.ruleForm2) {
-            newData[item] = this.ruleForm2[item];
+            newData[item] = this.ruleForm2[item]
           }
           if (!this.userId) {
             fetchRegister(newData).then(res => {
+              this.$message({
+                type: 'success',
+                message: res.message
+              })              
               this.visible = false;
+            }).catch(err => {
+              this.$message({
+                message: '添加用户失败!',
+                type: "error"
+              })               
             });
           } else {
+            newData.id = this.userId
             fetchEditUser(newData).then(res => {
+              this.$message({
+                type: 'success',
+                message: res.message
+              })           
               this.visible = false;
+            }).catch(err => {
+              this.$message({
+              message: err.message,
+              type: "error"
+              })             
             });
           }
         } else {
-          console.log("error submit!!");
+          this.$message({
+            message: '提交失败!',
+            type: "error"
+          })
           return false;
         }
       });
@@ -274,19 +296,14 @@ export default {
 .el-select {
   width: 100%;
 }
-.card {
-  width: 560px;
-  padding-bottom: 15px;
-  margin: 0px auto;
-}
-.avatar-uploader .el-upload {
+.avatar-uploader /deep/ .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
-.avatar-uploader .el-upload:hover {
+.avatar-uploader /deep/ .el-upload:hover {
   border-color: #409eff;
 }
 .avatar-uploader-icon {

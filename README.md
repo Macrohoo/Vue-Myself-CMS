@@ -111,7 +111,13 @@
 >- <font color=#008000 >Vue具名插槽</font>:就是子组件中的提供给父组件使用的一个占位符，用`<slot> </slot>`表示，父组件可以在这个占位符中填充任何模板代码，如 HTML、组件等，填充的内容会替换子组件的`<slot> </slot>`标签。6以后的版本中的用法是这样的：`<template v-slot:header>`// 在父组件中使用模板语法，使用v-slot绑定插槽的名字。`<slot name="header">default</slot>`// 在子组件中仍然使用name来作为插槽的标识符。
 >- <font color=#008000 >Vue作用域插槽</font>:有时让插槽内容能够访问子组件中才有的数据是很有用的，但是因为只有子组件可以访问到例如user数据，而我们提供的内容是在父级渲染的。为了让user数据在父级的插槽内容中可用，第一步：我们可以将user作为 <slot> 元素的一个 attribute 绑定上去，`<slot v-bind:user="user"> {{ user.lastName }} </slot>`，第二步：绑定在 <slot> 元素上的 attribute 被称为插槽 prop。现在在父级作用域中，我们可以使用带值的 v-slot 来定义我们提供的插槽 prop 的名字。`<template v-slot:default="slotProps"> {{ slotProps.user.firstName }} </template>`，在这个例子中，我们选择将包含所有插槽 prop 的对象命名为 slotProps，但你也可以使用任意你喜欢的名字。
 >- el-form中`:inline="true"`行内表单模式：每个el-form-item横排
-
+#### 1114VueCli3区分环境打包&&addArticleEditor页面修改&&css&&userInfo页面中头像上传的内容完善
+>- 基本原理都是在node进程中配置`process.env`的属性，然后可以全局访问`process.env.xxx`。参考[入门笔记](https://www.jianshu.com/p/4bee12667f9b)
+>- 在Webpack中实现，使用[DefignPlugin](https://webpack.docschina.org/plugins/define-plugin/)插件，配置全局常量，写入process.env，并在文件中以process.env.xxx方式使用。
+>- Node.js中的[dotenv](https://github.com/motdotla/dotenv)包也是一个可以根据项目不同需求，需要配置不同环境变量，按需加载不同的环境变量文件的办法，使用dotenv，只需要将程序的环境变量配置写在.env文件中。Vue-cli3中使用dotenv包进行环境管理,集成在`@vue/cli-service`中了。
+>- CSS选择器 :hover选择器用于选择鼠标指针浮动在上面的元素。
+>- vue中`<style scoped>`实现组件的私有化，不对全局造成样式污染，表示当前style属性只属于当前模块，虽然方便但是我们需要慎用，它基本上符合以下两个原则：①父组件添加了scoped子组件子组件无论加不加scoped，父组件不能通过子组件的样式选择器修改子组件样式。②父组件不添加scoped，子组件添加scoped，父组件是可以通过子组件样式选择器来修改子组件的样式。还有一个最优雅的解决办法[/deep/](https://zhuanlan.zhihu.com/p/77112977)样式穿透：父子组件都有scope，可以在父组件中改子组件样式，加/deep/前缀，不会影响其他地方子组件使用。
+>- el-upload中action="/api/editor/uploadImg"是后端上传文件接口
 
 
 
