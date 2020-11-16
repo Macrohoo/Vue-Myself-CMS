@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import wangEditor from '@/components/Editor/wangEditor'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -67,9 +68,9 @@ export const constantRoutes = [
       },
       {
         path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        name: 'wangEditor',
+        component: wangEditor,
+        meta: { title: 'wangEditor', icon: 'tree' }
       }
     ]
   },

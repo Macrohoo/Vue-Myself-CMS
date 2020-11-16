@@ -118,8 +118,9 @@
 >- CSS选择器 :hover选择器用于选择鼠标指针浮动在上面的元素。
 >- vue中`<style scoped>`实现组件的私有化，不对全局造成样式污染，表示当前style属性只属于当前模块，虽然方便但是我们需要慎用，它基本上符合以下两个原则：①父组件添加了scoped子组件子组件无论加不加scoped，父组件不能通过子组件的样式选择器修改子组件样式。②父组件不添加scoped，子组件添加scoped，父组件是可以通过子组件样式选择器来修改子组件的样式。还有一个最优雅的解决办法[/deep/](https://zhuanlan.zhihu.com/p/77112977)样式穿透：父子组件都有scope，可以在父组件中改子组件样式，加/deep/前缀，不会影响其他地方子组件使用。
 >- el-upload中action="/api/editor/uploadImg"是后端上传文件接口
-
-
+#### 1116addArticleEditor页面修改
+>- 每一个axiosApi[fetchXXXX]返回的都是wrap函数携带参数提交之后的结果即一个promise。源码中①`axios.create = function create(instanceConfig) { return createInstance(utils.merge(defaults, instanceConfig)); }`②源码中createInstance函数返回的instance是一个function【wrap（）它返回一个有特定this对象和参数的Axios.prototype.request】。
+>- el-form中`:inline="true"`设置 inline 属性可以让表单域变为行内的表单域。
 
 
 *Alt + M快捷键Markdown*

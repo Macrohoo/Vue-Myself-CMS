@@ -5,13 +5,7 @@
         <el-input class="title" placeholder="文章标题" v-model="article.title"/>
       </el-form-item>
       <el-form-item label="标签">
-        <el-autocomplete
-          class="inline-input"
-          v-model="article.sort"
-          :fetch-suggestions="querySearch"
-          placeholder="请输入内容"
-          @select="handleSelect"
-        />
+        <el-input class="inline-input" placeholder="请输入内容" v-model="article.sort"/>
       </el-form-item>
       <el-form-item label="是否置顶">
         <el-switch v-model="article.top"/>
@@ -22,7 +16,7 @@
       <el-form-item label="缩略图上传" label-width="95px">
         <el-upload
           class="avatar-uploader"
-          :action="this.$path+'/editor/uploadImg'"
+          action="/api/editor/uploadImg"
           :show-file-list="false"
           :on-success="handlethumbnailSuccess"
           :before-upload="beforethumbnailUpload">
@@ -42,12 +36,11 @@
         </el-upload>
       </el-form-item>
     </el-form>
-    <div ref="editor" style="text-align:left"></div>
   </div>
 </template>
 
 <script>
-import E from "wangeditor"
+import { fetchAddArticle, fetchGetArticle } from '@/api/apis/article'
 
 export default {
   name: "addArticle",
@@ -80,8 +73,7 @@ export default {
       if (!isLt2M) {
         this.$message.error("上传文章缩略图大小不能超过 2MB!")
       }
-      // eslint-disable-next-line no-mixed-operators
-      return isLt2M && isJPG || isPNG
+      return (isLt2M && isJPG) || (isPNG && isLt2M)
     },
     handleBannerSuccess (res, file) {
       this.article.banner = res.data[0]
@@ -97,35 +89,10 @@ export default {
       if (!isLt5M) {
         this.$message.error("上传banner图片大小不能超过 5MB!")
       }
-      // eslint-disable-next-line no-mixed-operators
-      return isLt5M && isJPG || isPNG
-    },
-    querySearch (queryString, cb) {
-      var restaurants = this.restaurants
-      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results)
-    },
-    createFilter (queryString) {
-      return (restaurant) => {
-        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-      }
-    },
-    loadAll () {
-      return [
-        {"value": "vue"},
-        {"value": "node.js"}
-      ]
-    },
-    handleSelect (item) {
-      console.log(item)
-    },
-
-    getContent: function () {
-      alert(this.editorContent)
+      return (isLt2M && isJPG) || (isPNG && isLt2M)
     },
     submitArticle () {
-      this.$request.fetchAddArticle(this.article).then(response => {
+      fetchAddArticle(this.article).then(response => {
         this.$restBack(response.data)
       }).catch(function (error) {
         console.log(error)
@@ -133,29 +100,7 @@ export default {
     }
   },
   mounted () {
-    this.restaurants = this.loadAll()
-    var editor = new E(this.$refs.editor)
-    editor.customConfig.onchange = html => {
-      this.article.content_html = html
-    }
-    editor.customConfig.uploadImgServer = "/router/editor/uploadImg" // 上传图片到服务器
-    editor.customConfig.debug = true
-    // editor.customConfig.showLinkImg = false
-    editor.create()
-
-    let id = this.$route.query.articleId
-
-    if (!id) return false
-    this.$request.fetchGetArticle({id})
-      .then(function (response) {
-        console.log(response)
-        that.article = response.data
-        editor.txt.html(response.data.content_html)
-        return false
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+    
   }
 }
 </script>
@@ -195,14 +140,5 @@ export default {
     width: 178px;
     height: 178px;
     display: block;
-  }
-</style>
-<style>
-  .el-autocomplete-suggestion {
-    z-index: 10010 !important;
-  }
-
-  .w-e-text-container {
-    height: 600px !important;
   }
 </style>

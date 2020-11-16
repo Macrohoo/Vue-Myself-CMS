@@ -86,14 +86,12 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="ruleForm2.avatar" :src="ruleForm2.avatar" class="avatar" />
+          <img v-if="ruleForm2.avatar" :src="ruleForm2.avatar" class="avatar" />          
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm2')"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitForm('ruleForm2')">确 定</el-button>
         <el-button @click="resetForm('ruleForm2')">重 置</el-button>
       </el-form-item>
     </el-form>
@@ -181,7 +179,6 @@ export default {
   methods: {
     handleAvatarSuccess(res, file) {
       this.ruleForm2.avatar = res.data[0];
-      console.log(res.data)
     },
     closeCallback() {
       this.$emit("successCallback");
