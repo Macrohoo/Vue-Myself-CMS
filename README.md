@@ -68,7 +68,7 @@
 >- FormData 接口的append() 方法 会添加一个新值到 FormData 对象内的一个已存在的键中，如果键不存在则会添加该键。FormData.set 和 append() 的区别在于，如果指定的键已经存在， FormData.set 会使用新值覆盖已有的值，而 append() 会把新值添加到已有值集合的后面。
 #### 1028添加组件editpassword页面修改&&修改部分layout全局组件的内容&&完善了login页面
 >- [Element Dropdown 下拉菜单](https://element.eleme.cn/#/zh-CN/component/dropdown#dropdown-menu-item-attributes)。在下拉菜单中，有一个click事件和command事件的区分。command：点击菜单项触发的事件回调，回调dropdown-item的指令。
->- 子组件上绑定一个事件监听器监听父组件给的事件，子组件内部处理close事件然后向外发送：$emit.
+>- 父组件页面的子组件Dom上绑定一个事件监听器监听父组件给的事件@XXX，子组件内部处理某一事件（比如close事件）然后向外发送：$emit('XXX')。
 >- 在一般html的tag上使用时：<div @click="方法"></div> 点击可以生效，但是在<component @click="方法" />点击不会生效。任何组件必须挂在到具体的DOM上，DOM本身具有事件属性，组件也有自己的事件系统，vue处理这两种事件的逻辑是不同的，所以你在component组件上定义事件，vue必须要知道是那种类型的事件好进入相应的处理逻辑，.native 就是区分的标识。
 >- location.reload()方法类似于你浏览器上的刷新页面按钮，是Bom的Api方法。
 >- 完善了登录界面因密码账号错误而显式提示。后续需要再补充一个功能，不能让用户多次尝试密码，最多尝试5次。
@@ -119,8 +119,17 @@
 >- vue中`<style scoped>`实现组件的私有化，不对全局造成样式污染，表示当前style属性只属于当前模块，虽然方便但是我们需要慎用，它基本上符合以下两个原则：①父组件添加了scoped子组件子组件无论加不加scoped，父组件不能通过子组件的样式选择器修改子组件样式。②父组件不添加scoped，子组件添加scoped，父组件是可以通过子组件样式选择器来修改子组件的样式。还有一个最优雅的解决办法[/deep/](https://zhuanlan.zhihu.com/p/77112977)样式穿透：父子组件都有scope，可以在父组件中改子组件样式，加/deep/前缀，不会影响其他地方子组件使用。
 >- el-upload中action="/api/editor/uploadImg"是后端上传文件接口
 #### 1116addArticleEditor页面修改
->- 每一个axiosApi[fetchXXXX]返回的都是wrap函数携带参数提交之后的结果即一个promise。源码中①`axios.create = function create(instanceConfig) { return createInstance(utils.merge(defaults, instanceConfig)); }`②源码中createInstance函数返回的instance是一个function【wrap（）它返回一个有特定this对象和参数的Axios.prototype.request】。
+>- 每一个axiosApi[fetchXXXX]返回的都是wrap函数携带参数提交后的结果即一个promise。源码中①`axios.create = function create(instanceConfig) { return createInstance(utils.merge(defaults, instanceConfig)); }`②源码中createInstance函数返回的instance是一个function【wrap（）它返回一个有特定this对象和参数的Axios.prototype.request】。
 >- el-form中`:inline="true"`设置 inline 属性可以让表单域变为行内的表单域。
+#### 1117富文本调试&&addArticleEditor页面修改
+>- 安装富文本插件wangEditor，作为公共组件复用。V4版本和V3版本@3.1.1的配置和使用极为相似（把 editor.customConfig 改为 editor.config 即可）
+>- [立即调用函数表达式](https://developer.mozilla.org/zh-CN/docs/Glossary/%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F)称为自执行匿名函数的设计模式，主要包含两部分。第一部分是包围在 圆括号运算符 () 里的一个匿名函数，这个匿名函数拥有独立的词法作用域。这不仅避免了外界访问此 IIFE 中的变量，而且又不会污染全局作用域。第二部分再一次使用()创建了一个立即执行函数表达式，JavaScript 引擎到此将直接执行函数。
+
+
+
+
+
+
 
 
 *Alt + M快捷键Markdown*

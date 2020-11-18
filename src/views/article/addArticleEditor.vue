@@ -36,14 +36,16 @@
         </el-upload>
       </el-form-item>
     </el-form>
+    <WangEditor v-model="article.content_html" :value="value" :isClear="isClear" @change="change"/>
   </div>
 </template>
 
 <script>
 import { fetchAddArticle, fetchGetArticle } from '@/api/apis/article'
-
+import WangEditor from '@/components/Editor/wangEditor.vue'
 export default {
   name: "addArticle",
+  components: { WangEditor },
   data () {
     return {
       article: {
@@ -54,11 +56,15 @@ export default {
         thumbnail: "",
         banner: ""
       },
-      initData: "",
-      restaurants: []
+      value: "",  //这个值是根据文章二次编辑时的富文本内容传入的
+      isClear: false   //isClear用在发布文章后，清空富文本内容
     }
   },
   methods: {
+    change (val) {
+      this.article.content_html = val
+      //console.log(this.article.content_html)
+    },
     handlethumbnailSuccess (res, file) {
       this.article.thumbnail = res.data[0]
     },
@@ -100,7 +106,7 @@ export default {
     }
   },
   mounted () {
-    
+
   }
 }
 </script>
