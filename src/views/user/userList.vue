@@ -70,7 +70,7 @@
 
 <script>
 import UserInfo from "@/components/UserForm/userInfo"
-import { fetchUserList } from '@/api/apis/user'
+import { fetchUserList, fetchDelUser } from '@/api/apis/user'
 
 export default {
   name: "userList",
@@ -102,28 +102,26 @@ export default {
       this.getList()
     },
     handleDelete (index, row) {
-      console.log(index, row)
-      let that = this
-      this.$request.fetchDelUser({
+      fetchDelUser({
         id: row.id
+      }).then(response => {
+        this.$message({
+          message: response.message,
+          type: "success"
+        })
+        this.getList({
+          currentPage: this.currentPage,
+          pageSize: 10
+        })
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: "error"
+        })
       })
-        .then(response => {
-          that.$message({
-            showClose: true,
-            message: response.data.message,
-            type: "success"
-          })
-          that.getList({
-            currentPage: that.currentPage,
-            pageSize: 10
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
     },
     currentChange (page) {
-      console.log(page)
+      //console.log(page)
       this.currentPage = page
       this.getList({
         currentPage: page,
@@ -131,21 +129,20 @@ export default {
       })
     },
     getList (postdata = { currentPage: 1, pageSize: 10 }) {
-      let that = this
-      fetchUserList(postdata).then(function (response) {
+      fetchUserList(postdata).then(response => {
           console.log(response)
           for (let i = 0; i < response.rows.length; i++) {
-            response.rows[i].created_at = that.$getDateDiff(response.rows[i].created_at)
+            response.rows[i].created_at = this.$getDateDiff(response.rows[i].created_at)
             if (response.rows[i].status === "1") {
               response.rows[i].status = "启用"
             } else {
               response.rows[i].status = "禁用"
             }
           }
-          that.total = response.count
-          that.userListData = response.rows
+          this.total = response.count
+          this.userListData = response.rows
         })
-        .catch(function (error) {
+        .catch(error => {
           console.log(error)
         })
     }

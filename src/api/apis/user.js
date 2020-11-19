@@ -54,6 +54,7 @@ export function fetchEditPassword( data ) {
   })
 }
 
+//删除用户信息
 export function fetchDelUser ( data ) {
   return request({
     url: userUrls.delUser,

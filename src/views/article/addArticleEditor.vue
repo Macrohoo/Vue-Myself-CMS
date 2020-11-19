@@ -36,7 +36,7 @@
         </el-upload>
       </el-form-item>
     </el-form>
-    <WangEditor v-model="article.content_html" :value="value" :isClear="isClear" @change="change"/>
+    <WangEditor v-model="article.content_html" :value="article.value" :isClear="isClear" @change="change"/>
   </div>
 </template>
 
@@ -51,12 +51,13 @@ export default {
       article: {
         title: "",
         sort: "",
-        top: true,
+        top: false,
         content_html: "",
         thumbnail: "",
-        banner: ""
+        banner: "",
+        value: "",  //这个值是根据文章二次编辑时的富文本内容传入的
       },
-      value: "",  //这个值是根据文章二次编辑时的富文本内容传入的
+      //value: "",  //这个值是根据文章二次编辑时的富文本内容传入的
       isClear: false   //isClear用在发布文章后，清空富文本内容
     }
   },
@@ -99,9 +100,16 @@ export default {
     },
     submitArticle () {
       fetchAddArticle(this.article).then(response => {
-        this.$restBack(response.data)
-      }).catch(function (error) {
-        console.log(error)
+        this.$message({
+          type: 'success',
+          message: response.message
+        })       
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: "error"
+        })        
+        console.log(err)
       })
     }
   },

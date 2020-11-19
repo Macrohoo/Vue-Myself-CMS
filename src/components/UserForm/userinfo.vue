@@ -199,7 +199,7 @@ export default {
     getList() {
       if (!this.userId) {
         fetchGetRoleList().then(res => {
-          console.log(res);
+          //console.log(res);
           this.roleData = res.rows;
           for (let i = 0; i < this.roleData.length; i++) {
             if (
