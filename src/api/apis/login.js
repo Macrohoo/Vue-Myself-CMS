@@ -15,6 +15,5 @@ export function fetchLogout() {
   return request({
     url: loginUrls.logout,
     method: "post",
-    params: {}
   })
 }

@@ -57,7 +57,6 @@ export default {
         banner: "",
         value: "",  //这个值是根据文章二次编辑时的富文本内容传入的
       },
-      //value: "",  //这个值是根据文章二次编辑时的富文本内容传入的
       isClear: false   //isClear用在发布文章后，清空富文本内容
     }
   },
@@ -103,18 +102,26 @@ export default {
         this.$message({
           type: 'success',
           message: response.message
-        })       
+        })
+        this.$router.push({ name: '文章列表'})     
       }).catch(err => {
         this.$message({
           message: err.message,
           type: "error"
         })        
-        console.log(err)
       })
     }
   },
   mounted () {
-
+    let id = this.$route.query.articleId
+    if(id) {
+      fetchGetArticle({id}).then(res => {
+        for(let item in this.article) {
+          this.article[item] = res[item]
+        }
+        this.article.value = res.content_html
+      })
+    }
   }
 }
 </script>

@@ -124,6 +124,11 @@
 #### 1117富文本调试&&addArticleEditor页面修改
 >- 安装富文本插件wangEditor，作为公共组件复用。V4版本和V3版本@3.1.1的配置和使用极为相似（把 editor.customConfig 改为 editor.config 即可）
 >- [立即调用函数表达式](https://developer.mozilla.org/zh-CN/docs/Glossary/%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F)称为自执行匿名函数的设计模式，主要包含两部分。第一部分是包围在 圆括号运算符 () 里的一个匿名函数，这个匿名函数拥有独立的词法作用域。这不仅避免了外界访问此 IIFE 中的变量，而且又不会污染全局作用域。第二部分再一次使用()创建了一个立即执行函数表达式，JavaScript 引擎到此将直接执行函数。
+#### 1123
+>- 保证路由跳转并传参，`this.$router.push({ path: "/addArticleEditor", query: { articleId: row.id } })`和`this.$route.query.articleId`
+>- promise再翻看一遍。resolve()和reject()位置。
+>- 通常我们父子组件传值并不只是需要这个值，而是需要这个值得同时进行一些操作。我们一般通过watch监听传来的值，如果子组件的props值从父组件传来了，将执行watch中的操作。
+>- 深度监听
 
 
 

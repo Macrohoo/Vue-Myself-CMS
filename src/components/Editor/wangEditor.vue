@@ -31,24 +31,23 @@ export default {
       default: false
     }
   },
-  // watch: {
-  //   isClear(val) {
-  //     // 触发清除文本域内容
-  //     if (val) {
-  //       this.editor.txt.clear();
-  //       this.info_ = null;
-  //     }
-  //   },
-  //   value: function(value) {
-  //     if (value !== this.editor.txt.html()) {
-  //       this.editor.txt.html(this.value);
-  //     }
-  //   }
-  //   //value为编辑框输入的内容，这里我监听了一下值，当父组件调用得时候，如果给value赋值了，子组件将会显示父组件赋给的值
-  // },
+  watch: {
+    isClear(val) {
+      // 触发清除文本域内容
+      if (val) {
+        this.editor.txt.clear();
+        this.info_ = null;
+      }
+    },
+    value: function(value) {
+      if (value !== this.editor.txt.html()) {
+        this.editor.txt.html(this.value);
+      }
+    }  //监听父组件传来的value值，当父组件调用得时候，如果给value赋值了，通过监听，将会显示父组件赋给的值
+  },
   mounted() {
     this.seteditor();
-    this.editor.txt.html(this.value);
+    //this.editor.txt.html(this.value);
   },
   methods: {
     getContent: function() {

@@ -179,7 +179,7 @@ export const asyncRouters = [
         r_id: ['100024'],
         path: 'articleList',
         name: '文章列表',  //'ArticleList'
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/article/articleList'),
         meta: { title: '文章列表', icon: 'el-icon-edit-outline', role: ['超级管理员', '管理员']}
       },
       {
