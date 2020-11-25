@@ -43,7 +43,7 @@ export default {
       if (value !== this.editor.txt.html()) {
         this.editor.txt.html(this.value);
       }
-    }  //监听父组件传来的value值，当父组件调用得时候，如果给value赋值了，通过监听，将会显示父组件赋给的值
+    }  //watch中不要用箭头函数来定义函数，监听父组件传来的value值，当父组件调用得时候，如果给value赋值了，通过监听，将会显示父组件赋给的值
   },
   mounted() {
     this.seteditor();

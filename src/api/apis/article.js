@@ -45,3 +45,12 @@ export function fetchCommentList(data) {
     data
   })
 }
+
+//删除评论
+export function fetchDelComment(data) {
+  return request({
+    url: articleUrls.delComment,
+    method: "post",
+    data
+  })
+}

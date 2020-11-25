@@ -49,6 +49,7 @@ export default {
   data () {
     return {
       article: {
+        id: "",
         title: "",
         sort: "",
         top: false,
@@ -103,6 +104,7 @@ export default {
           type: 'success',
           message: response.message
         })
+        //Object.assign(this.$data,this.$options.data())
         this.$router.push({ name: '文章列表'})     
       }).catch(err => {
         this.$message({
@@ -114,7 +116,7 @@ export default {
   },
   mounted () {
     let id = this.$route.query.articleId
-    if(id) {
+    if(id !== null) {
       fetchGetArticle({id}).then(res => {
         for(let item in this.article) {
           this.article[item] = res[item]

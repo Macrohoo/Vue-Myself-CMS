@@ -57,20 +57,20 @@ export const constantRoutes = [
     path: '/example',
     component: Layout,
     redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    name: 'Tool Components',
+    meta: { title: 'Tool', icon: 'el-icon-folder-opened' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: 'Table', icon: 'el-icon-s-help' }
       },
       {
         path: 'tree',
         name: 'wangEditor',
         component: wangEditor,
-        meta: { title: 'wangEditor', icon: 'tree' }
+        meta: { title: 'wangEditor', icon: 'el-icon-s-help' }
       }
     ]
   },
@@ -186,7 +186,7 @@ export const asyncRouters = [
         r_id: ['100025'],
         path: 'commentList',
         name: '评论列表',  //'CommentList'
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/article/commentList'),
         meta: { title: '评论列表', icon: 'el-icon-edit-outline', role: ['超级管理员', '管理员']}
       }
     ]

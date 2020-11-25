@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="articleList">
     <el-table :data="articletData">
       <el-table-column fixed prop="created_at" label="发布时间" width="180"></el-table-column>
       <el-table-column prop="title" label="文章标题"> </el-table-column>
@@ -15,6 +15,7 @@
       </el-table-column>
     </el-table>
     <el-pagination
+      class="pagination"
       background
       layout="prev, pager, next"
       :total="total"
@@ -107,4 +108,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.articleList {
+    margin-top: 10px;
+}
+.pagination {
+    margin: 30px auto;
+    text-align: center;
+    width: 50%;
+    border: 1px solid rgb(64, 158, 255);
+}
+</style>
