@@ -134,6 +134,22 @@
 >- 不应该使用箭头函数来定义watcher函数，例如 `searchQuery: newValue => this.updateAutocomplete(newValue)`。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例，this.updateAutocomplete 将是 undefined。因为在标准函数中，this引用的是把函数当成方法调用的上下文对象，this指向的就是vue实例。在比如method函数（一般function写法下）中进行事件回调调用某个函数，this指向的并非想要的结果，此时把回调函数写成箭头函数的形式就可以解决问题，因为箭头函数的this就是父作用域的this，而父作用域就是method函数调用时生成的上下文作用域。从原理上的解释像vue中method函数中的代码，这个函数定义的时候是必须是一般函数。一般函数中指针this引用的是把函数当成方法调用的上下文，vue中就是实例vue把method函数作为方法调用，所以指向的是vue实例。method函数内部又有一个闭包箭头函数，这个闭包中的this指向的是method的上下文，而method的上下文是vue实例，所以就被覆盖了。闭包中的this指的就是vue实例也就是method的上下文，都是同一个。
 >- 初始化组件中的所有数据:`Object.assign(this.$data,this.$options.data())`
 >- 时间有的充裕的情况下完成一下Markdown组件，并在addArticleEditor实现富文本和Markdown的编辑功能。
+#### 1126commentList完善&&tuiEditor组件初步完成&&暂时完成了实时错误日志管理
+>- `@toast-ui/editor`关于Markdown包工具，组件化。
+>- icons的全局实现需要再梳理一下。
+>- vue有内置的[错误拦截器](https://cn.vuejs.org/v2/api/#optionMergeStrategies)基本实现如下。可是暂时无法实现把错误数据异步提交到vuex中，不知道问题在哪里。
+```
+Vue.config.errorHandler = function (err, vm, info) {
+  // 参数解析：
+  // 1.err：错误对象；
+  // 2.vm：Vue实例；
+  // 3.info：Vue 特定的错误信息，比如错误所在的生命周期钩子
+  // 错误被捕获后，不会再在控制台输出错误信息，可以补输出：
+  console.error(err) 
+  // 然后完成错误上报，一般是发送到一个收集错误的 API 接口
+  // 如有必要，你还可以把 navigator 对象(客户端信息)一起上报
+}
+```
 
 
 

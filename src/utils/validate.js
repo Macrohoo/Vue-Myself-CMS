@@ -19,3 +19,26 @@ export function validUsername(str) {
   return valid_map.indexOf(str.trim()) >= 0
   //valid_map数组中查询出现（str参数除去空格后字符串这个指定值）的索引位置
 }
+
+/**
+ * @param {string} str
+ * @returns {Boolean}
+ */
+export function isString(str) {
+  if (typeof str === 'string' || str instanceof String) {
+    return true
+  }
+  return false
+}
+
+/**
+ * @param {Array} arg
+ * @returns {Boolean}
+ */
+export function isArray(arg) {
+  if (typeof Array.isArray === 'undefined') {
+    return Object.prototype.toString.call(arg) === '[object Array]'
+  }
+  return Array.isArray(arg)
+}
+

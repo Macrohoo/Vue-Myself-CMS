@@ -128,27 +128,26 @@ export default {
         pageSize: 10
       })
     },
-    getList (postdata = { currentPage: 1, pageSize: 10 }) {
+    getList (postdata) {
       fetchUserList(postdata).then(response => {
-          console.log(response)
-          for (let i = 0; i < response.rows.length; i++) {
-            response.rows[i].created_at = this.$getDateDiff(response.rows[i].created_at)
-            if (response.rows[i].status === "1") {
-              response.rows[i].status = "启用"
-            } else {
-              response.rows[i].status = "禁用"
-            }
+        for (let i = 0; i < response.rows.length; i++) {
+          response.rows[i].created_at = this.$getDateDiff(response.rows[i].created_at)
+          if (response.rows[i].status === "1") {
+            response.rows[i].status = "启用"
+          } else {
+            response.rows[i].status = "禁用"
           }
-          this.total = response.count
-          this.userListData = response.rows
-        })
-        .catch(error => {
-          console.log(error)
-        })
+        }
+        this.total = response.count
+        this.userListData = response.rows
+      })
     }
   },
   mounted () {
-    this.getList()
+    this.getList({
+      currentPage: 1,
+      pageSize: 10
+    });
   }
 }
 </script>

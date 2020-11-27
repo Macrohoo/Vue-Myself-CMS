@@ -5,6 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+      <ErrorLog class="errLog-container right-menu-item hover-effect" />
       <el-dropdown class="avatar-container" trigger="click" @command="handleCommand">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
@@ -37,13 +38,15 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import EditPassword from '@/components/UserForm/editPassword'
 import UserInfo from '@/components/UserForm/userInfo'
+import ErrorLog from '@/components/ErrorLog'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
     EditPassword,
-    UserInfo
+    UserInfo,
+    ErrorLog
   },
   data () {
     return {
@@ -56,7 +59,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'device'
     ])
   },
   methods: {
@@ -110,6 +114,11 @@ export default {
 
   .breadcrumb-container {
     float: left;
+  }
+
+  .errLog-container {
+    display: inline-block;
+    vertical-align: top;
   }
 
   .right-menu {

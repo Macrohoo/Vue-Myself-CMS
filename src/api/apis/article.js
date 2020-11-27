@@ -38,11 +38,11 @@ export function fetchDelArticle(data) {
 }
 
 //评论列表
-export function fetchCommentList(data) {
+export function fetchCommentList(query) {
   return request({
     url: articleUrls.commentList,
-    method: "post",
-    data
+    method: "get",
+    params: query
   })
 }
 

@@ -10,11 +10,11 @@ export function fetchGetUserInfo() {
 }
 
 //获取用户列表
-export function fetchUserList( data ) {
+export function fetchUserList( query ) {
   return request({
     url: userUrls.userList,
-    method: 'post',
-    data
+    method: 'get',
+    params: query
   })
 }
 
