@@ -20,8 +20,6 @@ function checkNeed() {
 
 if (checkNeed()) {
   Vue.config.errorHandler = function(err, vm, info) {
-    // Don't ask me why I use Vue.nextTick, it just a hack.
-    // detail see https://forum.vuejs.org/t/dispatch-in-vue-config-errorhandler-has-some-problem/23500
     Vue.nextTick(() => {
       store.dispatch("errorLog/addErrorLog", {
         err,
@@ -29,25 +27,7 @@ if (checkNeed()) {
         info,
         url: window.location.href
       });
-      console.error(err, info);
+      console.error(err, info);     //既然前端js的错误都会被全局捕捉到了，那么还是需要一个console.error的出口去抛出。
     });
   };
 }
-
-// export default {
-//   install(Vue) {
-//     if (checkNeed()) {
-//       Vue.config.errorHandler = function(error, vm, info) {
-//         let errlog = {
-//           error,
-//           vm,
-//           info,
-//           url: window.location.href
-//         };
-//         Vue.nextTick(() => {
-//           store.dispatch("errorLog/addErrorLog", errlog);
-//         });
-//       };
-//     }
-//   }
-// };
