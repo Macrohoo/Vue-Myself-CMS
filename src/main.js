@@ -14,7 +14,7 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-import '@/utils/error-log' // error log
+import errorLog from '@/utils/error-log' // error log
 import globalPlugin from '@/utils/global'
 import btnDirective from '@/utils/directive/button'
 
@@ -37,6 +37,8 @@ Vue.use(ElementUI, { locale })
 Vue.use(globalPlugin)
 
 Vue.use(btnDirective)
+
+Vue.use(errorLog)
 
 Vue.config.productionTip = false
 

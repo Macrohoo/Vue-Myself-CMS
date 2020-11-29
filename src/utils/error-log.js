@@ -18,16 +18,40 @@ function checkNeed() {
   return false;
 }
 
-if (checkNeed()) {
-  Vue.config.errorHandler = function(err, vm, info) {
-    Vue.nextTick(() => {
-      store.dispatch("errorLog/addErrorLog", {
-        err,
-        vm,
-        info,
-        url: window.location.href
-      });
-      console.error(err, info);     //既然前端js的错误都会被全局捕捉到了，那么还是需要一个console.error的出口去抛出。
+// if (checkNeed()) {
+//   Vue.config.errorHandler = function(err, vm, info) {
+//     Vue.nextTick(() => {
+//       store.dispatch("errorLog/addErrorLog", {
+//         err,
+//         vm,
+//         info,
+//         url: window.location.href
+//       });
+//       console.error(err, info);     //既然前端js的错误都会被全局捕捉到了，那么还是需要一个console.error的出口去抛出。
+//     });
+//   };
+// }
+
+const handler = (err, vm, info) => {
+  Vue.nextTick(() => {
+    store.dispatch("errorLog/addErrorLog", {
+      err,
+      vm,
+      info,
+      url: window.location.href
     });
-  };
-}
+    console.error(err, info);     //既然前端js的错误都会被全局捕捉到了，那么还是需要一个console.error的出口去抛出。
+  });
+};
+
+
+export default {
+  install(Vue) {
+    if (checkNeed()) {
+      Vue.config.errorHandler = handler
+      Vue.prototype.$throw = function (error) {
+        handler(error, this)
+      }
+    }
+  }
+};

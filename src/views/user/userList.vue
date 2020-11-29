@@ -140,6 +140,8 @@ export default {
         }
         this.total = response.count
         this.userListData = response.rows
+      }).catch((err) => {
+        this.$throw(err)
       })
     }
   },

@@ -82,7 +82,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://github.com/Marhooo/vue-blog-cms',
-        meta: { title: 'Github', icon: 'link' }
+        meta: { title: 'Github', icon: 'github' }
       }
     ]
   },

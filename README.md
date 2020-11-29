@@ -69,7 +69,7 @@
 #### 1028添加组件editpassword页面修改&&修改部分layout全局组件的内容&&完善了login页面
 >- [Element Dropdown 下拉菜单](https://element.eleme.cn/#/zh-CN/component/dropdown#dropdown-menu-item-attributes)。在下拉菜单中，有一个click事件和command事件的区分。command：点击菜单项触发的事件回调，回调dropdown-item的指令。
 >- 父组件页面的子组件Dom上绑定一个事件监听器监听父组件给的事件@XXX，子组件内部处理某一事件（比如close事件）然后向外发送：$emit('XXX')。
->- 在一般html的tag上使用时：<div @click="方法"></div> 点击可以生效，但是在<component @click="方法" />点击不会生效。任何组件必须挂在到具体的DOM上，DOM本身具有事件属性，组件也有自己的事件系统，vue处理这两种事件的逻辑是不同的，所以你在component组件上定义事件，vue必须要知道是那种类型的事件好进入相应的处理逻辑，.native 就是区分的标识。
+>- 在一般html的tag上使用时：<div @click="方法"></div> 点击可以生效，但是在<component @click="方法" />点击不会生效。任何组件必须挂在到具体的DOM上，DOM本身具有事件属性，组件也有自己的事件系统，vue处理这两种事件的逻辑是不同的，所以你在component组件上定义事件，vue必须要知道是那种类型的事件好进入相应的处理逻辑，.native 就是区分的标识。至于什么情况下对vue组件绑定事件需要加native的判断是：在自定义组件想要使用原生事件的时候。比如你自己封装一个button组件，想要给这个组件写点击事件，这时候就需要加native了。或者在子组件emit出来一个click事件。
 >- location.reload()方法类似于你浏览器上的刷新页面按钮，是Bom的Api方法。
 >- 完善了登录界面因密码账号错误而显式提示。后续需要再补充一个功能，不能让用户多次尝试密码，最多尝试5次。
 #### 1102修改部分layout全局组件的内容&&roleManage角色权限页面雏形
@@ -150,7 +150,11 @@ Vue.config.errorHandler = function (err, vm, info) {
   // 如有必要，你还可以把 navigator 对象(客户端信息)一起上报
 }
 ```
-
+#### 1129错误日志错误完善&&icon全局实现的梳理
+>- 在vue-admin-element潘家成的模板对错误日志收集是异步提交到了vuex中，是在模板中作为错误报警提示，也算一种错误日志的解决方案吧。但是利用`Vue.config.errorHandler`这个钩子，模板中只是解决了前端js同步的错误，并不支持捕获异步错误，于是对于网络请求等异步逻辑的错误我只能主动将错误提交给这个钩子处理。解决方案就是对于异步错误的处理还是注册一个Vue的实例方法，来把接口catch到的err提交到这个Vue.config.errorHandler这个钩子处理，并提交到Vuex中，来实现那个小蜘蛛错误警报提示。我是受到这篇[文章](https://segmentfault.com/q/1010000012399729?sort=created)的启发，对于封装技术的提升，可能还有更加优雅的解决方案。
+>- 后续需要去修改异步的错误处理方式，加上this.$throw()
+>- vue-admin-element中关于[icons](https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage)的介绍。
+>- [vm.$listeners](https://cn.vuejs.org/v2/api/#vm-listeners)在文档中解释:包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on="$listeners" 传入内部组件——在创建更高层次的组件时非常有用。[参考](https://segmentfault.com/q/1010000017556758)，假设有父组件Parent和子组件Child，那么你在Parent父组件中使用Child时，传入的所有v-on事件都可以在$listeners对象中找到，子组件Child中只需要有`v-on="$listeners"`。
 
 
 
