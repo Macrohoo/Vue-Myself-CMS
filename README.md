@@ -2,6 +2,7 @@
 
 ![用户列表](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/20201110032520.jpg?raw=true)
 ![动态权限分配](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/20201110032453.jpg?raw=true)
+![文章列表分页](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/1201-1.jpg?raw=true)
 
 #### 1012 路由表&&用户登陆&&vuex内容的疏通①
 >- 所有权限通用路由表constantRouters和动态需要根据权限加载的路由表asyncRouters
@@ -134,6 +135,7 @@
 >- 不应该使用箭头函数来定义watcher函数，例如 `searchQuery: newValue => this.updateAutocomplete(newValue)`。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例，this.updateAutocomplete 将是 undefined。因为在标准函数中，this引用的是把函数当成方法调用的上下文对象，this指向的就是vue实例。在比如method函数（一般function写法下）中进行事件回调调用某个函数，this指向的并非想要的结果，此时把回调函数写成箭头函数的形式就可以解决问题，因为箭头函数的this就是父作用域的this，而父作用域就是method函数调用时生成的上下文作用域。从原理上的解释像vue中method函数中的代码，这个函数定义的时候是必须是一般函数。一般函数中指针this引用的是把函数当成方法调用的上下文，vue中就是实例vue把method函数作为方法调用，所以指向的是vue实例。method函数内部又有一个闭包箭头函数，这个闭包中的this指向的是method的上下文，而method的上下文是vue实例，所以就被覆盖了。闭包中的this指的就是vue实例也就是method的上下文，都是同一个。
 >- 初始化组件中的所有数据:`Object.assign(this.$data,this.$options.data())`
 >- 时间有的充裕的情况下完成一下Markdown组件，并在addArticleEditor实现富文本和Markdown的编辑功能。
+>- 通过闭包可以访问外部函数作用域中的变量。但每个函数在被调用时都会自动取得两个特殊变量： this 和 arguments。内部函数在搜索这两个变量时，只会搜索到其自己活动对象为止（找到了就不用沿着作用域链继续找了）因此永远不可能直接访问外部函数中的这两个变量。
 #### 1126commentList完善&&tuiEditor组件初步完成&&暂时完成了实时错误日志管理
 >- `@toast-ui/editor`关于Markdown包工具，组件化。
 >- icons的全局实现需要再梳理一下。
@@ -151,10 +153,22 @@ Vue.config.errorHandler = function (err, vm, info) {
 }
 ```
 #### 1129错误日志错误完善&&icon全局实现的梳理
+>- CSS:no-repeat  背景图像将仅显示一次。
+>- CSS 属性 mask 允许使用者通过遮罩或者裁切特定区域的图片的方式来隐藏一个元素的部分或者全部可见区域。
 >- 在vue-admin-element潘家成的模板对错误日志收集是异步提交到了vuex中，是在模板中作为错误报警提示，也算一种错误日志的解决方案吧。但是利用`Vue.config.errorHandler`这个钩子，模板中只是解决了前端js同步的错误，并不支持捕获异步错误，于是对于网络请求等异步逻辑的错误我只能主动将错误提交给这个钩子处理。解决方案就是对于异步错误的处理还是注册一个Vue的实例方法，来把接口catch到的err提交到这个Vue.config.errorHandler这个钩子处理，并提交到Vuex中，来实现那个小蜘蛛错误警报提示。我是受到这篇[文章](https://segmentfault.com/q/1010000012399729?sort=created)的启发，对于封装技术的提升，可能还有更加优雅的解决方案。
 >- 后续需要去修改异步的错误处理方式，加上this.$throw()
->- vue-admin-element中关于[icons](https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage)的介绍。
 >- [vm.$listeners](https://cn.vuejs.org/v2/api/#vm-listeners)在文档中解释:包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on="$listeners" 传入内部组件——在创建更高层次的组件时非常有用。[参考](https://segmentfault.com/q/1010000017556758)，假设有父组件Parent和子组件Child，那么你在Parent父组件中使用Child时，传入的所有v-on事件都可以在$listeners对象中找到，子组件Child中只需要有`v-on="$listeners"`。
+>- vue-admin-element中关于[icons](https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage)的介绍。
+>- [关于svg的3种引入方式和最优雅的解决方案，也是vue-admin-element模板使用的这种](https://juejin.cn/post/6844903998563024910)
+>- 如果想引入一个文件夹下面的所有文件，或者引入能匹配一个正则表达式的所有文件，webpack这个功能就会很有帮助!`require.context(directory, useSubdirectories, regExp)` 1directory: 要查找的文件路径; 2useSubdirectories: 是否查找子目录; 3regExp: 要匹配文件的正则。例如：`require.context('./components/', true, /\.js$/)`。[参考](https://webpack.docschina.org/guides/dependency-management/#requirecontext)
+```
+function importAll (r) {
+  r.keys().forEach(r);
+}
+//keys也是一个函数，它返回一个数组
+
+importAll(require.context('../components/', true, /\.js$/));
+```
 
 
 

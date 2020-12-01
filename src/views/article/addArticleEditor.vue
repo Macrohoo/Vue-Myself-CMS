@@ -96,7 +96,7 @@ export default {
       if (!isLt5M) {
         this.$message.error("上传banner图片大小不能超过 5MB!")
       }
-      return (isLt2M && isJPG) || (isPNG && isLt2M)
+      return (isLt5M && isJPG) || (isPNG && isLt5M)
     },
     submitArticle () {
       fetchAddArticle(this.article).then(response => {
