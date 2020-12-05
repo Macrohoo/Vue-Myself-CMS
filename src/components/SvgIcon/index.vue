@@ -14,7 +14,7 @@ export default {
   props: {
     iconClass: {
       type: String,
-      required: true
+      required: true //定义该 prop 是否是必填项
     },
     className: {
       type: String,
