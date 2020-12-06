@@ -5,6 +5,7 @@
 ![文章列表分页](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/1201-1.jpg?raw=true)
 ![文章编辑](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/1201-2.jpg?raw=true)
 ![Markdown](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/1201-3.jpg?raw=true)
+![错误警报](https://github.com/Marhooo/Marhoo-Git/blob/master/IMG%E8%B5%84%E6%BA%90/1201-4.jpg?raw=true)
 
 #### 1012 路由表&&用户登陆&&vuex内容的疏通①
 >- 所有权限通用路由表constantRouters和动态需要根据权限加载的路由表asyncRouters
@@ -170,8 +171,8 @@ function importAll (r) {
 
 importAll(require.context('../components/', true, /\.js$/));
 ```
-
-
+#### 1206修复bug
+>- 修改了userList组件中关于userinfo子组件关闭后回调事件刷新的问题。
 
 
 

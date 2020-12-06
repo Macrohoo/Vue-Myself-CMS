@@ -99,7 +99,7 @@ export default {
     },
     successCallback () {
       this.dialogVisible = false
-      this.getList()
+      this.getList({ currentPage: this.currentPage, pageSize: 10 })
     },
     handleDelete (index, row) {
       fetchDelUser({
