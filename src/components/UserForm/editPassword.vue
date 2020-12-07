@@ -94,7 +94,8 @@ export default {
               Cookies.remove("access_token")
               location.reload()
             }, 1000)
-          }).catch((err) => {
+          }).catch(err => {
+            this.$throw(err)
             this.$message({
               showClose: true,
               message: err.message,

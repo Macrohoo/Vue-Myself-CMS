@@ -151,13 +151,13 @@ export default {
         })
         this.dialogFormVisible = false
         this.getList()
-      }).catch((err) => {
+      }).catch(err => {
+        this.$throw(err)
         this.$message({
           showClose: true,
           message: err.message,
           type: "error"
-        })        
-        console.log(err)
+        })
       })
     },
     rolePermissionSubmit () {
@@ -175,13 +175,13 @@ export default {
         this.getList()
         location.reload()        
       })
-      .catch((err) => {
+      .catch(err => {
+        this.$throw(err)
         this.$message({
           showClose: true,
           message: '该角色权限分配失败!',
           type: "error"
-        })        
-        console.log(err)
+        })
       })
     },
     roleEdit (index, row) {
@@ -207,11 +207,11 @@ export default {
           })
           this.getList()
         }).catch(err =>{
+          this.$throw(err)
           this.$message({
             message: '角色删除失败!',
             type: "error"
-          })          
-          console.log(err)         
+          })      
         })
       }).catch(() => {
         this.$message({
@@ -232,13 +232,13 @@ export default {
           }
           this.tableData = response.rows
         })
-        .catch(function (error) {
+        .catch(err => {
+          this.$throw(err)
           this.$message({
             showClose: true,
             message: '获取角色权限列表失败!',
             type: "error"
-          })          
-          console.log(error)
+          })
         })
     },
     filterNode (value, data) {

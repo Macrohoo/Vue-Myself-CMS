@@ -173,6 +173,8 @@ importAll(require.context('../components/', true, /\.js$/));
 ```
 #### 1206修复bug
 >- 修改了userList组件中关于userinfo子组件关闭后回调事件刷新的问题。
+#### 1207全局异步错误
+>- 全局异步错误处理提交至vuex完成错误警报监控。
 
 
 

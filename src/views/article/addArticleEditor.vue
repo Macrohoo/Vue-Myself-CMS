@@ -107,6 +107,7 @@ export default {
         //Object.assign(this.$data,this.$options.data())
         this.$router.push({ name: '文章列表'})     
       }).catch(err => {
+        this.$throw(err)
         this.$message({
           message: err.message,
           type: "error"

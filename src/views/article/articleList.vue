@@ -65,6 +65,7 @@ export default {
           });
         })
         .catch(err => {
+          this.$throw(err)
           this.$message({
             message: err.message,
             type: "error"
@@ -91,7 +92,8 @@ export default {
           this.total = response.count;
           this.articletData = response.rows;
         })
-        .catch(error => {
+        .catch(err => {
+          this.$throw(err)
           this.$message({
             message: '文章获取失败!',
             type: "error"

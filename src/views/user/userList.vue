@@ -114,6 +114,7 @@ export default {
           pageSize: 10
         })
       }).catch(err => {
+        this.$throw(err)
         this.$message({
           message: err.message,
           type: "error"

@@ -59,6 +59,7 @@ export default {
           });
         })
         .catch(err => {
+          this.$throw(err)
           this.$message({
             message: err.message,
             type: "error"
@@ -90,7 +91,8 @@ export default {
           this.total = response.count;
           this.commentData = response.rows;
         })
-        .catch(error => {
+        .catch(err => {
+          this.$throw(err)
           this.$message({
             message: "评论列表获取失败!",
             type: "error"

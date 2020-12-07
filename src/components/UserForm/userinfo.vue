@@ -247,6 +247,7 @@ export default {
               })              
               this.visible = false;
             }).catch(err => {
+              this.$throw(err)
               this.$message({
                 message: '添加用户失败!',
                 type: "error"
@@ -261,6 +262,7 @@ export default {
               })           
               this.visible = false;
             }).catch(err => {
+              this.$throw(err)
               this.$message({
               message: err.message,
               type: "error"
