@@ -112,7 +112,7 @@
 >- handleDelete()事件重新写，增加一个MessageBox美化的confirm。原生Window.confirm() 方法显示一个具有一个可选消息和两个按钮(确定和取消)的模态对话框。
 >- 安装Typescript开发的Web富文本编辑器wangEditor：`npm i wangeditor -S`
 >- [Vue插槽](https://cn.vuejs.org/v2/guide/components-slots.html)
->- <font color=#008000 >Vue具名插槽</font>:就是子组件中的提供给父组件使用的一个占位符，用`<slot> </slot>`表示，父组件可以在这个占位符中填充任何模板代码，如 HTML、组件等，填充的内容会替换子组件的`<slot> </slot>`标签。6以后的版本中的用法是这样的：`<template v-slot:header>`// 在父组件中使用模板语法，使用v-slot绑定插槽的名字。`<slot name="header">default</slot>`// 在子组件中仍然使用name来作为插槽的标识符。
+>- <font color=#008000 >Vue具名插槽</font>:就是子组件中的提供给父组件使用的一个占位符，用`<slot> </slot>`表示，父组件可以在这个占位符中填充任何模板代码，如 HTML、组件等，填充的内容会替换子组件的`<slot> </slot>`标签。6以后的版本中的用法是这样的：`<template v-slot:header>`// 在父组件中使用模板语法，使用v-slot绑定插槽的名字。`<slot name="header"></slot>`// 在子组件中仍然使用name来作为插槽的标识符。
 >- <font color=#008000 >Vue作用域插槽</font>:有时让插槽内容能够访问子组件中才有的数据是很有用的，但是因为只有子组件可以访问到例如user数据，而我们提供的内容是在父级渲染的。为了让user数据在父级的插槽内容中可用，第一步：我们可以将user作为 <slot> 元素的一个 attribute 绑定上去，`<slot v-bind:user="user"> {{ user.lastName }} </slot>`，第二步：绑定在 <slot> 元素上的 attribute 被称为插槽 prop。现在在父级作用域中，我们可以使用带值的 v-slot 来定义我们提供的插槽 prop 的名字。`<template v-slot:default="slotProps"> {{ slotProps.user.firstName }} </template>`，在这个例子中，我们选择将包含所有插槽 prop 的对象命名为 slotProps，但你也可以使用任意你喜欢的名字。
 >- el-form中`:inline="true"`行内表单模式：每个el-form-item横排
 #### 1114VueCli3区分环境打包&&addArticleEditor页面修改&&css&&userInfo页面中头像上传的内容完善
@@ -175,6 +175,20 @@ importAll(require.context('../components/', true, /\.js$/));
 >- 修改了userList组件中关于userinfo子组件关闭后回调事件刷新的问题。
 #### 1207全局异步错误
 >- 全局异步错误处理提交至vuex完成错误警报监控。
+#### 创建账号页面添加
+>- vm.$options用于当前Vue实例的初始化选项，也可以通过这种方式定义一些变量属性，避免污染全局。
+```
+//例如：
+new Vue({
+  customOption: 'foo',
+  created: function () {
+    console.log(this.$options.customOption) // => 'foo'
+  }
+})
+```
+>- 有的时候用一个事件来抛出一个特定的值是非常有用的。例如我们可能想让 <blog-post> 组件决定它的文本要放大多少。这时可以使用 $emit 的第二个参数来提供这个值：`<button v-on:click="$emit('enlarge-text', 0.1)"> Enlarge text </button>`然后当在父级组件监听这个事件的时候，我们可以通过 $event 访问到被抛出的这个值：`<blog-post ... v-on:enlarge-text="postFontSize += $event"></blog-post>`。
+>- vue子组件的根节点样式会受到父组件的影响，应该如何比较优雅的避免这个情况？方法一：加多一层 div 有个问题，因为高度用百分比 ，必须要最近一个父元素有设置过有具体的高度值（固定的 px 或者 从更上一层一直继承下来的百分比）。那么加多一层div还需要在这个空的div上加一个in-line样式height:100%; 才可以。
+
 
 
 
