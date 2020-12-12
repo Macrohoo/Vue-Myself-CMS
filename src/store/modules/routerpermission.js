@@ -47,7 +47,7 @@ const actions = {
       const { roles } = data
       const { pageBtn_permission } = data
       const accessedRouters = asyncRouters.filter(v => {
-        if (roles.indexOf("超级管理员") >= 0) return true;
+        if (roles.indexOf("超级管理员") >= 0) return true;    //判断当时超级管理员的时候返回ture，fileter的用法返回 rue表示该v元素通过测试
         if (hasPermission(roles, pageBtn_permission, v)) {
           if (v.children && v.children.length > 0) {
             v.children = v.children.filter(child => {
