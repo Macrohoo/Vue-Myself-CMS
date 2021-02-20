@@ -132,7 +132,8 @@ module.exports = {
               }
             })
           // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
-          config.optimization.runtimeChunk('single')  //把runtime部分的代码抽离出来单独打包
+          config.optimization.runtimeChunk('single')
+          //把runtime部分的代码抽离出来单独打包  形如import('abc').then(res=>{})这种异步加载的代码。在VueCli工程中常见的异步加载路由即为runtime代码
         }
       )
   }
