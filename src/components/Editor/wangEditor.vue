@@ -114,7 +114,7 @@ export default {
       };
       this.editor.config.onchange = html => {
         this.info_ = html; // 绑定当前逐渐地值
-        this.$emit("change", this.info_); // 将内容同步到父组件中
+        this.$emit("change", this.info_); // 将内容同步到父组件中  这个’change‘是父组件中@后面紧跟的那个change
       };
       this.editor.config.historyMaxSize = 50 //还可以修改历史记录的步数为 50 步      
       // 创建富文本编辑器

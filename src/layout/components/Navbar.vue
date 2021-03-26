@@ -35,7 +35,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
+import Breadcrumb from '@/components/Breadcrumb'    //单页面顶部导航栏显示面包屑
 import Hamburger from '@/components/Hamburger'
 import EditPassword from '@/components/UserForm/editPassword'
 import UserInfo from '@/components/UserForm/userInfo'

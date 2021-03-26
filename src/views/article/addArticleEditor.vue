@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     change (val) {
-      this.article.content_html = val
+      this.article.content_html = val         //这个val就是子组件传来的this._info
       //console.log(this.article.content_html)
     },
     handlethumbnailSuccess (res, file) {
