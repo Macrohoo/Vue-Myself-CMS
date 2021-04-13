@@ -1,17 +1,17 @@
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
-import NProgress from 'nprogress' //顶部进度条控件
-import 'nprogress/nprogress.css' //nprogress样式必须引入
+import NProgress from 'nprogress' // 顶部进度条控件
+import 'nprogress/nprogress.css' // nprogress样式必须引入
 import { getToken, removeToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-import { asyncRouters } from "@/router/index";
+import { asyncRouters } from '@/router/index'
 
 NProgress.configure({ showSpinner: false }) // 配置showSpinner：进度环显示隐藏
 
 const whiteList = ['/login'] // no redirect whitelist
 
-let elTree = JSON.parse(JSON.stringify(asyncRouters)) //深拷贝原始动态路由表
+const elTree = JSON.parse(JSON.stringify(asyncRouters)) // 深拷贝原始动态路由表
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -34,23 +34,23 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else {
         try {
-          //get userinfo并放入store中
+          // get userinfo并放入store中
           store.dispatch('user/getInfo').then(res => {
             const data = {}
             if (res.role) {
-              data.roles = res.role.split(" ")
+              data.roles = res.role.split(' ')
             }
             let authorityRouter = []
             let permissionButton = []
             if (res.authorityRouter) {
-              authorityRouter = res.authorityRouter.split(',')              
+              authorityRouter = res.authorityRouter.split(',')
             }
             if (res.permissionButton) {
               permissionButton = res.permissionButton.split(',')
             }
             data.pageBtn_permission = permissionButton.concat(authorityRouter)
             store.commit('routerpermission/SET_ROLETREE', elTree)
-            store.dispatch('routerpermission/GenerateRoutes', data).then(()=>{
+            store.dispatch('routerpermission/GenerateRoutes', data).then(() => {
               router.addRoutes(store.getters.addRouters)
               next({ ...to, replace: true })
             }).catch(() => {
@@ -63,8 +63,8 @@ router.beforeEach(async(to, from, next) => {
               location.reload()
             })
           })
-          //console.log(store.getters.roleTree)
-          //next()
+          // console.log(store.getters.roleTree)
+          // next()
         } catch (error) {
           // remove token and go to login page to re-login
           Message({

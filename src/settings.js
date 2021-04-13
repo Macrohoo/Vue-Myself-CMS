@@ -13,5 +13,5 @@ module.exports = {
    * @description Whether show the logo in sidebar
    */
   sidebarLogo: false,
-  errorLog: ['production', 'development']   //array也可以
+  errorLog: ['production', 'development'] // array也可以
 }

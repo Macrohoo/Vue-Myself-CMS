@@ -2,13 +2,13 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-import NProgress from "nprogress"
+import NProgress from 'nprogress'
 import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
-  //baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  baseURL: '/api', //暂时写死，后续再调
+  // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: '/api', // 暂时写死，后续再调
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000
 })
@@ -19,13 +19,13 @@ service.interceptors.request.use(
     NProgress.start()
     if (store.getters.token) {
       config.headers.Authorization = `Bearer ${getToken()}`
-      //config.headers['Bearer '] = getToken()
+      // config.headers['Bearer '] = getToken()
     }
     return config
   },
   error => {
     // do something with request error
-    //console.log(error) // for debug
+    // console.log(error) // for debug
     return Promise.reject(error)
   }
 )
@@ -37,7 +37,7 @@ service.interceptors.response.use(
     return response.data
   },
   error => {
-    //console.log(error) // for debug
+    // console.log(error) // for debug
     Message({
       message: error.message,
       type: 'error',

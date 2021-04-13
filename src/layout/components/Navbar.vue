@@ -18,24 +18,24 @@
           </a>
           <el-dropdown-item command="userInfo">
             <span style="display:block;">个人信息</span>
-          </el-dropdown-item> 
+          </el-dropdown-item>
           <el-dropdown-item command="editPassword">
             <span style="display:block;">修改密码</span>
-          </el-dropdown-item>     
+          </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">Log Out</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <EditPassword v-if="dialogPassVisible" :dialogVisible="dialogPassVisible" @editPwdCallback="editPwdCallback"/>
-    <UserInfo v-if="dialogInfoVisible" :title="title" :dialogVisible="dialogInfoVisible" :userId="userId" @successCallback="successCallback"/>
+    <EditPassword v-if="dialogPassVisible" :dialog-visible="dialogPassVisible" @editPwdCallback="editPwdCallback" />
+    <UserInfo v-if="dialogInfoVisible" :title="title" :dialog-visible="dialogInfoVisible" :user-id="userId" @successCallback="successCallback" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'    //单页面顶部导航栏显示面包屑
+import Breadcrumb from '@/components/Breadcrumb' // 单页面顶部导航栏显示面包屑
 import Hamburger from '@/components/Hamburger'
 import EditPassword from '@/components/UserForm/editPassword'
 import UserInfo from '@/components/UserForm/userInfo'
@@ -49,12 +49,12 @@ export default {
     UserInfo,
     ErrorLog
   },
-  data () {
+  data() {
     return {
       dialogInfoVisible: false,
       dialogPassVisible: false,
-      title: "",
-      userId: ""
+      title: '',
+      userId: ''
     }
   },
   computed: {
@@ -70,24 +70,24 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      location.reload()  //动态删除路由权限表
+      location.reload() // 动态删除路由权限表
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
-    handleCommand (command) {
-      if (command === "editPassword") {
+    handleCommand(command) {
+      if (command === 'editPassword') {
         this.dialogPassVisible = true
-      } else if (command === "userInfo") {
+      } else if (command === 'userInfo') {
         this.dialogInfoVisible = true
-        this.title = "个人信息"
+        this.title = '个人信息'
         this.userId = this.$store.getters.uid
       }
     },
-    editPwdCallback () {
+    editPwdCallback() {
       this.dialogPassVisible = false
     },
-    successCallback () {
+    successCallback() {
       this.dialogInfoVisible = false
-    }   
+    }
   }
 }
 </script>

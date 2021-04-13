@@ -7,55 +7,56 @@
     @close="closeCallback"
   >
     <el-form
+      ref="registerForm"
       :model="registerForm"
       status-icon
       :rules="rules"
-      ref="registerForm"
       label-width="100px"
       class="demo-ruleForm"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="registerForm.username" autocomplete="off"></el-input>
+        <el-input v-model="registerForm.username" autocomplete="off" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input
-          type="password"
           v-model="registerForm.password"
+          type="password"
           autocomplete="off"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="确认密码" prop="checkPass">
         <el-input
-          type="password"
           v-model="registerForm.checkPass"
+          type="password"
           autocomplete="off"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="姓名" prop="name">
-        <el-input v-model="registerForm.name" autocomplete="off"></el-input>
+        <el-input v-model="registerForm.name" autocomplete="off" />
       </el-form-item>
       <el-form-item label="年龄" prop="age">
-        <el-input v-model="registerForm.age" autocomplete="off"></el-input>
+        <el-input v-model="registerForm.age" autocomplete="off" />
       </el-form-item>
       <el-form-item label="手机号" prop="mobile_phone">
         <el-input
           v-model="registerForm.mobile_phone"
           autocomplete="off"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('registerForm')"
-          >注 册</el-button
-        >
+        <el-button
+          type="primary"
+          @click="submitForm('registerForm')"
+        >注 册</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
 </template>
 
 <script>
-import { fetchRegister } from "@/api/apis/user";
+import { fetchRegister } from '@/api/apis/user'
 export default {
-  name: "registerUser",
+  name: 'RegisterUser',
   props: {
     dialogVisible: {
       type: Boolean,
@@ -64,52 +65,52 @@ export default {
   },
   data() {
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.registerForm.checkPass !== "") {
-          this.$refs.registerForm.validateField("checkPass");
+        if (this.registerForm.checkPass !== '') {
+          this.$refs.registerForm.validateField('checkPass')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.registerForm.password) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       visible: this.dialogVisible,
       registerForm: {
-        username: "",
-        password: "",
-        checkPass: "",
-        role_id: "4a2454a024a911eba5d24967bddcd6f8",
-        age: "",
-        name: "",
-        mobile_phone: ""
+        username: '',
+        password: '',
+        checkPass: '',
+        role_id: '4a2454a024a911eba5d24967bddcd6f8',
+        age: '',
+        name: '',
+        mobile_phone: ''
       },
       rules: {
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 18, message: "长度在 3 到 18 个字符", trigger: "blur" }
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 18, message: '长度在 3 到 18 个字符', trigger: 'blur' }
         ],
         password: [
-          { required: true, validator: validatePass, trigger: "blur" }
+          { required: true, validator: validatePass, trigger: 'blur' }
         ],
         checkPass: [
-          { required: true, validator: validatePass2, trigger: "blur" }
+          { required: true, validator: validatePass2, trigger: 'blur' }
         ]
       }
-    };
+    }
   },
   methods: {
     closeCallback() {
-      this.$emit("successCallback");
+      this.$emit('successCallback')
     },
     submitForm(Form) {
       this.$refs[Form].validate(valid => {
@@ -117,28 +118,28 @@ export default {
           fetchRegister(this.registerForm)
             .then(res => {
               this.$message({
-                type: "success",
+                type: 'success',
                 message: res.message
-              });
-              this.visible = false;
+              })
+              this.visible = false
             })
             .catch(err => {
               this.$message({
-                message: "添加用户失败!",
-                type: "error"
-              });
-            });
+                message: '添加用户失败!',
+                type: 'error'
+              })
+            })
         } else {
           this.$message({
-            message: "注册失败!请按规定格式输入信息！",
-            type: "error"
-          });
-          return false;
+            message: '注册失败!请按规定格式输入信息！',
+            type: 'error'
+          })
+          return false
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>

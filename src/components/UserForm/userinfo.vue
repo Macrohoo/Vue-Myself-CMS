@@ -7,29 +7,29 @@
     @close="closeCallback"
   >
     <el-form
+      ref="ruleForm2"
       :model="ruleForm2"
       status-icon
       :rules="rules"
-      ref="ruleForm2"
       label-width="100px"
       class="demo-ruleForm"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="ruleForm2.username" autocomplete="off"></el-input>
+        <el-input v-model="ruleForm2.username" autocomplete="off" />
       </el-form-item>
       <el-form-item v-if="!this.userId" label="密码" prop="password">
         <el-input
-          type="password"
           v-model="ruleForm2.password"
+          type="password"
           autocomplete="off"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item v-if="!this.userId" label="确认密码" prop="checkPass">
         <el-input
-          type="password"
           v-model="ruleForm2.checkPass"
+          type="password"
           autocomplete="off"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="角色">
         <el-select
@@ -43,8 +43,7 @@
             :key="item.id"
             :label="item.name"
             :value="item.id"
-          >
-          </el-option>
+          />
         </el-select>
         <el-select v-else v-model="ruleForm2.role_id" placeholder="请选择等级">
           <el-option
@@ -53,12 +52,11 @@
             :label="item.name"
             :value="item.id"
             :disabled="item.disabled"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="姓名" prop="name">
-        <el-input v-model="ruleForm2.name" autocomplete="off"></el-input>
+        <el-input v-model="ruleForm2.name" autocomplete="off" />
       </el-form-item>
       <el-form-item label="性别">
         <el-radio-group v-model="ruleForm2.sex">
@@ -67,16 +65,16 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="年龄" prop="age">
-        <el-input v-model="ruleForm2.age" autocomplete="off"></el-input>
+        <el-input v-model="ruleForm2.age" autocomplete="off" />
       </el-form-item>
       <el-form-item label="手机号" prop="mobile_phone">
         <el-input
           v-model="ruleForm2.mobile_phone"
           autocomplete="off"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="是否启用">
-        <el-switch v-model="ruleForm2.status"></el-switch>
+        <el-switch v-model="ruleForm2.status" />
       </el-form-item>
       <el-form-item label="头像上传">
         <el-upload
@@ -86,8 +84,8 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="ruleForm2.avatar" :src="ruleForm2.avatar" class="avatar" />          
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <img v-if="ruleForm2.avatar" :src="ruleForm2.avatar" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </el-form-item>
       <el-form-item>
@@ -104,15 +102,15 @@ import {
   fetchGetUserInfoId,
   fetchRegister,
   fetchEditUser
-} from "@/api/apis/user";
-import { fetchGetRoleList } from "@/api/apis/role";
+} from '@/api/apis/user'
+import { fetchGetRoleList } from '@/api/apis/role'
 
 export default {
-  name: "userInfo",
+  name: 'UserInfo',
   props: {
     title: {
       type: String,
-      default: "账号信息"
+      default: '账号信息'
     },
     dialogVisible: {
       type: Boolean,
@@ -120,123 +118,124 @@ export default {
     },
     userId: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.ruleForm2.checkPass !== "") {
-          this.$refs.ruleForm2.validateField("checkPass");
+        if (this.ruleForm2.checkPass !== '') {
+          this.$refs.ruleForm2.validateField('checkPass')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm2.password) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       roleName: false,
-      roleData: "",
+      roleData: '',
       visible: this.dialogVisible,
       ruleForm2: {
-        mobile_phone: "",
-        username: "",
-        password: "",
-        checkPass: "",
-        role_id: "",
+        mobile_phone: '',
+        username: '',
+        password: '',
+        checkPass: '',
+        role_id: '',
         status: true,
-        sex: "1",
+        sex: '1',
         age: 0,
-        name: "",
-        avatar: ""
+        name: '',
+        avatar: ''
       },
       rules: {
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 18, message: "长度在 3 到 18 个字符", trigger: "blur" }
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 18, message: '长度在 3 到 18 个字符', trigger: 'blur' }
         ],
         password: [
-          { required: true, validator: validatePass, trigger: "blur" }
+          { required: true, validator: validatePass, trigger: 'blur' }
         ],
         checkPass: [
-          { required: true, validator: validatePass2, trigger: "blur" }
+          { required: true, validator: validatePass2, trigger: 'blur' }
         ],
         role_id: [
-          { required: true, message: "请选择用户角色", trigger: "change" }
+          { required: true, message: '请选择用户角色', trigger: 'change' }
         ]
       }
-    };
+    }
+  },
+  mounted() {
+    this.getList()
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      this.ruleForm2.avatar = res.data[0];
+      this.ruleForm2.avatar = res.data[0]
     },
     closeCallback() {
-      this.$emit("successCallback");
+      this.$emit('successCallback')
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isPNG = file.type === "image/png";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!(isJPG || isPNG)) {
-        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return (isLt2M && isJPG) || (isPNG && isLt2M);
+      return (isLt2M && isJPG) || (isPNG && isLt2M)
     },
     getList() {
       if (!this.userId) {
         fetchGetRoleList().then(res => {
-          //console.log(res);
-          this.roleData = res.rows;
+          // console.log(res);
+          this.roleData = res.rows
           for (let i = 0; i < this.roleData.length; i++) {
             if (
-              this.$store.getters.role === "超级管理员" &&
+              this.$store.getters.role === '超级管理员' &&
               this.$store.getters.uid !== this.userId
-            )
-              this.roleName = false;
+            ) { this.roleName = false }
           }
-        });
+        })
       } else {
         Promise.all([
           fetchGetRoleList(),
           fetchGetUserInfoId({ id: this.userId })
         ]).then(([roleListResponse, userInfoResponse]) => {
-          this.roleData = roleListResponse.rows;
-          if (userInfoResponse.status === "1") {
-            userInfoResponse.status = true;
+          this.roleData = roleListResponse.rows
+          if (userInfoResponse.status === '1') {
+            userInfoResponse.status = true
           } else {
-            userInfoResponse.status = false;
+            userInfoResponse.status = false
           }
-          this.ruleForm2 = userInfoResponse;
-          this.roleName = true;
+          this.ruleForm2 = userInfoResponse
+          this.roleName = true
           for (let i = 0; i < this.roleData.length; i++) {
             if (
-              this.$store.getters.role === "超级管理员" &&
+              this.$store.getters.role === '超级管理员' &&
               this.$store.getters.uid !== this.userId
-            )
-              this.roleName = false;
+            ) { this.roleName = false }
           }
-        });
+        })
       }
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          const newData = {};
-          for (let item in this.ruleForm2) {
+          const newData = {}
+          for (const item in this.ruleForm2) {
             newData[item] = this.ruleForm2[item]
           }
           if (!this.userId) {
@@ -244,48 +243,45 @@ export default {
               this.$message({
                 type: 'success',
                 message: res.message
-              })              
-              this.visible = false;
+              })
+              this.visible = false
             }).catch(err => {
               this.$throw(err)
               this.$message({
                 message: '添加用户失败!',
-                type: "error"
-              })               
-            });
+                type: 'error'
+              })
+            })
           } else {
             newData.id = this.userId
             fetchEditUser(newData).then(res => {
               this.$message({
                 type: 'success',
                 message: res.message
-              })           
-              this.visible = false;
+              })
+              this.visible = false
             }).catch(err => {
               this.$throw(err)
               this.$message({
-              message: err.message,
-              type: "error"
-              })             
-            });
+                message: err.message,
+                type: 'error'
+              })
+            })
           }
         } else {
           this.$message({
             message: '提交失败!',
-            type: "error"
+            type: 'error'
           })
-          return false;
+          return false
         }
-      });
+      })
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     }
-  },
-  mounted() {
-    this.getList();
   }
-};
+}
 </script>
 <style scoped>
 .demo-ruleForm {

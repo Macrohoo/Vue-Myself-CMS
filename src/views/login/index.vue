@@ -1,8 +1,14 @@
 <template>
   <div style="height:100%">
     <div class="login-container">
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+      <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+        auto-complete="on"
+        label-position="left"
+      >
         <div class="title-container">
           <h3 class="title">Blog-Login[CMS]</h3>
         </div>
@@ -42,25 +48,37 @@
           </span>
         </el-form-item>
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;" @click="handleLogin">Login</el-button>
-        <el-button  type="success" style="width:100%;margin:10px 0px;" @click="register">Register</el-button>
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:100%;margin-bottom:10px;"
+          @click="handleLogin"
+        >Login</el-button>
+        <el-button
+          type="success"
+          style="width:100%;margin:10px 0px;"
+          @click="register"
+        >Register</el-button>
 
         <div class="tips">
           <span style="margin-right:20px;">username: 自行注册</span>
           <span> password: 自行注册</span>
         </div>
-
       </el-form>
     </div>
-    <RegisterUser v-if="dialogregisterVisible" :dialogVisible="dialogregisterVisible" @successCallback="successCallback"/>
+    <RegisterUser
+      v-if="dialogregisterVisible"
+      :dialog-visible="dialogregisterVisible"
+      @successCallback="successCallback"
+    />
   </div>
 </template>
 
 <script>
 import RegisterUser from '@/components/UserForm/registerUser'
 export default {
-  components: { RegisterUser },
   name: 'Login',
+  components: { RegisterUser },
   data() {
     const validatePassword = (rule, value, callback) => {
       if (value.length < 3) {
@@ -106,23 +124,26 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.$message({
-              showClose: false,
-              message: '登录成功!',
-              type: 'success'
+          this.$store
+            .dispatch('user/login', this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || '/' })
+              this.$message({
+                showClose: false,
+                message: '登录成功!',
+                type: 'success'
+              })
+              this.loading = false
             })
-            this.loading = false
-          }).catch(error => {
-            this.$message({
-              showClose: true,
-              message: '用户名或密码错误！',
-              type: 'error'
+            .catch(error => {
+              this.$message({
+                showClose: true,
+                message: '用户名或密码错误！',
+                type: 'error'
+              })
+              this.loading = false
+              console.log(Promise.reject(error))
             })
-            this.loading = false
-            console.log(Promise.reject(error))
-          })
         } else {
           console.log('error submit!!')
           return false
@@ -132,9 +153,9 @@ export default {
     register() {
       this.dialogregisterVisible = true
     },
-    successCallback () {
+    successCallback() {
       this.dialogregisterVisible = false
-    } 
+    }
   }
 }
 </script>
@@ -143,8 +164,8 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 //-webkit-mask：蒙版，用于将固定形状设置透明度，形状可以是一个div，也可以是一张图片
@@ -190,9 +211,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;
