@@ -118,8 +118,7 @@ export default {
           fetchRegister(this.registerForm)
             .then(res => {
               this.$message({
-                type: 'success',
-                message: res.message
+                type: 'success'
               })
               this.visible = false
             })
