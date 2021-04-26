@@ -34,9 +34,6 @@
       <el-form-item label="姓名" prop="name">
         <el-input v-model="registerForm.name" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="年龄" prop="age">
-        <el-input v-model="registerForm.age" autocomplete="off" />
-      </el-form-item>
       <el-form-item label="手机号" prop="mobile_phone">
         <el-input
           v-model="registerForm.mobile_phone"
@@ -55,6 +52,9 @@
 
 <script>
 import { fetchRegister } from '@/api/apis/user'
+import { fetchGetRoleList } from '@/api/apis/role'
+
+
 export default {
   name: 'RegisterUser',
   props: {
@@ -89,8 +89,7 @@ export default {
         username: '',
         password: '',
         checkPass: '',
-        role_id: '4a2454a024a911eba5d24967bddcd6f8',
-        age: '',
+        role_id: '',
         name: '',
         mobile_phone: ''
       },
@@ -115,11 +114,20 @@ export default {
     submitForm(Form) {
       this.$refs[Form].validate(valid => {
         if (valid) {
+          console.log(this.registerForm)
           fetchRegister(this.registerForm)
             .then(res => {
-              this.$message({
-                type: 'success'
-              })
+              if (res.code == 10000) {
+                this.$message({
+                  message: '注册失败！请联系管理员添加游客角色!',
+                  type: 'error'
+                })
+              } else {
+                this.$message({
+                  type: 'success',
+                  message: '注册成功!',
+                })
+              }
               this.visible = false
             })
             .catch(err => {
@@ -136,7 +144,25 @@ export default {
           return false
         }
       })
+    },
+    getTouristRoleId() {
+      fetchGetRoleList().then(res => {
+        const arr = res.rows
+        arr.forEach(element => {
+          if (element.name === "游客") {
+            this.registerForm.role_id = element.id
+          }
+        });
+      }).catch(err => {
+        this.$message({
+          message: '服务器错误！请关闭注册界面！',
+          type: 'error'
+        })
+      })
     }
+  },
+  created() {
+    this.getTouristRoleId()
   }
 }
 </script>

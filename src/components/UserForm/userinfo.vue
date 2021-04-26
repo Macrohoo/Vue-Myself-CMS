@@ -79,7 +79,7 @@
       <el-form-item label="头像上传">
         <el-upload
           class="avatar-uploader"
-          action="/api/editor/uploadImg"
+          action="http://120.55.90.168:7001/editor/uploadImg"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"

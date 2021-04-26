@@ -138,7 +138,7 @@ export default {
             .catch(error => {
               this.$message({
                 showClose: true,
-                message: '用户名或密码错误！',
+                message: '用户不存在或用户名密码错误!',
                 type: 'error'
               })
               this.loading = false

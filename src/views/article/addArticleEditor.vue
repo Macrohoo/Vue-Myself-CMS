@@ -16,7 +16,7 @@
       <el-form-item label="缩略图上传" label-width="95px">
         <el-upload
           class="avatar-uploader"
-          action="/api/editor/uploadImg"
+          action="http://120.55.90.168:7001/editor/uploadImg"
           :show-file-list="false"
           :on-success="handlethumbnailSuccess"
           :before-upload="beforethumbnailUpload"
@@ -28,7 +28,7 @@
       <el-form-item label="banner图上传" label-width="110px">
         <el-upload
           class="avatar-uploader"
-          action="/api/editor/uploadImg"
+          action="http://120.55.90.168:7001/editor/uploadImg"
           :show-file-list="false"
           :on-success="handleBannerSuccess"
           :before-upload="beforeBannerUpload"

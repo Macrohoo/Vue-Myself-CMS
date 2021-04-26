@@ -108,7 +108,12 @@ export default {
       tableData: [],
       dialogFormVisible: false,
       dialogFormVisible2: false,
-      form: {},
+      form: {
+        name: '',
+        describe: '',
+        id: '',
+        status: true
+      },
       formLabelWidth: '120px',
       defaultProps: {
         children: 'children',
@@ -137,6 +142,7 @@ export default {
       this.form.name = row.name
       this.form.describe = row.describe
       this.form.status = row.status === '启用'
+      this.form.id = row.id
       this.dialogFormVisible = true
     },
     addRole() {

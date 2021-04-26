@@ -9,7 +9,7 @@ import router from '@/router'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   //baseURL: '/api', // 暂时写死，后续再调
-  //withCredentials: true, // send cookies when cross-domain requests
+  withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000
 })
 

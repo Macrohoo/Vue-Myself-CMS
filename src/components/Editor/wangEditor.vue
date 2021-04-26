@@ -56,7 +56,7 @@ export default {
     seteditor() {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)
       this.editor.config.uploadImgShowBase64 = false // base 64 存储图片
-      this.editor.config.uploadImgServer = '/api/editor/uploadImg' // 配置服务器端地址
+      this.editor.config.uploadImgServer = 'http://120.55.90.168:7001/editor/uploadImg' // 配置服务器端地址
       this.editor.config.uploadImgHeaders = {} // 自定义 header
       this.editor.config.uploadFileName = 'file' // 后端接受上传文件的参数名
       this.editor.config.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
