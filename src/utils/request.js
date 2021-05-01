@@ -1,14 +1,12 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import store from '@/store'
-import { getToken } from '@/utils/auth'
-import NProgress from 'nprogress'
+import { getToken, removeToken, setToken } from '@/utils/auth'
 import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  //baseURL: '/api', // 暂时写死，后续再调
+  //baseURL: '/api',
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000
 })
@@ -16,8 +14,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    NProgress.start()
-    if (store.getters.token) {
+    if (getToken()) {
       config.headers.Authorization = `Bearer ${getToken()}`
       // config.headers['Bearer '] = getToken()
     }
@@ -32,24 +29,36 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  response => {
-    NProgress.done()
-    return response.data
+  ({ status, data, code }) => {
+    if (status == 200 && code == 11000) {
+      //refreshtoken核心步骤
+      setToken(data.access_token)
+      return false
+    } else if (status == 200 && code == 10020) {
+      Message({
+        message: data.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    } else {
+      return Promise.resolve(data);
+    }
   },
   error => {
-    // console.log(error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    if (error.response.status == 401) {
-      store.dispatch('user/resetToken')
+    //如果不是服务器内部错误，error响应数据会被赋值给response字段
+    if (error.response.status == 401 && error.response.data.code == 10000) {
+      Message({
+        message: error.response.data.data.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      removeToken()
       router.replace({
         path: '/login'
       })
+    } else {
+      return Promise.reject(error)
     }
-    return Promise.reject(error.response.data)
   }
 )
 

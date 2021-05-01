@@ -88,6 +88,7 @@ export default {
     getList(postdata) {
       fetchArticleList(postdata)
         .then(response => {
+          //console.log(response)
           for (let i = 0; i < response.rows.length; i++) {
             response.rows[i].created_at = this.$getDateDiff(response.rows[i].created_at)
             if (response.rows[i].title.length > 22) {
