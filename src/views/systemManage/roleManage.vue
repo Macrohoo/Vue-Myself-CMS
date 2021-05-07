@@ -225,11 +225,13 @@ export default {
         .then(() => {
           fetchDelRole({ id: row.id })
             .then(response => {
-              this.$message({
-                type: 'success',
-                message: response.message
-              })
-              this.getList()
+              if (response) {
+                this.$message({
+                  type: 'success',
+                  message: response.message
+                })
+                this.getList()
+              }
             })
             .catch(err => {
               this.$throw(err)

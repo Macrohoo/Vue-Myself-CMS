@@ -29,21 +29,26 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  ({ status, data, code }) => {
-    if (status == 200 && code == 11000) {
+  ({ status, data }) => {
+    if (status == 200 && data.code == 11000) {
       //refreshtoken核心步骤
       setToken(data.access_token)
       return false
-    } else if (status == 200 && code == 10020) {
+    } else if (status == 200 && data.code == 10020) {
       Message({
-        message: data.message,
+        message: data.data.message,
         type: 'error',
         duration: 5 * 1000
       })
+      return false
     } else {
       return Promise.resolve(data);
     }
   },
+  // (response) => {
+  //   console.log(response)
+  //   return Promise.resolve(response.data)
+  // },
   error => {
     //如果不是服务器内部错误，error响应数据会被赋值给response字段
     if (error.response.status == 401 && error.response.data.code == 10000) {
@@ -57,7 +62,7 @@ service.interceptors.response.use(
         path: '/login'
       })
     } else {
-      return Promise.reject(error)
+      return Promise.reject(error)  //如果是服务器内部错误，直接异步抛出，在组件中会catch
     }
   }
 )

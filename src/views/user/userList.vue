@@ -100,14 +100,16 @@ export default {
         id: row.id
       })
         .then(response => {
-          this.$message({
-            message: response.message,
-            type: 'success'
-          })
-          this.getList({
-            currentPage: this.currentPage,
-            pageSize: 10
-          })
+          if (response) {
+            this.$message({
+              message: response.message,
+              type: 'success'
+            })
+            this.getList({
+              currentPage: this.currentPage,
+              pageSize: 10
+            })
+          }
         })
         .catch(err => {
           this.$throw(err)
