@@ -67,7 +67,7 @@ export default {
     return {
       total: 0,
       currentPage: 1,
-      sort: null,
+      //sort: null,
       userListData: [],
       dialogVisible: false,
       title: '',

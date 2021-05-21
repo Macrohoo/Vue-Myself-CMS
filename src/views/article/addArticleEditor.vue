@@ -5,7 +5,7 @@
         <el-input v-model="article.title" class="title" placeholder="文章标题" />
       </el-form-item>
       <el-form-item label="标签">
-        <el-input v-model="article.sort" class="inline-input" placeholder="请输入内容" />
+        <el-input v-model="article.describe" class="inline-input" placeholder="请输入内容" />
       </el-form-item>
       <el-form-item label="是否置顶">
         <el-switch v-model="article.top" />
@@ -53,7 +53,7 @@ export default {
       article: {
         id: '',
         title: '',
-        sort: '',
+        describe: '',
         top: false,
         content_html: '',
         thumbnail: '',

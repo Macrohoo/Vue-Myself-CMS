@@ -33,7 +33,7 @@ service.interceptors.response.use(
     if (status == 200 && data.code == 11000) {
       //refreshtoken核心步骤
       setToken(data.access_token)
-      return false
+      location.reload()
     } else if (status == 200 && data.code == 10020) {
       Message({
         message: data.data.message,
