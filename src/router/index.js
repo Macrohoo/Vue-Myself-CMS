@@ -72,6 +72,12 @@ export const constantRoutes = [
         name: 'wangEditor',
         component: wangEditor,
         meta: { title: 'wangEditor', icon: 'el-icon-s-help' }
+      },
+      {
+        path: 'articleLabel',
+        name: 'articleLabel',
+        component: () => import('@/components/Article/articleLabel'),
+        meta: { title: 'articleLabel', icon: 'el-icon-s-help' }
       }
     ]
   },

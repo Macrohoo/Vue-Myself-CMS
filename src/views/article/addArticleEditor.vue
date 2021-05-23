@@ -4,8 +4,11 @@
       <el-form-item label="文章标题">
         <el-input v-model="article.title" class="title" placeholder="文章标题" />
       </el-form-item>
-      <el-form-item label="标签">
+      <el-form-item label="引言">
         <el-input v-model="article.describe" class="inline-input" placeholder="请输入内容" />
+      </el-form-item>
+      <el-form-item label="标签">
+        <ArticleLabel @translabel="translabel"/>
       </el-form-item>
       <el-form-item label="是否置顶">
         <el-switch v-model="article.top" />
@@ -45,15 +48,17 @@
 <script>
 import { fetchAddArticle, fetchGetArticle } from '@/api/apis/article'
 import WangEditor from '@/components/Editor/wangEditor.vue'
+import ArticleLabel from '@/components/Article/articleLabel.vue'
 export default {
   name: 'AddArticle',
-  components: { WangEditor },
+  components: { WangEditor, ArticleLabel },
   data() {
     return {
       article: {
         id: '',
         title: '',
         describe: '',
+        article_label: '',
         top: false,
         content_html: '',
         thumbnail: '',
@@ -75,6 +80,9 @@ export default {
     }
   },
   methods: {
+    translabel(val) {
+      this.article.article_label = val
+    },
     change(val) {
       this.article.content_html = val // 这个val就是子组件传来的this._info
       // console.log(this.article.content_html)
@@ -137,7 +145,11 @@ export default {
   }
 
   .title {
-    width: 900px;
+    width: 400px;
+  }
+
+  .inline-input {
+    width: 400px
   }
 
   .subBtn {
