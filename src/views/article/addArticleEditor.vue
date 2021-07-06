@@ -8,7 +8,7 @@
         <el-input v-model="article.describe" class="inline-input" placeholder="请输入内容" />
       </el-form-item>
       <el-form-item label="标签">
-        <ArticleLabel @translabel="translabel"/>
+        <ArticleLabel @translabel="translabel" />
       </el-form-item>
       <el-form-item label="是否置顶">
         <el-switch v-model="article.top" />
@@ -19,11 +19,12 @@
       <el-form-item label="缩略图上传" label-width="95px">
         <el-upload
           class="avatar-uploader"
-          action="http://120.55.90.168:7001/editor/uploadImg"
+          action="http://146.56.251.74:7001/editor/uploadImg"
           :show-file-list="false"
           :on-success="handlethumbnailSuccess"
           :before-upload="beforethumbnailUpload"
         >
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2MB!</div>
           <img v-if="article.thumbnail" :src="article.thumbnail" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
@@ -31,11 +32,12 @@
       <el-form-item label="banner图上传" label-width="110px">
         <el-upload
           class="avatar-uploader"
-          action="http://120.55.90.168:7001/editor/uploadImg"
+          action="http://146.56.251.74:7001/editor/uploadImg"
           :show-file-list="false"
           :on-success="handleBannerSuccess"
           :before-upload="beforeBannerUpload"
         >
+          <div slot="tip" class="el-upload__tip">此图功能未开发，暂可不必上传!</div>
           <img v-if="article.banner" :src="article.banner" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
@@ -49,6 +51,7 @@
 import { fetchAddArticle, fetchGetArticle } from '@/api/apis/article'
 import WangEditor from '@/components/Editor/wangEditor.vue'
 import ArticleLabel from '@/components/Article/articleLabel.vue'
+
 export default {
   name: 'AddArticle',
   components: { WangEditor, ArticleLabel },
@@ -65,7 +68,7 @@ export default {
         banner: '',
         value: '' // 这个值是根据文章二次编辑时的富文本内容传入的
       },
-      isClear: false // isClear用在发布文章后，清空富文本内容
+      isClear: false, // isClear用在发布文章后，清空富文本内容
     }
   },
   mounted() {
@@ -120,20 +123,26 @@ export default {
       return (isLt5M && isJPG) || (isPNG && isLt5M)
     },
     submitArticle() {
-      fetchAddArticle(this.article).then(response => {
+      if(typeof(this.article.article_label) !== 'object') {
         this.$message({
-          type: 'success',
-          message: response.message
-        })
-        // Object.assign(this.$data,this.$options.data())
-        this.$router.push({ name: '文章列表' })
-      }).catch(err => {
-        this.$throw(err)
-        this.$message({
-          message: err.message,
+          message: '文章标签必填!',
           type: 'error'
         })
-      })
+      } else {
+        fetchAddArticle(this.article).then(response => {
+          if(response) {
+            this.$message({
+              type: 'success',
+              message: response.message
+            })
+          }
+          // Object.assign(this.$data,this.$options.data())
+          this.$router.push({ name: '文章列表' })
+        }).catch(err => {
+          this.$throw(err)
+        })
+      }
+
     }
   }
 }

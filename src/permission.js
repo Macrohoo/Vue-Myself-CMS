@@ -53,14 +53,6 @@ router.beforeEach(async(to, from, next) => {
             store.dispatch('routerpermission/GenerateRoutes', data).then(() => {
               router.addRoutes(store.getters.addRouters)
               next({ ...to, replace: true })
-            }).catch(() => {
-              Message({
-                message: '令牌已过期，权限生成失败！',
-                type: 'error',
-                duration: 5 * 1000
-              })
-              removeToken()
-              location.reload()
             })
           })
           // console.log(store.getters.roleTree)

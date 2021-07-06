@@ -14,6 +14,20 @@
       label-width="100px"
       class="demo-ruleForm"
     >
+      <el-form-item label="角色">
+        <el-select
+          v-model="registerForm.role_id"
+          placeholder="请选择角色"
+        >
+          <el-option
+            v-for="item in roleData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+            :disabled="item.disabled"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="用户名" prop="username">
         <el-input v-model="registerForm.username" autocomplete="off" />
       </el-form-item>
@@ -85,6 +99,7 @@ export default {
     }
     return {
       visible: this.dialogVisible,
+      roleData: [],
       registerForm: {
         username: '',
         password: '',
@@ -96,13 +111,15 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 18, message: '长度在 3 到 18 个字符', trigger: 'blur' }
+          { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
         ],
         password: [
-          { required: true, validator: validatePass, trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'blur' },
+          { min: 6, max: 18, message: '密码长度在 6 到 18 个字符', trigger: 'blur' }
         ],
         checkPass: [
-          { required: true, validator: validatePass2, trigger: 'blur' }
+          { required: true, validator: validatePass2, trigger: 'blur' },
+          { min: 6, max: 18, message: '密码长度在 6 到 18 个字符', trigger: 'blur' }
         ]
       }
     }
@@ -113,50 +130,46 @@ export default {
     },
     submitForm(Form) {
       this.$refs[Form].validate(valid => {
-        if (valid) {
-          console.log(this.registerForm)
-          fetchRegister(this.registerForm)
-            .then(res => {
-              if (res.code == 10000) {
-                this.$message({
-                  message: '注册失败！请联系管理员添加游客角色!',
-                  type: 'error'
-                })
-              } else {
-                this.$message({
-                  type: 'success',
-                  message: '注册成功!',
-                })
-              }
-              this.visible = false
-            })
-            .catch(err => {
-              this.$message({
-                message: '添加用户失败!',
-                type: 'error'
+        if(this.registerForm.role_id.length > 0) {
+          if (valid) {
+            fetchRegister(this.registerForm)
+              .then(res => {
+                if(res) {
+                  this.$message({
+                    type: 'success',
+                    message: res.message
+                  })
+                }
+                this.visible = false
               })
+              .catch(err => {
+                this.$throw(err)
+              })
+          } else {
+            this.$message({
+              message: '请按规定格式输入信息！',
+              type: 'error'
             })
+            return false
+          }
         } else {
           this.$message({
-            message: '注册失败!请按规定格式输入信息！',
+            message: '请选择注册角色!',
             type: 'error'
           })
-          return false
         }
       })
     },
     getTouristRoleId() {
       fetchGetRoleList().then(res => {
-        const arr = res.rows
+        const arr = res.data.rows
         arr.forEach(element => {
-          if (element.name === "游客") {
-            this.registerForm.role_id = element.id
+          if(element.name === '管理员') {
+            element.disabled = true
+            this.roleData.push(element)
+          } else {
+            this.roleData.push(element)
           }
-        });
-      }).catch(err => {
-        this.$message({
-          message: '服务器错误！请关闭注册界面！',
-          type: 'error'
         })
       })
     }

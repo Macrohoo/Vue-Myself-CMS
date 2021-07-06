@@ -26,21 +26,21 @@ export default {
   },
   methods: {
     handleChange() {
-      console.log(this.value);
       this.$emit("translabel", this.value)
     },
     handleOptions(old1, old2) {
-      old1.forEach((element) => {
+      old1.data.forEach((element) => {
         this.options.push({
           value: element.academic_name,
           label: element.academic_name,
           id: element.id,
           children: [],
+          disabled: true
         });
       });
       this.options.forEach((element) => {
         const attrs = element.id;
-        old2.forEach((element2) => {
+        old2.data.forEach((element2) => {
           if (attrs == element2.field_id) {
             element.children.push({
               value: element2.label_name,
@@ -55,7 +55,6 @@ export default {
     const old1 = await fetchGetAcademicField();
     const old2 = await fetchGetArticleLabel();
     this.handleOptions(old1, old2);
-    console.log(this.options);
   },
 };
 </script>

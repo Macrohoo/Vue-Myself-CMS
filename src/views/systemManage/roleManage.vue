@@ -164,46 +164,40 @@ export default {
       }
       fetchAddRole(this.form)
         .then(res => {
-          this.$message({
-            showClose: true,
-            message: res.message,
-            type: 'success'
-          })
+          if(res) {
+            this.$message({
+              type: 'success',
+              message: res.message
+            })
+          }
           this.dialogFormVisible = false
           this.getList()
         })
         .catch(err => {
           this.$throw(err)
-          this.$message({
-            showClose: true,
-            message: err.message,
-            type: 'error'
-          })
         })
     },
     rolePermissionSubmit() {
       const rolePermissionData = {
         selectPermission: this.$refs.permission.getCheckedKeys(),
-        rid: this.selectRoleId
+        id: this.selectRoleId
       }
       fetchRolePermissions(rolePermissionData)
         .then(res => {
-          this.$message({
-            showClose: true,
-            message: res.message,
-            type: 'success'
-          })
-          this.dialogFormVisible2 = false
-          this.getList()
-          location.reload()
+          if(res) {
+            this.$message({
+              type: 'success',
+              message: res.message
+            })
+            this.dialogFormVisible2 = false
+            this.getList()
+            location.reload()
+          } else {
+            this.dialogFormVisible2 = false
+          }
         })
         .catch(err => {
           this.$throw(err)
-          this.$message({
-            showClose: true,
-            message: '该角色权限分配失败!',
-            type: 'error'
-          })
         })
     },
     roleEdit(index, row) {
@@ -211,7 +205,7 @@ export default {
       this.dialogFormVisible2 = true
     },
     setRoleData() {
-      fetchSearchRolePermissions({ rid: this.selectRoleId }).then(res => {
+      fetchSearchRolePermissions({ id: this.selectRoleId }).then(res => {
         const permissionData = res.data.permissionPage + ',' + res.data.permissionButton
         this.$refs.permission.setCheckedKeys(permissionData.split(','))
       })
@@ -235,10 +229,6 @@ export default {
             })
             .catch(err => {
               this.$throw(err)
-              this.$message({
-                message: '角色删除失败!',
-                type: 'error'
-              })
             })
         })
         .catch(() => {
@@ -251,22 +241,17 @@ export default {
     getList() {
       fetchGetRoleList()
         .then(response => {
-          for (let i = 0; i < response.rows.length; i++) {
-            if (response.rows[i].status) {
-              response.rows[i].status = '启用'
+          for (let i = 0; i < response.data.rows.length; i++) {
+            if (response.data.rows[i].status) {
+              response.data.rows[i].status = '启用'
             } else {
-              response.rows[i].status = '禁用'
+              response.data.rows[i].status = '禁用'
             }
           }
-          this.tableData = response.rows
+          this.tableData = response.data.rows
         })
         .catch(err => {
           this.$throw(err)
-          this.$message({
-            showClose: true,
-            message: '获取角色权限列表失败!',
-            type: 'error'
-          })
         })
     },
     filterNode(value, data) {

@@ -12,7 +12,7 @@
     "lint": "eslint --fix --ext .js,.vue src",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "test:ci": "npm run lint && npm run test:unit",
-    "push": "npm run build:prod && scp -r dist/* root@120.55.90.168:/root/web"
+    "push": "npm run build:prod && scp -r dist/* ubuntu@146.56.251.74:/home/ubuntu/www"
   },
   "dependencies": {
     "@toast-ui/editor": "^2.5.1",

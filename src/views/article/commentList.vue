@@ -1,6 +1,6 @@
 <template>
   <div class="commentList">
-    <el-table :data="commentData" style="width: 100%" max-height="550">
+    <el-table :data="commentData">
       <el-table-column fixed prop="createdAt" label="评论时间" width="200" />
       <el-table-column prop="article_title" label="所属文章" />
       <el-table-column prop="content" label="内容" />
@@ -18,9 +18,9 @@
     <el-pagination
       class="pagination"
       background
-      hide-on-single-page
       layout="prev, pager, next"
       :total="total"
+      hide-on-single-page
       @current-change="currentChange"
       @prev-click="currentChange"
       @next-click="currentChange"
@@ -51,10 +51,12 @@ export default {
       fetchDelComment({
         id: row.id
       }).then(response => {
-        this.$message({
-          message: response.message,
-          type: 'success'
-        })
+        if(response) {
+          this.$message({
+            type: 'success',
+            message: response.message
+          })
+        }
         this.getList({
           currentPage: this.currentPage,
           pageSize: 10
@@ -62,10 +64,6 @@ export default {
       })
         .catch(err => {
           this.$throw(err)
-          this.$message({
-            message: err.message,
-            type: 'error'
-          })
         })
     },
     currentChange(page) {
@@ -78,27 +76,23 @@ export default {
     getList(postdata) {
       fetchCommentList(postdata)
         .then(response => {
-          for (let i = 0; i < response.rows.length; i++) {
-            response.rows[i].createdAt = this.$getDateDiff(
-              response.rows[i].created_at
+          for (let i = 0; i < response.data.rows.length; i++) {
+            response.data.rows[i].createdAt = this.$getDateDiff(
+              response.data.rows[i].created_at
             )
-            if (response.rows[i].content.length > 20) {
-              response.rows[i].content =
-                response.rows[i].content.substring(0, 22) + '...'
-            } else if (response.rows[i].article_title.length > 20) {
-              response.rows[i].article_title =
-                response.rows[i].article_title.substring(0, 22) + '...'
+            if (response.data.rows[i].content.length > 20) {
+              response.data.rows[i].content =
+                response.data.rows[i].content.substring(0, 22) + '...'
+            } else if (response.data.rows[i].article_title.length > 20) {
+              response.data.rows[i].article_title =
+                response.data.rows[i].article_title.substring(0, 22) + '...'
             }
           }
-          this.total = response.count
-          this.commentData = response.rows
+          this.total = response.data.count
+          this.commentData = response.data.rows
         })
         .catch(err => {
           this.$throw(err)
-          this.$message({
-            message: '评论列表获取失败!',
-            type: 'error'
-          })
         })
     }
   }

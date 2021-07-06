@@ -5,8 +5,8 @@ import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
-  //baseURL: '/api',
+  //baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: '/api',
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000
 })
@@ -32,28 +32,27 @@ service.interceptors.response.use(
   ({ status, data }) => {
     if (status == 200 && data.code == 11000) {
       //refreshtoken核心步骤
-      setToken(data.access_token)
+      setToken(data.data.access_token)
       location.reload()
-    } else if (status == 200 && data.code == 10020) {
+    } else if (status == 200 && data.code == (10020 || 10404 || 10204 || 10020 || 10030)) {
       Message({
-        message: data.data.message,
+        message: data.message,
         type: 'error',
         duration: 5 * 1000
       })
-      return false
+      return false   //这里也可以不return false ，那么在组件中就是回调结果是一个undefined，都需要用if(回调存在)去做成功操作的toast。
     } else {
       return Promise.resolve(data);
     }
   },
   // (response) => {
-  //   console.log(response)
   //   return Promise.resolve(response.data)
   // },
   error => {
     //如果不是服务器内部错误，error响应数据会被赋值给response字段
     if (error.response.status == 401 && error.response.data.code == 10000) {
       Message({
-        message: error.response.data.data.message,
+        message: error.response.data.message,
         type: 'error',
         duration: 5 * 1000
       })

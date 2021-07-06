@@ -10,7 +10,7 @@
         label-position="left"
       >
         <div class="title-container">
-          <h3 class="title">Blog-Login[CMS]</h3>
+          <h3 class="title">MBOKE[CMS]</h3>
         </div>
 
         <el-form-item prop="username">
@@ -142,7 +142,6 @@ export default {
                 type: 'error'
               })
               this.loading = false
-              console.log(Promise.reject(error))
             })
         } else {
           console.log('error submit!!')

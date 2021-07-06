@@ -1,11 +1,11 @@
 import { fetchLogin, fetchLogout } from '@/api/apis/login'
 import { fetchGetUserInfo } from '@/api/apis/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
-    token: getToken(),
+    token: '',
     name: '',
     avatar: '',
     role: '',
@@ -70,7 +70,7 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar, role, authorityRouter, permissionButton, id } = response
+        const { name, avatar, role, authorityRouter, permissionButton, id } = response.data
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
@@ -78,7 +78,7 @@ const actions = {
         commit('SET_AUTHORITYROUTER', authorityRouter)
         commit('SET_PERMISSIONBUTTON', permissionButton)
         commit('SET_UID', id)
-        resolve(response)
+        resolve(response.data)
       }).catch(error => {
         reject(error)
       })

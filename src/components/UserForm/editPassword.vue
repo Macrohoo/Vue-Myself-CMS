@@ -85,25 +85,24 @@ export default {
             oldPassword: this.ruleForm2.oldPassword,
             newPassword: this.ruleForm2.checkPass
           }).then((res) => {
-            this.$message({
-              showClose: true,
-              message: res.message,
-              type: 'success'
-            })
+            if(res) {
+              this.$message({
+                type: 'success',
+                message: res.message
+              })
+            }
             setTimeout(function() {
               Cookies.remove('access_token')
               location.reload()
             }, 1000)
           }).catch(err => {
             this.$throw(err)
-            this.$message({
-              showClose: true,
-              message: err.message,
-              type: 'error'
-            })
           })
         } else {
-          console.log('error submit!!')
+          this.$message({
+            message: '请注意密码格式！',
+            type: 'error'
+          })
           return false
         }
       })

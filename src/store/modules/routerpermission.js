@@ -41,28 +41,33 @@ const mutations = {
   }
 }
 
+
+function filterAsyncRoutes(routes, roles, pageBtn_permission) {
+  const res = []
+
+  routes.forEach(route => {
+    const tmp = { ...route }  //一级解构对象
+    if (hasPermission(roles, pageBtn_permission ,tmp)) {
+      if (tmp.children) {
+        tmp.children = filterAsyncRoutes(tmp.children, roles, pageBtn_permission)
+      }
+      res.push(tmp)
+    }
+  })
+
+  return res
+}
+
 const actions = {
   GenerateRoutes({ commit }, data) {
     return new Promise(resolve => {
-      const { roles } = data
-      const { pageBtn_permission } = data
-      const accessedRouters = asyncRouters.filter(v => {
-        if (roles.indexOf('超级管理员') >= 0) return true // 判断当时超级管理员的时候返回ture，fileter的用法返回true表示该v元素通过测试
-        if (hasPermission(roles, pageBtn_permission, v)) {
-          if (v.children && v.children.length > 0) {
-            v.children = v.children.filter(child => {
-              if (hasPermission(roles, pageBtn_permission, child)) {
-                return child
-              }
-              return false
-            })
-            return v
-          } else {
-            return v
-          }
-        }
-        return false
-      })
+      let accessedRouters
+      const { roles, pageBtn_permission } = data
+      if (roles.indexOf('超级管理员') >= 0){
+        accessedRouters = asyncRouters  // 当是超级管理员时，所有路由都开放
+      } else {
+        accessedRouters = filterAsyncRoutes(asyncRouters, roles, pageBtn_permission)
+      }
       commit('SET_ROUTERS', accessedRouters)
       resolve()
     })

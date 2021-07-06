@@ -79,7 +79,7 @@
       <el-form-item label="头像上传">
         <el-upload
           class="avatar-uploader"
-          action="http://120.55.90.168:7001/editor/uploadImg"
+          action="http://146.56.251.74:7001/editor/uploadImg"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
@@ -160,16 +160,15 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 18, message: '长度在 3 到 18 个字符', trigger: 'blur' }
+          { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
         ],
         password: [
-          { required: true, validator: validatePass, trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'blur' },
+          { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
         ],
         checkPass: [
-          { required: true, validator: validatePass2, trigger: 'blur' }
-        ],
-        role_id: [
-          { required: true, message: '请选择用户角色', trigger: 'change' }
+          { required: true, validator: validatePass2, trigger: 'blur' },
+          { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
         ]
       }
     }
@@ -200,8 +199,7 @@ export default {
     getList() {
       if (!this.userId) {
         fetchGetRoleList().then(res => {
-          // console.log(res);
-          this.roleData = res.rows
+          this.roleData = res.data.rows
           for (let i = 0; i < this.roleData.length; i++) {
             if (
               this.$store.getters.role === '超级管理员' &&
@@ -214,13 +212,13 @@ export default {
           fetchGetRoleList(),
           fetchGetUserInfoId({ id: this.userId })
         ]).then(([roleListResponse, userInfoResponse]) => {
-          this.roleData = roleListResponse.rows
-          if (userInfoResponse.status === '1') {
-            userInfoResponse.status = true
+          this.roleData = roleListResponse.data.rows
+          if (userInfoResponse.data.status === '1') {
+            userInfoResponse.data.status = true
           } else {
-            userInfoResponse.status = false
+            userInfoResponse.data.status = false
           }
-          this.ruleForm2 = userInfoResponse
+          this.ruleForm2 = userInfoResponse.data
           this.roleName = true
           for (let i = 0; i < this.roleData.length; i++) {
             if (
@@ -240,32 +238,28 @@ export default {
           }
           if (!this.userId) {
             fetchRegister(newData).then(res => {
-              this.$message({
-                type: 'success',
-                message: res.message
-              })
+              if(res) {
+                this.$message({
+                  type: 'success',
+                  message: res.message
+                })
+              }
               this.visible = false
             }).catch(err => {
               this.$throw(err)
-              this.$message({
-                message: '添加用户失败!',
-                type: 'error'
-              })
             })
           } else {
             newData.id = this.userId
             fetchEditUser(newData).then(res => {
-              this.$message({
-                type: 'success',
-                message: res.message
-              })
+              if(res) {
+                this.$message({
+                  type: 'success',
+                  message: res.message
+                })
+              }
               this.visible = false
             }).catch(err => {
               this.$throw(err)
-              this.$message({
-                message: err.message,
-                type: 'error'
-              })
             })
           }
         } else {
