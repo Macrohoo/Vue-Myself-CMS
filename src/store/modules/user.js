@@ -47,10 +47,10 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { loginuser, password } = userInfo
     return new Promise((resolve, reject) => {
       // 有时候用户输入信息的时候，可能会过多的填写空格，或者有些时候就使用空格做为数据了，结果造成程序出错~为了使我们的数据紧凑并且不会出现空格错误 我们就需要使用到trim（）函数
-      fetchLogin({ username: username.trim(), password: password }).then(response => {
+      fetchLogin({ loginuser: loginuser.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.access_token)
         setToken(data.access_token) // 把token放到Cookie中

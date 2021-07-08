@@ -31,16 +31,23 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   ({ status, data }) => {
     if (status == 200 && data.code == 11000) {
-      //refreshtoken核心步骤
+      //refreshtoken
       setToken(data.data.access_token)
       location.reload()
-    } else if (status == 200 && data.code == (10020 || 10404 || 10204 || 10020 || 10030)) {
+    } else if (status == 200 && (data.code == 10020 || data.code == 10404 || data.code == 10204 || data.code == 10020 )) {
       Message({
         message: data.message,
         type: 'error',
         duration: 5 * 1000
       })
       return false   //这里也可以不return false ，那么在组件中就是回调结果是一个undefined，都需要用if(回调存在)去做成功操作的toast。
+    } else if (status == 200 && data.code == 10030) {
+      Message({
+        message: data.message.warn,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return false
     } else {
       return Promise.resolve(data);
     }

@@ -18,10 +18,10 @@
             <svg-icon icon-class="user" />
           </span>
           <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
+            ref="loginuser"
+            v-model="loginForm.loginuser"
+            placeholder="用户名/手机号码"
+            name="loginuser"
             type="text"
             tabindex="1"
             auto-complete="on"
@@ -89,7 +89,7 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
+        loginuser: '',
         password: ''
       },
       loginRules: {
@@ -135,12 +135,7 @@ export default {
               })
               this.loading = false
             })
-            .catch(error => {
-              this.$message({
-                showClose: true,
-                message: '用户不存在或用户名密码错误!',
-                type: 'error'
-              })
+            .catch(() => {
               this.loading = false
             })
         } else {

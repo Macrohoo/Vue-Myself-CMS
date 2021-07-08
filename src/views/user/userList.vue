@@ -93,9 +93,16 @@ export default {
       this.userId = '';
     },
     handleEdit(index, row) {
-      this.dialogVisible = true;
-      this.title = '编辑信息';
-      this.userId = row.id;
+      if(this.$store.getters.role === '超级管理员' || this.$store.getters.uid === row.id) {
+        this.dialogVisible = true;
+        this.title = '编辑信息';
+        this.userId = row.id;
+      } else {
+        this.$message({
+          message: '您无权限编辑他人账户!',
+          type: 'error',
+        });
+      }
     },
     successCallback() {
       this.dialogVisible = false;
@@ -151,6 +158,8 @@ export default {
         .then((response) => {
           for (let i = 0; i < response.data.rows.length; i++) {
             response.data.rows[i].created_at = this.$getDateDiff(response.data.rows[i].created_at);
+            response.data.rows[i].username = response.data.rows[i].username.substring(0, 3) + '***'
+            response.data.rows[i].mobile_phone = response.data.rows[i].mobile_phone.substring(0, 5) + '*****'
             if (response.data.rows[i].status === '1') {
               response.data.rows[i].status = '启用';
             } else {

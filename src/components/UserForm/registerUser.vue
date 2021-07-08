@@ -120,6 +120,10 @@ export default {
         checkPass: [
           { required: true, validator: validatePass2, trigger: 'blur' },
           { min: 6, max: 18, message: '密码长度在 6 到 18 个字符', trigger: 'blur' }
+        ],
+        mobile_phone: [
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { min: 11, max: 11, message: '请准确输入手机号码格式', trigger: 'blur' }
         ]
       }
     }
@@ -134,6 +138,7 @@ export default {
           if (valid) {
             fetchRegister(this.registerForm)
               .then(res => {
+                console.log(res)
                 if(res) {
                   this.$message({
                     type: 'success',
