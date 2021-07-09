@@ -53,16 +53,16 @@
           type="primary"
           style="width:100%;margin-bottom:10px;"
           @click="handleLogin"
-        >Login</el-button>
+        >登录</el-button>
         <el-button
           type="success"
           style="width:100%;margin:10px 0px;"
           @click="register"
-        >Register</el-button>
+        >注册用户</el-button>
 
         <div class="tips">
-          <span style="margin-right:20px;">username: 自行注册</span>
-          <span> password: 自行注册</span>
+          <span style="margin-right:20px;">注意：已登过小程序的用户可用手机号码登录，默认密码为手机号码!</span>
+          <p> 温馨提示：请及时更改你的密码及用户名！</p>
         </div>
       </el-form>
     </div>

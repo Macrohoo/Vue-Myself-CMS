@@ -144,8 +144,8 @@ export default {
                     type: 'success',
                     message: res.message
                   })
+                  this.visible = false
                 }
-                this.visible = false
               })
               .catch(err => {
                 this.$throw(err)

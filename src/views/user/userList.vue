@@ -99,7 +99,7 @@ export default {
         this.userId = row.id;
       } else {
         this.$message({
-          message: '您无权限编辑他人账户!',
+          message: '您无权限编辑其他用户!',
           type: 'error',
         });
       }
