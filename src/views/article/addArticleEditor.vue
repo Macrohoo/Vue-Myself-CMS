@@ -19,7 +19,7 @@
       <el-form-item label="缩略图上传" label-width="95px">
         <el-upload
           class="avatar-uploader"
-          action="http://146.56.251.74:7001/editor/uploadImg"
+          action="https://mboke.top/api/editor/uploadImg"
           :show-file-list="false"
           :on-success="handlethumbnailSuccess"
           :before-upload="beforethumbnailUpload"
@@ -32,7 +32,7 @@
       <el-form-item label="banner图上传" label-width="110px">
         <el-upload
           class="avatar-uploader"
-          action="http://146.56.251.74:7001/editor/uploadImg"
+          action="https://mboke.top/api/editor/uploadImg"
           :show-file-list="false"
           :on-success="handleBannerSuccess"
           :before-upload="beforeBannerUpload"

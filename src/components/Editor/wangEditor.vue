@@ -56,10 +56,10 @@ export default {
     seteditor() {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)
       this.editor.config.uploadImgShowBase64 = false // base 64 存储图片
-      this.editor.config.uploadImgServer = 'http://146.56.251.74:7001/editor/uploadImg' // 配置服务器端地址
+      this.editor.config.uploadImgServer = 'https://mboke.top/api/editor/uploadImg' // 配置服务器端地址
       this.editor.config.uploadImgHeaders = {} // 自定义 header
       this.editor.config.uploadFileName = 'file' // 后端接受上传文件的参数名
-      this.editor.config.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
+      this.editor.config.uploadImgMaxSize = 1 * 1024 * 1024 // 将图片大小限制为 1M
       this.editor.config.uploadImgMaxLength = 6 // 限制一次最多上传 3 张图片
       this.editor.config.uploadImgTimeout = 3 * 60 * 1000 // 设置超时时间
 

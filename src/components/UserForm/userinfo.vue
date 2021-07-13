@@ -79,7 +79,7 @@
       <el-form-item label="头像上传">
         <el-upload
           class="avatar-uploader"
-          action="http://146.56.251.74:7001/editor/uploadImg"
+          action="https://mboke.top/api/editor/uploadImg"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
