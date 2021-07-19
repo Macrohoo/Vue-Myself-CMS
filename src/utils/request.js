@@ -48,6 +48,16 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
       return false
+    } else if (status == 200 && data.code == 10402) {
+      Message({
+        message: data.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      removeToken()
+      router.replace({
+        path: '/login'
+      })
     } else {
       return Promise.resolve(data);
     }

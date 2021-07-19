@@ -71,6 +71,7 @@
         <el-input
           v-model="ruleForm2.mobile_phone"
           autocomplete="off"
+          :disabled="true"
         />
       </el-form-item>
       <el-form-item label="是否启用">
@@ -79,7 +80,7 @@
       <el-form-item label="头像上传">
         <el-upload
           class="avatar-uploader"
-          action="https://mboke.top/api/editor/uploadImg"
+          action="https://mboke.top/api/qiniu/upload"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
@@ -178,7 +179,7 @@ export default {
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      this.ruleForm2.avatar = res.data[0]
+      this.ruleForm2.avatar = res.data.url
     },
     closeCallback() {
       this.$emit('successCallback')

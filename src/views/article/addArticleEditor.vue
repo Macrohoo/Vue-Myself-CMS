@@ -19,7 +19,7 @@
       <el-form-item label="缩略图上传" label-width="95px">
         <el-upload
           class="avatar-uploader"
-          action="https://mboke.top/api/editor/uploadImg"
+          action="https://mboke.top/api/qiniu/upload"
           :show-file-list="false"
           :on-success="handlethumbnailSuccess"
           :before-upload="beforethumbnailUpload"
@@ -32,10 +32,11 @@
       <el-form-item label="banner图上传" label-width="110px">
         <el-upload
           class="avatar-uploader"
-          action="https://mboke.top/api/editor/uploadImg"
+          action="https://mboke.top/api/qiniu/upload"
           :show-file-list="false"
           :on-success="handleBannerSuccess"
           :before-upload="beforeBannerUpload"
+          disabled
         >
           <div slot="tip" class="el-upload__tip">此图功能未开发，暂可不必上传!</div>
           <img v-if="article.banner" :src="article.banner" class="avatar">
@@ -91,7 +92,7 @@ export default {
       // console.log(this.article.content_html)
     },
     handlethumbnailSuccess(res, file) {
-      this.article.thumbnail = res.data[0]
+      this.article.thumbnail = res.data.url
     },
     beforethumbnailUpload(file) {
       const isJPG = file.type === 'image/jpeg'
@@ -107,7 +108,7 @@ export default {
       return (isLt2M && isJPG) || (isPNG && isLt2M)
     },
     handleBannerSuccess(res, file) {
-      this.article.banner = res.data[0]
+      this.article.banner = res.data.url
     },
     beforeBannerUpload(file) {
       const isJPG = file.type === 'image/jpeg'

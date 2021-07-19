@@ -47,12 +47,19 @@ export default {
   },
   methods: {
     handleEdit(index, row) {
-      this.$router.push({
-        name: '发表文章',
-        query: {
-          articleId: row.id
-        }
-      })
+      if(this.$store.getters.role === '超级管理员' || this.$store.getters.uid === row.author || this.$store.getters.role === '管理员') {
+        this.$router.push({
+          name: '发表文章',
+          query: {
+            articleId: row.id
+          }
+        })
+      } else {
+        this.$message({
+          message: '您无权限编辑他人帖子!',
+          type: 'error',
+        });
+      }
     },
     handleDelete(index, row) {
       fetchDelArticle({

@@ -13,9 +13,9 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <a target="_blank" href="https://github.com/Marhooo/vue-blog-cms">
+          <!-- <a target="_blank" href="https://github.com/Marhooo/vue-blog-cms">
             <el-dropdown-item>Github</el-dropdown-item>
-          </a>
+          </a> -->
           <el-dropdown-item command="userInfo">
             <span style="display:block;">个人信息</span>
           </el-dropdown-item>

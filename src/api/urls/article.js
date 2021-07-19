@@ -7,7 +7,7 @@ export default {
   getArticle: '/article/getArticle',
   // 删除文章
   delArticle: '/article/delArticle',
-  // 图片上传
+  // 图片本地上传
   uploadImg: '/editor/uploadImg',
   // 评论列表
   commentList: '/comment/commentList',
