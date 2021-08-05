@@ -22,9 +22,13 @@
           action="https://mboke.top/api/qiniu/upload"
           :show-file-list="false"
           :on-success="handlethumbnailSuccess"
+          :on-progress="handlethumbnailLoading"
           :before-upload="beforethumbnailUpload"
         >
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2MB!</div>
+          <div slot="tip" class="el-upload__tip">
+            <el-progress :text-inside="true" :stroke-width="26" :percentage="thumbnailProcess"></el-progress>
+            <p>只能上传jpg/png文件，且不超过2MB!</p>
+          </div>
           <img v-if="article.thumbnail" :src="article.thumbnail" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
@@ -70,6 +74,7 @@ export default {
         value: '' // 这个值是根据文章二次编辑时的富文本内容传入的
       },
       isClear: false, // isClear用在发布文章后，清空富文本内容
+      thumbnailProcess: 0,   //thumbnail进度
     }
   },
   mounted() {
@@ -94,7 +99,11 @@ export default {
     handlethumbnailSuccess(res, file) {
       this.article.thumbnail = res.data.url
     },
+    handlethumbnailLoading(event, file) {
+      this.thumbnailProcess = event.percent
+    },
     beforethumbnailUpload(file) {
+      this.thumbnailProcess = 0
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
