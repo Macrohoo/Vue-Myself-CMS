@@ -1,12 +1,12 @@
 #app {
-
+  /* 主视图main-container布局部分 */
   .main-container {
     min-height: 100%;
     transition: margin-left .28s;
     margin-left: $sideBarWidth;
     position: relative;
   }
-
+  /* siderbar布局部分 */
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;

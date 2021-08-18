@@ -78,7 +78,6 @@ service.interceptors.response.use(
         path: '/login'
       })
     } else {
-      //console.log(error)
       return Promise.reject(error)  //如果是服务器内部错误，直接异步抛出，在组件中会catch
     }
   }

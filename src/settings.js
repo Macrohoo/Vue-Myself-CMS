@@ -4,7 +4,7 @@ module.exports = {
 
   /**
    * @type {boolean} true | false
-   * @description Whether fix the header
+   * @description Whether fix the header 是否把navbar定在最上面不影响滑动！
    */
   fixedHeader: false,
 

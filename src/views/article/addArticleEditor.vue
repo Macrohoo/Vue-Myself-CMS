@@ -55,7 +55,7 @@
 <script>
 import { fetchAddArticle, fetchGetArticle } from '@/api/apis/article'
 import WangEditor from '@/components/Editor/wangEditor.vue'
-import ArticleLabel from '@/components/Article/articleLabel.vue'
+import ArticleLabel from './components/articleLabel.vue'
 
 export default {
   name: 'AddArticle',

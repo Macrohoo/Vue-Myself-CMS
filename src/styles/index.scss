@@ -18,13 +18,14 @@ label {
 
 html {
   height: 100%;
-  box-sizing: border-box;
+  box-sizing: border-box; /* 指定盒模型为 IE模型(怪异模式)更方便后面设置页面 */
 }
 
 #app {
   height: 100%;
 }
 
+/* 指定after和before伪元素 box-sizing 属性的值为inherit，应该从父元素继承，依旧为IE模型 */
 *,
 *:before,
 *:after {

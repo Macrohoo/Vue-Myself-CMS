@@ -1,5 +1,5 @@
 <template>
-  <div class="block">
+  <div>
     <el-cascader
       ref="label"
       placeholder="文章标签"
@@ -21,12 +21,12 @@ export default {
   data() {
     return {
       options: [],
-      value: []
+      value: [],
     };
   },
   methods: {
     handleChange() {
-      this.$emit("translabel", this.value)
+      this.$emit('translabel', this.value);
     },
     handleOptions(old1, old2) {
       old1.data.forEach((element) => {
@@ -35,7 +35,7 @@ export default {
           label: element.academic_name,
           id: element.id,
           children: [],
-          disabled: true
+          disabled: true,
         });
       });
       this.options.forEach((element) => {
@@ -44,7 +44,7 @@ export default {
           if (attrs == element2.field_id) {
             element.children.push({
               value: element2.label_name,
-              label: element2.label_name
+              label: element2.label_name,
             });
           }
         });

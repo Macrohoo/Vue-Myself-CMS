@@ -76,22 +76,22 @@ export const constantRoutes = [
       {
         path: 'articleLabel',
         name: 'articleLabel',
-        component: () => import('@/components/Article/articleLabel'),
+        component: () => import('@/components/testcomponent/articleLabel'),
         meta: { title: 'articleLabel', icon: 'el-icon-s-help' }
       }
     ]
   },
 
-  // {
-  //   path: 'external-link',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'https://github.com/Marhooo/vue-blog-cms',
-  //       meta: { title: 'Github', icon: 'github' }
-  //     }
-  //   ]
-  // }
+  {
+    path: 'external-link',
+    component: Layout,
+    children: [
+      {
+        path: 'https://github.com/Marhooo/vue-blog-cms',
+        meta: { title: 'Github', icon: 'github' }
+      }
+    ]
+  }
 
 ]
 

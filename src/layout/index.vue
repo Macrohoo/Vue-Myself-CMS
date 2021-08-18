@@ -3,6 +3,7 @@
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <div class="main-container">
+      <!-- 和setting联动决定navbar是否固定在最上面不被scroll影响 -->
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
       </div>
