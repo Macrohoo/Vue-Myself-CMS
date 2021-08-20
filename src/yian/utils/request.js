@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import { getToken, removeToken, setToken } from '@/utils/auth'
-import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
@@ -55,9 +54,7 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
       removeToken()
-      router.replace({
-        path: '/login'
-      })
+      location.reload();
     } else {
       return Promise.resolve(data);
     }
@@ -74,9 +71,7 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
       removeToken()
-      router.replace({
-        path: '/login'
-      })
+      location.reload();
     } else {
       return Promise.reject(error)  //如果是服务器内部错误，直接异步抛出，在组件中会catch
     }

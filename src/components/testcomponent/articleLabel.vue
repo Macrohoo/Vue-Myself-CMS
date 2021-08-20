@@ -62,9 +62,20 @@ export default {
   async created() {
     //const old1 = await fetchGetAcademicField();
     //const old2 = await fetchGetArticleLabel();
-    const old1 = await this.$yian.get('/academic/getAcademicField')
-    const old2 = await this.$yian.get('/articlelabel/getArticleLabel')
+    // const old1 = await this.$yian.get('/academic/getAcademicField')
+    // const old2 = await this.$yian.get('/articlelabel/getArticleLabel')
+    let old1
+    this.$yian.articlelabel('get', {behavior: 'getArticleLabel'}, {id: 1}).page({page: 1, size: 10}).then(res => {
+      console.log(res)
+      old1 = res
+    })
+
     this.handleOptions(old1, old2);
+
+
+    // let s1 = [1,2,3,4,5]
+    // let s2 = this.$yian.utils.deepClone(s1)
+    // console.log(s2)
   },
 };
 </script>

@@ -46,7 +46,7 @@ Vue.use(errorLog)
 Vue.config.productionTip = false
 
 Vue.use(yian)
-Vue.prototype.$yian = yian.content({})
+Vue.prototype.$yian = yian.content({ElementUILoading: true})
 
 
 new Vue({

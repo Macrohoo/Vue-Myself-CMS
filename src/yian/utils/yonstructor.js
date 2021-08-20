@@ -2,12 +2,13 @@ import utils from './utils'
 import Cookies from 'js-cookie'
 import api from './api'
 
-class cloud {
+class youstructor {
   //核心构造体
   constructor(config, self) {
+    this.self = self
     this.utils = utils
-    this.get = api.get
-    this.post = api.post
+    this.request = api.request
+    this.ElementUILoading = config.ElementUILoading
   }
 
   getToken() {
@@ -25,4 +26,4 @@ class cloud {
 
 }
 
-export default cloud
+export default youstructor

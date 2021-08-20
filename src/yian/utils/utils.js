@@ -38,8 +38,46 @@ function getInstance(Component, props = {}, options = {}) {
   return instance;
 }
 
+/**
+ *这是Vue源码中的深拷贝，非常优雅
+ *考虑到圆形结构,深度复制给定对象。
+ *这个函数缓存所有嵌套的对象及其副本。
+ *如果检测到循环结构，使用缓存副本避免无限循环。
+ * @param  {[type]} obj   [description]
+ * @param  {Array}  cache [description]
+ * @return {[type]}       [description]
+ */
+ function copyData(obj, cache = []) {
+  // 如果obj是不可变值，就返回
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  // 如果obj被击中，则为圆形结构
+  const hit = find(cache, c => c.original === obj);
+  if (hit) {
+    return hit.copy;
+  }
+
+  const copy = Array.isArray(obj) ? [] : {};
+  //先把副本放到缓存里
+  //因为我们想在copyData递归中引用它
+  cache.push({
+    original: obj,
+    copy
+  });
+
+  Object.keys(obj).forEach(key => {
+    copy[key] = copyData(obj[key], cache);
+  });
+
+  return copy;
+}
+
+
 
 export default {
   deepClone,
-  getInstance
+  getInstance,
+  copyData
 }
