@@ -19,6 +19,7 @@ import errorLog from '@/utils/error-log' // error log
 import globalPlugin from '@/utils/global'
 import btnDirective from '@/utils/directive/button'
 import yian from '@/yian/index'
+import service from '@/utils/request' //interceptor可以在大入口外面自己封装
 
 /**
  * If you don't want to use mock-server
@@ -46,7 +47,13 @@ Vue.use(errorLog)
 Vue.config.productionTip = false
 
 Vue.use(yian)
-Vue.prototype.$yian = yian.content({ElementUILoading: true})
+const $_Y = {
+  service,
+  ElementUILoading: true,
+  tokenKey: 'access_token'
+};
+
+Vue.prototype.$yian = yian.content($_Y)
 
 
 new Vue({

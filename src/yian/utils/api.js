@@ -1,17 +1,18 @@
-import service from './request'
 import { Loading } from 'element-ui';  //全局loding圈引入
 import cache from './cache'
 import * as extend from './apiextend'
 
 export default class api {
   /**
-   * @param {*} data
+   * @param {*} data [剥离then之前的所有方法，当data不存在时不会执行constructor中的return]
    * @param {Object} youstructor [反向注入的核心构造体]
    * @returns
    */
   constructor(data, youstructor) {
     this.youstructor = youstructor
-    return this.send(data)
+    if(data) {
+      return this.send(data)
+    }
   }
 
 
@@ -44,7 +45,7 @@ export default class api {
             qc: value.options,
             method: value.method
           }
-          api.request(options).then(res => {
+          this.request(options).then(res => {
             resolve(res)
           }).catch(err => {
             reject(err)
@@ -59,12 +60,11 @@ export default class api {
 
   }
 
-
   /**
-   * axios外侧第一层封装请求体
+   * axios外侧第一层封装请求体，设置成实例方法，为了content定制interceptor
    * @param {Object} options [url请求地址, params请求body或者请求主query, qc配置信息{loading加载是否开启}, method请求方式]
    */
-  static request(options) {
+   request(options) {
     const {url, params, qc = {loading: false}, method} = options
     let loadingInstance
     if(qc.loading && method.toLowerCase() === 'get') loadingInstance = Loading.service({
@@ -77,7 +77,7 @@ export default class api {
       let data = {}
       if(method.toLowerCase() === 'get') data = {params}
       if(method.toLowerCase() === 'post') data = {data: params}
-      service({
+      this.youstructor.interceptor({
         url,
         method,
         ...data,
