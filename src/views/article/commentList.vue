@@ -77,7 +77,7 @@ export default {
       fetchCommentList(postdata)
         .then(response => {
           for (let i = 0; i < response.data.rows.length; i++) {
-            response.data.rows[i].createdAt = this.$getDateDiff(
+            response.data.rows[i].createdAt = this.$yian.utils.getDateDiff(
               response.data.rows[i].created_at
             )
             if (response.data.rows[i].content.length > 20) {

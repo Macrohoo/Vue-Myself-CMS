@@ -74,8 +74,8 @@ export default class api {
       background: 'rgba(0, 0, 0, 0.7)'
     })
     return new Promise((resolve, reject) => {
-      let data = {}
-      if(method.toLowerCase() === 'get') data = {params}
+      let data
+      if(method.toLowerCase() === 'get') data = {params: params}
       if(method.toLowerCase() === 'post') data = {data: params}
       this.youstructor.interceptor({
         url,
@@ -90,7 +90,9 @@ export default class api {
         console.log(err)
         reject(err)
       }).finally(() => {
-        loadingInstance.close()
+        if(method.toLowerCase() === 'get') {
+          loadingInstance.close()
+        }
       })
     })
   }

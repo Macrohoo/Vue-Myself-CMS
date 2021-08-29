@@ -17,7 +17,10 @@
       这是一个方块
     </div>
     <svg-icon icon-class="shouye" />
+    <svg-icon icon-class="https://panjiachen.github.io/vue-element-admin-site/home.png" />
     <svg-icon icon-class="bug" />
+    <el-button type="primary" vvbb="12" module="order" v-popup.orderShipping="{a:12, b:13}">主要按钮</el-button>
+    <el-button type="primary" id="12" module="order" v-popup.orderShipping="{a:1, b:1}" width="1200">主要按钮</el-button>
   </div>
 </template>
 
@@ -62,20 +65,17 @@ export default {
   async created() {
     //const old1 = await fetchGetAcademicField();
     //const old2 = await fetchGetArticleLabel();
-    // const old1 = await this.$yian.get('/academic/getAcademicField')
-    // const old2 = await this.$yian.get('/articlelabel/getArticleLabel')
-    let old1
-    this.$yian.articlelabel('get', {behavior: 'getArticleLabel'}, {id: 1}).page({page: 1, size: 10}).then(res => {
-      console.log(res)
-      old1 = res
-    })
+
+    let s1 = [1,2,3,4,5]
+    let s2 = this.$yian.utils.deepClone(s1)
+    console.log(s2)
+    const old2 = await this.$yian.articlelabel('get', {behavior: 'getArticleLabel'}).page({page: 1, size: 10})
+    const old1 = await this.$yian.axios({url: '/academic/getAcademicField', method: 'get'})
 
     this.handleOptions(old1, old2);
 
-
-    // let s1 = [1,2,3,4,5]
-    // let s2 = this.$yian.utils.deepClone(s1)
-    // console.log(s2)
+    const res = await this.$yian.admin('post', {behavior: 'user/login'}, {loginuser: '18768105049', password: '18768105049'})
+    console.log(res)
   },
 };
 </script>

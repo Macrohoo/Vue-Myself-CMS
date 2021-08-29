@@ -157,7 +157,7 @@ export default {
       fetchUserList(postdata)
         .then((response) => {
           for (let i = 0; i < response.data.rows.length; i++) {
-            response.data.rows[i].created_at = this.$getDateDiff(response.data.rows[i].created_at);
+            response.data.rows[i].created_at = this.$yian.utils.getDateDiff(response.data.rows[i].created_at);
             response.data.rows[i].username = response.data.rows[i].username.substring(0, 3) + '***'
             response.data.rows[i].mobile_phone = response.data.rows[i].mobile_phone.substring(0, 5) + '*****'
             if (response.data.rows[i].status === '1') {

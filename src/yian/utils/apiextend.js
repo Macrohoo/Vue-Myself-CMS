@@ -16,18 +16,20 @@ export const defaulter = {
     options = {
       loading: config.ElementUILoading
     }
-    //当主body对象存在时，不存在时
     if(argument[2]) {
+      //当主body对象存在时
       data = argument[2]
       if(keys.length > 1 && keys[1] == 'page') {
-        Object.assign(data, value[keys[1]])
+        Object.assign(data, value[keys[1]][0])
       }
       if(keys.length > 2) {
         reject('请检查你的方法!');
       }
     } else {
+      //当主body对象不存在时
       if(keys.length > 1 && keys[1] == 'page') {
-        data = value[keys[1]]
+        //debugger
+        data = value[keys[1]][0]
       }
       if(keys.length > 2) {
         reject('请检查你的方法!');

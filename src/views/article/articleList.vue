@@ -94,7 +94,7 @@ export default {
         .then(response => {
           //console.log(response)
           for (let i = 0; i < response.data.rows.length; i++) {
-            response.data.rows[i].created_at = this.$getDateDiff(response.data.rows[i].created_at)
+            response.data.rows[i].created_at = this.$yian.utils.getDateDiff(response.data.rows[i].created_at)
             if (response.data.rows[i].title.length > 22) {
               response.data.rows[i].title = response.data.rows[i].title.substring(0, 20) + '...'
             }

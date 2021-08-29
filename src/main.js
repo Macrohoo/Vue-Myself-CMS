@@ -16,10 +16,10 @@ import router from './router'
 
 import '@/permission' // permission control
 import errorLog from '@/utils/error-log' // error log
-import globalPlugin from '@/utils/global'
 import btnDirective from '@/utils/directive/button'
 import yian from '@/yian/index'
 import service from '@/utils/request' //interceptor可以在大入口外面自己封装
+import order from '@/views/order/index'
 
 /**
  * If you don't want to use mock-server
@@ -38,7 +38,6 @@ import service from '@/utils/request' //interceptor可以在大入口外面自�
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明  Vue.use(ElementUI)
-Vue.use(globalPlugin)
 
 Vue.use(btnDirective)
 
@@ -49,11 +48,12 @@ Vue.config.productionTip = false
 Vue.use(yian)
 const $_Y = {
   service,
-  ElementUILoading: true,
-  tokenKey: 'access_token'
+  ElementUILoading: true
 };
 
 Vue.prototype.$yian = yian.content($_Y)
+
+Vue.use(order)
 
 
 new Vue({

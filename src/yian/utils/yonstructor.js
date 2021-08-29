@@ -1,32 +1,32 @@
 import utils from './utils'
-import Cookies from 'js-cookie'
-import api from './api'
 
 class youstructor {
   //核心构造体
   constructor(config, self) {
     this.self = self
     this.utils = utils
-    this.axios = new api().request
     this.ElementUILoading = config.ElementUILoading
     this.interceptor = config.service
-    this.tokenKey = config.tokenKey
   }
 
-
-
-  getToken() {
-    return Cookies.get(this.tokenKey)
+  axios(options) {
+    const {url, params, method} = options
+    return new Promise((resolve, reject) => {
+      let data = {}
+      if(method.toLowerCase() === 'get') data = {params}
+      if(method.toLowerCase() === 'post') data = {data: params}
+      this.interceptor({
+        url,
+        method,
+        ...data,
+      }).then(res => {
+        resolve(res)
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+    })
   }
-
-  setToken(token) {
-    return Cookies.set(this.tokenKey, token)
-  }
-
-  removeToken() {
-    return Cookies.remove(this.tokenKey)
-  }
-
 
 }
 

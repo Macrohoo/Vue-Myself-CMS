@@ -2,7 +2,7 @@
   <el-dialog
     title="注册用户"
     width="600px"
-    :visible.sync="visible"
+    :visible="visible"
     destroy-on-close
     @close="closeCallback"
   >
