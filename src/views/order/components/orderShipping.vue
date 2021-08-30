@@ -6,7 +6,13 @@
 
 <script>
 export default {
-
+  methods: {
+    affirm(vlm) {
+      vlm.handleClosed()
+      console.log('关闭')
+      console.log(vlm)
+    }
+  }
 }
 </script>
 

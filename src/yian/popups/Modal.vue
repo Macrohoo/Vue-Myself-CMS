@@ -44,7 +44,8 @@ export default {
     //ComponentConstructor构造函数
     content: {
       type: [Object, Function]
-    }
+    },
+    value: [Array, Object, Number, String]
   },
   data() {
     return {

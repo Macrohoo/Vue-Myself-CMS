@@ -19,7 +19,7 @@
     <svg-icon icon-class="shouye" />
     <svg-icon icon-class="https://panjiachen.github.io/vue-element-admin-site/home.png" />
     <svg-icon icon-class="bug" />
-    <el-button type="primary" vvbb="12" module="order" v-popup.orderShipping="{a:12, b:13}">主要按钮</el-button>
+    <el-button type="primary" vvbb="12" module="order" v-popup.orderShipping="'0'">主要按钮</el-button>
     <el-button type="primary" id="12" module="order" v-popup.orderShipping="{a:1, b:1}" width="1200">主要按钮</el-button>
   </div>
 </template>
@@ -29,6 +29,7 @@ import { fetchGetAcademicField } from '@/api/apis/academicfield';
 import { fetchGetArticleLabel } from '@/api/apis/articlelabel';
 
 export default {
+  inject:  ['reload'],
   data() {
     return {
       options: [],
