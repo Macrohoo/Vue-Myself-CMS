@@ -1,5 +1,4 @@
 module.exports = {
-
   title: 'MBOKE管理后台',
 
   /**
@@ -14,4 +13,5 @@ module.exports = {
    */
   sidebarLogo: false,
   errorLog: ['production', 'development'] // array也可以
+
 }

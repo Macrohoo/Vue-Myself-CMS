@@ -41,13 +41,12 @@ const mutations = {
   }
 }
 
-
 function filterAsyncRoutes(routes, roles, pageBtn_permission) {
   const res = []
 
   routes.forEach(route => {
-    const tmp = { ...route }  //一级解构对象
-    if (hasPermission(roles, pageBtn_permission ,tmp)) {
+    const tmp = { ...route } // 一级解构对象
+    if (hasPermission(roles, pageBtn_permission, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, roles, pageBtn_permission)
       }
@@ -63,8 +62,8 @@ const actions = {
     return new Promise(resolve => {
       let accessedRouters
       const { roles, pageBtn_permission } = data
-      if (roles.indexOf('超级管理员') >= 0){
-        accessedRouters = asyncRouters  // 当是超级管理员时，所有路由都开放
+      if (roles.indexOf('超级管理员') >= 0) {
+        accessedRouters = asyncRouters // 当是超级管理员时，所有路由都开放
       } else {
         accessedRouters = filterAsyncRoutes(asyncRouters, roles, pageBtn_permission)
       }

@@ -1,7 +1,7 @@
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
-      <router-view :key="key" />
+      <router-view v-if="isRouterAlive" :key="key" />
     </transition>
   </section>
 </template>
@@ -9,9 +9,25 @@
 <script>
 export default {
   name: 'AppMain',
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
+  data() {
+    return {
+      isRouterAlive: true
+    }
+  },
   computed: {
     key() {
       return this.$route.path
+    }
+  },
+  methods: {
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(() => this.isRouterAlive = true)
     }
   }
 }

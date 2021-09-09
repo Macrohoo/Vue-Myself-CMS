@@ -1,28 +1,32 @@
 import utils from './utils'
-import Cookies from 'js-cookie'
-import api from './api'
 
-class cloud {
-  //核心构造体
+class youstructor {
+  // 核心构造体
   constructor(config, self) {
+    this.self = self
     this.utils = utils
-    this.get = api.get
-    this.post = api.post
+    this.ElementUILoading = config.ElementUILoading
+    this.interceptor = config.service
   }
 
-  getToken() {
-    return Cookies.get(TokenKey)
+  axios(options) {
+    const { url, params, method } = options
+    return new Promise((resolve, reject) => {
+      let data = {}
+      if (method.toLowerCase() === 'get') data = { params }
+      if (method.toLowerCase() === 'post') data = { data: params }
+      this.interceptor({
+        url,
+        method,
+        ...data
+      }).then(res => {
+        resolve(res)
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+    })
   }
-
-  setToken(token) {
-    return Cookies.set(TokenKey, token)
-  }
-
-  removeToken() {
-    return Cookies.remove(TokenKey)
-  }
-
-
 }
 
-export default cloud
+export default youstructor

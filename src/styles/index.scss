@@ -17,7 +17,7 @@ label {
 }
 
 html {
-  height: 100%;
+  height: 100%;  /* 主页面是100%并且不支持scroll-y */
   box-sizing: border-box; /* 指定盒模型为 IE模型(怪异模式)更方便后面设置页面 */
 }
 

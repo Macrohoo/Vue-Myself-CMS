@@ -164,7 +164,7 @@ export default {
       }
       fetchAddRole(this.form)
         .then(res => {
-          if(res) {
+          if (res) {
             this.$message({
               type: 'success',
               message: res.message
@@ -184,7 +184,7 @@ export default {
       }
       fetchRolePermissions(rolePermissionData)
         .then(res => {
-          if(res) {
+          if (res) {
             this.$message({
               type: 'success',
               message: res.message

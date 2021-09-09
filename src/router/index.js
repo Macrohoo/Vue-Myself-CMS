@@ -27,20 +27,12 @@ import tuiEditor from '@/components/Editor/tuiEditor'
   }
  */
 
-// 所有权限通用路由表,如首页和登录页和一些不用权限的公用页面
-
 export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
-  // {
-  //   path: '/404',
-  //   component: () => import('@/views/404'),
-  //   hidden: true
-  // },
 
   {
     path: '/',
@@ -57,7 +49,6 @@ export const constantRoutes = [
   {
     path: '/example',
     component: Layout,
-    redirect: '/example/table',
     name: 'Tool Components',
     meta: { title: 'Tool', icon: 'el-icon-folder-opened' },
     children: [
@@ -91,6 +82,12 @@ export const constantRoutes = [
         meta: { title: 'Github', icon: 'github' }
       }
     ]
+  },
+
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
   }
 
 ]

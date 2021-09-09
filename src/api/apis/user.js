@@ -40,7 +40,7 @@ export function fetchRegister(data) {
 export function fetchEditUser(data) {
   return request({
     url: userUrls.editUser,
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -49,7 +49,7 @@ export function fetchEditUser(data) {
 export function fetchEditPassword(data) {
   return request({
     url: userUrls.editPassword,
-    method: 'post',
+    method: 'put',
     data
   })
 }
