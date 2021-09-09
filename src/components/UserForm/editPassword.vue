@@ -85,7 +85,7 @@ export default {
             oldPassword: this.ruleForm2.oldPassword,
             newPassword: this.ruleForm2.checkPass
           }).then((res) => {
-            if(res) {
+            if (res) {
               this.$message({
                 type: 'success',
                 message: res.message

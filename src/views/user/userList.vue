@@ -73,7 +73,7 @@ export default {
     return {
       total: 0,
       currentPage: 1,
-      //sort: null,
+      // sort: null,
       userListData: [],
       dialogVisible: false,
       title: '',
@@ -93,7 +93,7 @@ export default {
       this.userId = '';
     },
     handleEdit(index, row) {
-      if(this.$store.getters.role === '超级管理员' || this.$store.getters.uid === row.id) {
+      if (this.$store.getters.role === '超级管理员' || this.$store.getters.uid === row.id) {
         this.dialogVisible = true;
         this.title = '编辑信息';
         this.userId = row.id;
@@ -115,28 +115,35 @@ export default {
         type: 'warning',
       })
         .then(() => {
-          fetchDelUser({
-            id: row.id,
-          })
-            .then((response) => {
-              if (response) {
-                this.$message({
-                  message: response.message,
-                  type: 'success',
-                });
-                this.getList({
-                  currentPage: this.currentPage,
-                  pageSize: 10,
-                });
-              }
+          if (this.$store.getters.role === '超级管理员') {
+            fetchDelUser({
+              id: row.id,
             })
-            .catch((err) => {
-              this.$throw(err);
-              this.$message({
-                message: err.message,
-                type: 'error',
+              .then((response) => {
+                if (response) {
+                  this.$message({
+                    message: response.message,
+                    type: 'success',
+                  });
+                  this.getList({
+                    currentPage: this.currentPage,
+                    pageSize: 10,
+                  });
+                }
+              })
+              .catch((err) => {
+                this.$throw(err);
+                this.$message({
+                  message: err.message,
+                  type: 'error',
+                });
               });
+          } else {
+            this.$message({
+              message: '您无权限删除用户!',
+              type: 'error',
             });
+          }
         })
         .catch(() => {
           this.$message({
@@ -157,9 +164,12 @@ export default {
       fetchUserList(postdata)
         .then((response) => {
           for (let i = 0; i < response.data.rows.length; i++) {
-            response.data.rows[i].created_at = this.$yian.utils.getDateDiff(response.data.rows[i].created_at);
-            response.data.rows[i].username = response.data.rows[i].username.substring(0, 3) + '***'
-            response.data.rows[i].mobile_phone = response.data.rows[i].mobile_phone.substring(0, 5) + '*****'
+            response.data.rows[i].created_at = this.$yian.utils.getDateDiff(
+              response.data.rows[i].created_at
+            );
+            response.data.rows[i].username = response.data.rows[i].username.substring(0, 3) + '***';
+            response.data.rows[i].mobile_phone =
+              response.data.rows[i].mobile_phone.substring(0, 5) + '*****';
             if (response.data.rows[i].status === '1') {
               response.data.rows[i].status = '启用';
             } else {

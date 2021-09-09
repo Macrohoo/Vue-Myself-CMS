@@ -21,12 +21,13 @@
           class="avatar-uploader"
           action="https://mboke.top/api/qiniu/upload"
           :show-file-list="false"
+          :multiple="false"
           :on-success="handlethumbnailSuccess"
           :on-progress="handlethumbnailLoading"
           :before-upload="beforethumbnailUpload"
         >
           <div slot="tip" class="el-upload__tip">
-            <el-progress :text-inside="true" :stroke-width="26" :percentage="thumbnailProcess"></el-progress>
+            <el-progress :text-inside="true" :stroke-width="26" :percentage="thumbnailProcess" />
             <p>只能上传jpg/png文件，且不超过2MB!</p>
           </div>
           <img v-if="article.thumbnail" :src="article.thumbnail" class="avatar">
@@ -37,6 +38,7 @@
         <el-upload
           class="avatar-uploader"
           action="https://mboke.top/api/qiniu/upload"
+          :multiple="false"
           :show-file-list="false"
           :on-success="handleBannerSuccess"
           :before-upload="beforeBannerUpload"
@@ -74,12 +76,12 @@ export default {
         value: '' // 这个值是根据文章二次编辑时的富文本内容传入的
       },
       isClear: false, // isClear用在发布文章后，清空富文本内容
-      thumbnailProcess: 0,   //thumbnail进度
+      thumbnailProcess: 0 // thumbnail进度
     }
   },
   mounted() {
-    const id = this.$route.query.articleId
-    if (id !== null) {
+    if (Object.keys(this.$route.query).length > 0) {
+      const id = this.$route.query.articleId
       fetchGetArticle({ id }).then(res => {
         for (const item in this.article) {
           this.article[item] = res[item]
@@ -133,14 +135,14 @@ export default {
       return (isLt5M && isJPG) || (isPNG && isLt5M)
     },
     submitArticle() {
-      if(typeof(this.article.article_label) !== 'object') {
+      if (typeof (this.article.article_label) !== 'object') {
         this.$message({
           message: '文章标签必填!',
           type: 'error'
         })
       } else {
         fetchAddArticle(this.article).then(response => {
-          if(response) {
+          if (response) {
             this.$message({
               type: 'success',
               message: response.message
@@ -152,7 +154,6 @@ export default {
           this.$throw(err)
         })
       }
-
     }
   }
 }

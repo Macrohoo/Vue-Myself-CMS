@@ -1,7 +1,7 @@
 import utils from './utils'
 
 class youstructor {
-  //核心构造体
+  // 核心构造体
   constructor(config, self) {
     this.self = self
     this.utils = utils
@@ -10,15 +10,15 @@ class youstructor {
   }
 
   axios(options) {
-    const {url, params, method} = options
+    const { url, params, method } = options
     return new Promise((resolve, reject) => {
       let data = {}
-      if(method.toLowerCase() === 'get') data = {params}
-      if(method.toLowerCase() === 'post') data = {data: params}
+      if (method.toLowerCase() === 'get') data = { params }
+      if (method.toLowerCase() === 'post') data = { data: params }
       this.interceptor({
         url,
         method,
-        ...data,
+        ...data
       }).then(res => {
         resolve(res)
       }).catch(err => {
@@ -27,7 +27,6 @@ class youstructor {
       })
     })
   }
-
 }
 
 export default youstructor

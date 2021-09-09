@@ -15,16 +15,16 @@
       class="demo-ruleForm"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="ruleForm2.username" autocomplete="off" />
+        <el-input v-model="ruleForm2.username" autocomplete="off" :disabled="this.$store.getters.role !== '超级管理员'"/>
       </el-form-item>
-      <el-form-item v-if="!this.userId" label="密码" prop="password">
+      <el-form-item v-show="!this.userId" label="密码" prop="password">
         <el-input
           v-model="ruleForm2.password"
           type="password"
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item v-if="!this.userId" label="确认密码" prop="checkPass">
+      <el-form-item v-show="!this.userId" label="确认密码" prop="checkPass">
         <el-input
           v-model="ruleForm2.checkPass"
           type="password"
@@ -74,7 +74,7 @@
           :disabled="true"
         />
       </el-form-item>
-      <el-form-item label="是否启用">
+      <el-form-item label="是否启用" v-show="this.$store.getters.role === '超级管理员'">
         <el-switch v-model="ruleForm2.status" />
       </el-form-item>
       <el-form-item label="头像上传">
@@ -235,11 +235,15 @@ export default {
         if (valid) {
           const newData = {}
           for (const item in this.ruleForm2) {
-            newData[item] = this.ruleForm2[item]
+            if(item === 'age') {
+              newData[item] = parseInt(this.ruleForm2[item])
+            } else {
+              newData[item] = this.ruleForm2[item]
+            }
           }
           if (!this.userId) {
             fetchRegister(newData).then(res => {
-              if(res) {
+              if (res) {
                 this.$message({
                   type: 'success',
                   message: res.message
@@ -251,8 +255,13 @@ export default {
             })
           } else {
             newData.id = this.userId
+            for(const key in newData) {
+              if(key === 'username' || key === 'password' || key === 'checkPass') {
+                delete newData[key]
+              }
+            }
             fetchEditUser(newData).then(res => {
-              if(res) {
+              if (res) {
                 this.$message({
                   type: 'success',
                   message: res.message

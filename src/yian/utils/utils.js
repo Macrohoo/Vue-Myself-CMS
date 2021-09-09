@@ -4,17 +4,17 @@
  * @return {[type]}          [description]
  */
 function deepClone(obj) {
-  if ([null, undefined, NaN, false].includes(obj)) return obj;
+  if ([null, undefined, NaN, false].includes(obj)) return obj
   if (typeof obj !== 'object' && typeof obj !== 'function') {
-    return obj;
+    return obj
   }
-  let o = Object.prototype.toString.call(obj) === '[object Array]' ? [] : {};
-  for (let i in obj) {
+  const o = Object.prototype.toString.call(obj) === '[object Array]' ? [] : {}
+  for (const i in obj) {
     if (obj.hasOwnProperty(i)) {
-      o[i] = typeof obj[i] === 'object' ? deepClone(obj[i]) : obj[i];
+      o[i] = typeof obj[i] === 'object' ? deepClone(obj[i]) : obj[i]
     }
   }
-  return o;
+  return o
 }
 
 /**
@@ -29,60 +29,60 @@ function deepClone(obj) {
 function copyData(obj, cache = []) {
   // 如果obj是不可变值，就返回
   if (obj === null || typeof obj !== 'object') {
-    return obj;
+    return obj
   }
 
   // 如果obj被击中，则为圆形结构
-  const hit = find(cache, (c) => c.original === obj);
+  const hit = find(cache, (c) => c.original === obj)
   if (hit) {
-    return hit.copy;
+    return hit.copy
   }
 
-  const copy = Array.isArray(obj) ? [] : {};
-  //先把副本放到缓存里
-  //因为我们想在copyData递归中引用它
+  const copy = Array.isArray(obj) ? [] : {}
+  // 先把副本放到缓存里
+  // 因为我们想在copyData递归中引用它
   cache.push({
     original: obj,
-    copy,
-  });
+    copy
+  })
 
   Object.keys(obj).forEach((key) => {
-    copy[key] = copyData(obj[key], cache);
-  });
+    copy[key] = copyData(obj[key], cache)
+  })
 
-  return copy;
+  return copy
 }
 
-//时间处理
+// 时间处理
 function getDateDiff(timespan) {
-  var dateTime = new Date(timespan);
-  var year = dateTime.getFullYear();
+  var dateTime = new Date(timespan)
+  var year = dateTime.getFullYear()
   var month =
-    dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : dateTime.getMonth() + 1;
-  var day = dateTime.getDate() < 10 ? '0' + dateTime.getDate() : dateTime.getDate();
-  var hour = dateTime.getHours() < 10 ? '0' + dateTime.getHours() : dateTime.getHours();
-  var minute = dateTime.getMinutes() < 10 ? '0' + dateTime.getMinutes() : dateTime.getMinutes();
-  var seconds = dateTime.getSeconds() < 10 ? '0' + dateTime.getSeconds() : dateTime.getSeconds();
-  var now = new Date();
-  var nowNew = now.getTime();
-  var milliseconds = 0;
-  var timeSpanStr;
-  milliseconds = nowNew - dateTime;
+    dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : dateTime.getMonth() + 1
+  var day = dateTime.getDate() < 10 ? '0' + dateTime.getDate() : dateTime.getDate()
+  var hour = dateTime.getHours() < 10 ? '0' + dateTime.getHours() : dateTime.getHours()
+  var minute = dateTime.getMinutes() < 10 ? '0' + dateTime.getMinutes() : dateTime.getMinutes()
+  var seconds = dateTime.getSeconds() < 10 ? '0' + dateTime.getSeconds() : dateTime.getSeconds()
+  var now = new Date()
+  var nowNew = now.getTime()
+  var milliseconds = 0
+  var timeSpanStr
+  milliseconds = nowNew - dateTime
 
   if (milliseconds <= 1000 * 60 * 1) {
-    timeSpanStr = '刚刚';
+    timeSpanStr = '刚刚'
   } else if (1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
-    timeSpanStr = Math.round(milliseconds / (1000 * 60)) + '分钟前';
+    timeSpanStr = Math.round(milliseconds / (1000 * 60)) + '分钟前'
   } else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
-    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前';
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前'
   } else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 3) {
-    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前'
   } else if (milliseconds > 1000 * 60 * 60 * 24 * 3 && year === now.getFullYear()) {
-    timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
+    timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds
   } else {
-    timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
+    timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds
   }
-  return timeSpanStr;
+  return timeSpanStr
 }
 
 /**
@@ -92,37 +92,37 @@ function getDateDiff(timespan) {
  */
 function empty($obj) {
   // 检验非数组/对象类型  EX：undefined   null  ''  根据自身要求添加其他适合的为空的值  如：0 ,'0','  '  等
-  if (!$obj && $obj !== 0 && $obj !== '') return true;
+  if (!$obj && $obj !== 0 && $obj !== '') return true
   if (typeof $obj === 'string') {
     // 移除字符串中所有 ''
-    $obj = $obj.replace(/\s*/g, '');
-    if ($obj === '') return true;
+    $obj = $obj.replace(/\s*/g, '')
+    if ($obj === '') return true
   }
   return (
     (Array.isArray($obj) && $obj.length === 0) ||
     (Object.prototype.isPrototypeOf($obj) && Object.keys($obj).length === 0)
-  );
+  )
 }
 
 /**
  * 数组，字符串去重
- * @param Array,String
+ * @param {[Array,String]} params
  * @returns
  */
 function unique(params) {
   if (this.getTypeOf(params) === 'Array') {
-    return [...new Set(arr)];
+    return [...new Set(params)]
   }
   if (this.getTypeOf(params) === 'String') {
-    let obj = {};
-    let str = '';
+    const obj = {}
+    let str = ''
     for (let i = 0, len = params.length; i < len; i++) {
       if (obj[params[i]]) {
-        str += params[i];
-        obj[params[i]] = true;
+        str += params[i]
+        obj[params[i]] = true
       }
     }
-    return str;
+    return str
   }
 }
 
@@ -132,8 +132,8 @@ function unique(params) {
  * @returns true or false
  */
 function mobileCheck(mobile) {
-  let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
-  return reg.test(mobile);
+  const reg = /^[1][3,4,5,7,8][0-9]{9}$/
+  return reg.test(mobile)
 }
 
 /**
@@ -149,42 +149,42 @@ function unixDate(
   targetTime = null,
   { format = '', showTime = false, showYear = true, showSecond = false } = {}
 ) {
-  let time;
+  let time
   const date = [
     '0', // 年
     '0', // 月
     '0', // 日
     '0', // 时
-    '0', // 分
-  ];
+    '0' // 分
+  ]
   if (targetTime === null) {
-    time = new Date();
+    time = new Date()
   } else {
-    time = new Date(+targetTime * 1000);
+    time = new Date(+targetTime * 1000)
   }
 
-  date[0] = `${time.getFullYear()}`.padStart(2, '0');
-  date[1] = `${time.getMonth() + 1}`.padStart(2, '0');
-  date[2] = `${time.getDate()}`.padStart(2, '0');
-  date[3] = `${time.getHours()}`.padStart(2, '0');
-  date[4] = `${time.getMinutes()}`.padStart(2, '0');
-  date[5] = `${time.getSeconds()}`.padStart(2, '0');
+  date[0] = `${time.getFullYear()}`.padStart(2, '0')
+  date[1] = `${time.getMonth() + 1}`.padStart(2, '0')
+  date[2] = `${time.getDate()}`.padStart(2, '0')
+  date[3] = `${time.getHours()}`.padStart(2, '0')
+  date[4] = `${time.getMinutes()}`.padStart(2, '0')
+  date[5] = `${time.getSeconds()}`.padStart(2, '0')
 
-  let result = '';
+  let result = ''
   if (showYear) {
-    result += date[0] + (format === '' ? '年' : format);
+    result += date[0] + (format === '' ? '年' : format)
   }
   if (format === '') {
-    result += `${date[1]}月${date[2]}日`;
+    result += `${date[1]}月${date[2]}日`
   } else {
-    result += [date[1], date[2]].join(format);
+    result += [date[1], date[2]].join(format)
   }
   if (showTime && !showSecond) {
-    result += ` ${[date[3], date[4]].join(':')}`;
+    result += ` ${[date[3], date[4]].join(':')}`
   } else if (showTime && showSecond) {
-    result += ` ${[date[3], date[4], date[5]].join(':')}`;
+    result += ` ${[date[3], date[4], date[5]].join(':')}`
   }
-  return result;
+  return result
 }
 
 /**
@@ -193,7 +193,7 @@ function unixDate(
  * @returns {Boolean}
  */
 function isExternal(path) {
-  return /^(https?:|mailto:|tel:)/.test(path);
+  return /^(https?:|mailto:|tel:)/.test(path)
 }
 
 /**
@@ -204,11 +204,11 @@ function isExternal(path) {
  */
 function addEvent(element, event, listener, capture = false) {
   if (element.addEventListener) {
-    element.addEventListener(event, listener, capture);
+    element.addEventListener(event, listener, capture)
   } else if (element.attachEvent) {
-    element.attachEvent('on' + event, listener);
+    element.attachEvent('on' + event, listener)
   } else {
-    element['on' + event] = listener;
+    element['on' + event] = listener
   }
 }
 
@@ -219,9 +219,9 @@ function addEvent(element, event, listener, capture = false) {
  */
 function getShift(data) {
   if (data) {
-    return Object.keys(data).shift();
+    return Object.keys(data).shift()
   } else {
-    return false;
+    return false
   }
 }
 
@@ -236,15 +236,15 @@ function getShift(data) {
  * @returns {[type]}
  */
 function getInstance(Component, props = {}, options = {}) {
-  let instance = new Component({
+  const instance = new Component({
     propsData: props,
     parent: options.parent || null,
     data() {
-      return options.data || {};
+      return options.data || {}
     },
     el: options.el || document.createElement('div')
-  });
-  return instance;
+  })
+  return instance
 }
 
 export default {
@@ -259,4 +259,4 @@ export default {
   isExternal,
   addEvent,
   getShift
-};
+}

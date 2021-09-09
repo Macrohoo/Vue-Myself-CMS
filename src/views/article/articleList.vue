@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     handleEdit(index, row) {
-      if(this.$store.getters.role === '超级管理员' || this.$store.getters.uid === row.author || this.$store.getters.role === '管理员') {
+      if (this.$store.getters.role === '超级管理员' || this.$store.getters.uid === row.author || this.$store.getters.role === '管理员') {
         this.$router.push({
           name: '发表文章',
           query: {
@@ -57,8 +57,8 @@ export default {
       } else {
         this.$message({
           message: '您无权限编辑他人帖子!',
-          type: 'error',
-        });
+          type: 'error'
+        })
       }
     },
     handleDelete(index, row) {
@@ -66,7 +66,7 @@ export default {
         id: row.id
       })
         .then(response => {
-          if(response) {
+          if (response) {
             this.$message({
               type: 'success',
               message: response.message

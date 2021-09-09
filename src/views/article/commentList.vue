@@ -51,7 +51,7 @@ export default {
       fetchDelComment({
         id: row.id
       }).then(response => {
-        if(response) {
+        if (response) {
           this.$message({
             type: 'success',
             message: response.message

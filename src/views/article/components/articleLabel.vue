@@ -2,31 +2,36 @@
   <div>
     <el-cascader
       ref="label"
-      placeholder="文章标签"
       v-model="value"
+      placeholder="文章标签"
       :options="options"
       :show-all-levels="false"
-      @change="handleChange"
       :props="{ multiple: true, checkStrictly: true, emitPath: false }"
       clearable
-    ></el-cascader>
+      @change="handleChange"
+    />
   </div>
 </template>
 
 <script>
-import { fetchGetAcademicField } from '@/api/apis/academicfield';
-import { fetchGetArticleLabel } from '@/api/apis/articlelabel';
+import { fetchGetAcademicField } from '@/api/apis/academicfield'
+import { fetchGetArticleLabel } from '@/api/apis/articlelabel'
 
 export default {
   data() {
     return {
       options: [],
-      value: [],
-    };
+      value: []
+    }
+  },
+  async created() {
+    const old1 = await fetchGetAcademicField()
+    const old2 = await fetchGetArticleLabel()
+    this.handleOptions(old1, old2)
   },
   methods: {
     handleChange() {
-      this.$emit('translabel', this.value);
+      this.$emit('translabel', this.value)
     },
     handleOptions(old1, old2) {
       old1.data.forEach((element) => {
@@ -35,28 +40,23 @@ export default {
           label: element.academic_name,
           id: element.id,
           children: [],
-          disabled: true,
-        });
-      });
+          disabled: true
+        })
+      })
       this.options.forEach((element) => {
-        const attrs = element.id;
+        const attrs = element.id
         old2.data.forEach((element2) => {
           if (attrs == element2.field_id) {
             element.children.push({
               value: element2.label_name,
-              label: element2.label_name,
-            });
+              label: element2.label_name
+            })
           }
-        });
-      });
-    },
-  },
-  async created() {
-    const old1 = await fetchGetAcademicField();
-    const old2 = await fetchGetArticleLabel();
-    this.handleOptions(old1, old2);
-  },
-};
+        })
+      })
+    }
+  }
+}
 </script>
 
 <style></style>

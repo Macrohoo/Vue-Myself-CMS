@@ -5,12 +5,13 @@
     :visible.sync="visible"
     :width="`${width}px`"
     :top="top"
-    center>
+    center
+  >
     <span>需要注意的是内容是默认不居中的</span>
-    <component ref="cpo" :is="content"></component>
-    <span slot="footer" class="dialog-footer" v-if="!hide_footer">
-      <el-button @click="handleClosed" v-if="!hide_cancel">取 消</el-button>
-      <el-button type="primary" @click="handleOk">{{sure_btn}}</el-button>
+    <component :is="content" ref="cpo" v-model="value"/>
+    <span v-if="!hide_footer" slot="footer" class="dialog-footer">
+      <el-button v-if="!hide_cancel" @click="handleClosed">取 消</el-button>
+      <el-button type="primary" @click="handleOk">{{ sure_btn }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -24,7 +25,7 @@ export default {
     },
     top: {
       type: String,
-      default: "15vh"
+      default: '15vh'
     },
     hide_footer: {
       type: Boolean,
@@ -41,11 +42,11 @@ export default {
       type: String,
       default: '确定'
     },
-    //ComponentConstructor构造函数
+    // ComponentConstructor构造函数
     content: {
       type: [Object, Function]
     },
-    value: [Array, Object, Number, String]
+    value: [Object, Number, String]
   },
   data() {
     return {
@@ -58,10 +59,10 @@ export default {
       this.visible = false
     },
     async handleOk(e) {
-      this.affirm = true;
+      this.affirm = true
       try {
         await this.$refs.cpo.affirm(this)
-        //这里想一下到底是是在这个模型中去关闭这个窗口，还是交给子component中
+        // 这里想一下到底是是在这个模型中去关闭这个窗口，还是交给子component中
       } catch (error) {
         console.error('affirm事件不存在[Please define affirm event in the component]!', error)
       }

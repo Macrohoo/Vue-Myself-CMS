@@ -68,7 +68,6 @@
 import { fetchRegister } from '@/api/apis/user'
 import { fetchGetRoleList } from '@/api/apis/role'
 
-
 export default {
   name: 'RegisterUser',
   props: {
@@ -128,18 +127,21 @@ export default {
       }
     }
   },
+  created() {
+    this.getTouristRoleId()
+  },
   methods: {
     closeCallback() {
       this.$emit('successCallback')
     },
     submitForm(Form) {
       this.$refs[Form].validate(valid => {
-        if(this.registerForm.role_id.length > 0) {
+        if (this.registerForm.role_id.length > 0) {
           if (valid) {
             fetchRegister(this.registerForm)
               .then(res => {
                 console.log(res)
-                if(res) {
+                if (res) {
                   this.$message({
                     type: 'success',
                     message: res.message
@@ -169,7 +171,7 @@ export default {
       fetchGetRoleList().then(res => {
         const arr = res.data.rows
         arr.forEach(element => {
-          if(element.name === '管理员') {
+          if (element.name === '管理员') {
             element.disabled = true
             this.roleData.push(element)
           } else {
@@ -178,9 +180,6 @@ export default {
         })
       })
     }
-  },
-  created() {
-    this.getTouristRoleId()
   }
 }
 </script>

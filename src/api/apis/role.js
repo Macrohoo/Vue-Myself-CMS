@@ -31,7 +31,7 @@ export function fetchDelRole(data) {
 export function fetchRolePermissions(data) {
   return request({
     url: roleUrls.rolePermissions,
-    method: 'post',
+    method: 'put',
     data
   })
 }

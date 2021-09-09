@@ -1,5 +1,8 @@
 import yian from '@/yian/index'
-import orderShipping from './components/orderShipping.vue'  //任何导入的vue组件已经是一个compiled的对象
+//import yian from 'yian'
+import orderShipping from './components/orderShipping.vue' // 任何导入的vue组件已经是一个compiled的对象
+
+console.log(orderShipping)
 
 const modules = {}
 

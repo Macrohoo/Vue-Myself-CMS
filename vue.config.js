@@ -34,8 +34,8 @@ module.exports = {
     //before: require('./mock/mock-server.js'),   //mock数据实现模拟配置
     proxy: {
       "/api": {
-        //target: "http://localhost:7001",
-        target: "http://mboke.top:7001/",
+        target: "http://localhost:7001",
+        //target: "http://mboke.top:7001/",
         changeOrigin: true, // 允许跨域
         ws: true,
         pathRewrite: {"^/api" : ""}
