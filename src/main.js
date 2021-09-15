@@ -8,6 +8,7 @@ import locale from 'element-ui/lib/locale/lang/en'; // lang i18n
 
 import '@/styles/index.scss'; // global css
 import '@/styles/flex-class.css'; // 引入flex快写样式
+import '@/styles/yel-ui.scss'; //引入个人定制化修改的element-ui样式
 import '@/icons/js/symbolIcon.js'; // 最新symbol引入全新的使用方式,应该说是未来的Icon引入主流,还对Icon组件进行了处理，即可以用aliIcon，也可以用静态本地icons
 
 import App from './App';
@@ -48,7 +49,8 @@ Vue.config.productionTip = false;
 Vue.use(yian);
 const $_Y = {
   service,
-  ElementUILoading: true,
+  ElementUILoading: false,
+  baseVersionApi: 'v2'
 };
 
 Vue.prototype.$yian = yian.content($_Y);

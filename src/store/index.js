@@ -6,6 +6,7 @@ import settings from './modules/settings'
 import user from './modules/user'
 import routerpermission from './modules/routerpermission'
 import errorLog from './modules/errorLog'
+import gallery from './modules/gallery'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     settings,
     user,
     routerpermission,
-    errorLog
+    errorLog,
+    gallery
   },
   getters
 })
