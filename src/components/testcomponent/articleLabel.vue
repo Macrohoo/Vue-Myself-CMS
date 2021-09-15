@@ -31,7 +31,18 @@
       >主要按钮</el-button
     >
     <testcom></testcom>
-    <testcom2></testcom2>
+    <testcom2 @click.native="comCli">
+      <template v-slot:testcom2>
+      <span>helloword</span>
+      </template>>
+    </testcom2>
+    <img @click="upload" style="width: 200px; height: 200px; background: green; z-index: 999" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fbpic.588ku.com%2Felement_pic%2F01%2F35%2F77%2F80573bf4a16f06d.jpg&refer=http%3A%2F%2Fbpic.588ku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1633854298&t=4bba4d95e06dc28e6d3b647901b5d63d" alt="">
+    <div v-html="`<div style='width: 200px; height: 200px; background: green;'>haha</div>`"></div>
+    <label for="upload-file">通过label标签点击这里上传文件，修改一下样式</label>
+    <input type="file" id="upload-file" title=" " style="display: none">
+
+
+
   </div>
 </template>
 
@@ -53,27 +64,30 @@ export default {
     };
   },
   async created() {
-    // const old1 = await fetchGetAcademicField();
-    // const old2 = await fetchGetArticleLabel();
+    const old1 = await fetchGetAcademicField();
+    const old2 = await fetchGetArticleLabel();
 
     const s1 = [1, 2, 3, 4, 5];
     const s2 = this.$yian.utils.deepClone(s1);
     console.log(s2);
-    const old2 = await this.$yian
-      .articlelabel('get', { behavior: 'getArticleLabel' })
-      .page({ page: 1, size: 10 });
-    const old1 = await this.$yian.axios({ url: '/academic/getAcademicField', method: 'get' });
+    const gallery = await this.$yian
+      .gallery('get', {include: 'group'})
+      .page({ currentPage: 1, pageSize: 10 });
+    console.log(gallery)
 
     this.handleOptions(old1, old2);
-
-    const res = await this.$yian.admin(
-      'post',
-      { behavior: 'user/login' },
-      { loginuser: '18768105049', password: '18768105049' }
-    );
-    console.log(res);
   },
   methods: {
+    comCli() {
+      console.log('haha')
+    },
+    upload(e) {
+      console.log(e)
+      let input = document.createElement("input");
+      input.type="file";
+      input.click();
+    },
+
     handleChange() {
       this.$emit('translabel', this.value);
     },

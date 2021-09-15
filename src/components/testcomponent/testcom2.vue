@@ -2,6 +2,7 @@
   <div>
     <!-- <el-button @click="cc">按钮啊</el-button> -->
     我是一个虚假的组件页面
+    <slot name="testcom2"></slot>
   </div>
 </template>
 
