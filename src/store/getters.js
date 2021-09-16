@@ -13,6 +13,7 @@ const getters = {
   roleTree: state => state.routerpermission.roleTree,
   errorLogs: state => state.errorLog.logs,
   groups: state => state.gallery.groups,
-  materials: state => state.gallery.materials
+  materials: state => state.gallery.materials,
+  cascaderGroups: state => state.gallery.cascaderGroups
 }
 export default getters
