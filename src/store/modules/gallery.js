@@ -1,6 +1,23 @@
+function casGroups (arr) {
+  arr.forEach(v => {
+    v.value = v.id
+    v.label = v.name
+    for (const i in v) {
+      if(i !== 'value' && i !== 'label' && i !== 'children') {
+        delete v[i]
+      }
+    }
+    if(v.children) {
+      casGroups(v.children)
+    }
+  })
+  return arr
+}
+
 const state = {
   groups: [],
   materials: [],
+  cascaderGroups: []
 };
 
 const mutations = {
@@ -10,6 +27,9 @@ const mutations = {
   SET_MATERIALS: (state, materials) => {
     state.materials = materials;
   },
+  SET_CASCADERGROUPS: (state, copyGroups) => {
+    state.cascaderGroups = casGroups(copyGroups)
+  }
 };
 
 const actions = {
@@ -23,6 +43,8 @@ const actions = {
             element.cancelVisible = false; //删除重复确认属性
           });
           commit('SET_GROUPS', res.data);
+          const copyGroups = this._vm.$yian.utils.copyData(res.data)
+          commit('SET_CASCADERGROUPS', copyGroups)
           console.log(res);
           resolve(res.data);
         })

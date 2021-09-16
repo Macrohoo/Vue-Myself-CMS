@@ -89,5 +89,76 @@
 }
 
 .el-checkbox {
-  font-weight: 900
+  font-weight: 900;
+}
+
+/* label原始定制样式 */
+.ya-label {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  span {
+    color: #606266;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    width: 64px;
+    text-align: center;
+  }
+}
+
+.ya-select {
+  visibility: hidden; /* 隐藏选择框，但仍占据块 */
+  + div {
+    /* 选择框input隔壁就是主图块 */
+    // width: 84px;
+    // height: 84px;
+    position: relative;
+    margin: 0px 6px;
+    .icon {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: 99;
+      opacity: 0;
+    }
+  }
+  &:checked + div {
+    /* 根据ya-select被选中后隔壁的div样式改变被选中的状态 */
+    background: rgba(98, 60, 235, 0.05);
+    border: 1px solid #623ceb;
+    border-radius: 3px;
+    .icon {
+      opacity: 1 !important;
+    }
+  }
+}
+
+/* cascader-panel定制样式 */
+.yael-cascader {
+  overflow: auto;
+  .el-cascader-menu__wrap {
+    border-right: 1px solid #e4e7ed;
+  }
+  .el-cascader-node.in-active-path {
+    color: #623ceb;
+  }
+  .el-cascader-node.is-active {
+    color: #623ceb;
+  }
+  .el-cascader-node.is-selectable.in-checked-path {
+    color: #623ceb;
+  }
+  .el-radio__inner {
+    &:hover {
+      border-color: #623ceb;
+    }
+  }
+  .el-radio__input.is-checked .el-radio__inner {
+    border-color: #623ceb;
+    background: #623ceb;
+  }
 }

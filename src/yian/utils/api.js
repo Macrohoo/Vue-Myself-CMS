@@ -92,7 +92,7 @@ export default class api {
         console.log(err);
         reject(err);
       }).finally(() => {
-        if (method.toLowerCase() === 'get') {
+        if (method.toLowerCase() === 'get' && loadingInstance) {
           loadingInstance.close();
         }
       });

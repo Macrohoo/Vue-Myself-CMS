@@ -66,35 +66,47 @@
     </el-card>
     <div class="right flex flex-direction">
       <div class="right-tool flex flex-shrink-0 justify-start align-center">
-        <el-button size="small" class="yael-button" v-show="currentIndex !== -1">上传图片</el-button>
-        <el-button size="small" class="yael-button" v-show="currentIndex !== -1">新建子分组</el-button>
-        <el-checkbox
+        <el-button size="small" class="yael-button" v-show="currentIndex !== -1"
+          >上传图片</el-button
+        >
+        <el-button size="small" class="yael-button" v-show="currentIndex !== -1"
+          >新建子分组</el-button
+        >
+        <!--         <el-checkbox
           :indeterminate="isIndeterminate"
           v-model="checkAll"
           @change="handleCheckAllChange"
           style="margin: 0 20px"
           >全选</el-checkbox
-        >
+        > -->
         <el-button size="small" class="yael-button" :disabled="true">删除</el-button>
-        <el-button size="small" class="yael-button">移动至</el-button>
+        <OMCascader style="margin: 0px 10px" :options="this.$store.getters.cascaderGroups" @confirm="nm">
+          <el-button size="small" class="yael-button">移动至</el-button>
+        </OMCascader>
         <el-button size="small" class="yael-button">重命名</el-button>
       </div>
       <div
         class="right-contain flex flex-grow-1 flex-direction justify-between"
         v-if="currentIndex === -1"
       >
-        <div class="right-contain-flie flex justify-start" style="height: 30%">
+        <div class="right-contain-flie flex justify-start" style="height: 30%; border-bottom: 2px solid #E3E3E3;">
           <div v-for="(item, index) in this.$store.getters.groups" :key="index">
-            <div class="flex flex-direction justify-center align-center">
-              <el-image
-                style="width:64px; height:64px; margin: 15px"
-                src="http://manongyun.oss-cn-hangzhou.aliyuncs.com/Qmpaas/le-icon-folder.png"
-              ></el-image>
-              <span>{{ item.name }}</span>
-            </div>
+            <YaLabel @selectX="(val) => selectFiles = val" :options="item" :selectData="selectFiles"></YaLabel>
+<!--             <label class="ya-label">
+              <input type="checkbox" class="ya-select" :value="item" v-model="selectFiles" />
+              <div class="file-contain-item flex flex-direction justify-center align-center">
+                <svg-icon icon-class="ziluobu" class="icon" />
+                <el-image
+                  style="width:64px; height:64px;"
+                  src="http://manongyun.oss-cn-hangzhou.aliyuncs.com/Qmpaas/le-icon-folder.png"
+                ></el-image>
+                <span>{{ item.name }}</span>
+              </div>
+            </label> -->
           </div>
         </div>
-        <div class="right-contain-pv flex flex-wrap" style="height: 70%; padding: 40px 20px">
+
+        <div class="right-contain-pv flex flex-wrap" style="height: 70%; padding: 40px 20px;">
           <div v-for="(item, index) in this.$store.getters.materials" :key="index">
             <div class="flex flex-direction justify-center align-center">
               <el-image style="width:84px; height:84px; margin: 10px" :src="item.url"></el-image>
@@ -109,23 +121,40 @@
 
 <script>
 import OMDialog from '../components/ominiDialog.vue';
+import OMCascader from '../components/ominiCascader.vue'
+import YaLabel from '../components/yaLabel.vue'
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
     OMDialog,
+    OMCascader,
+    YaLabel
   },
   data() {
     return {
       currentIndex: Number,
+      selectFiles: [],
+      selectMaterials: []
       //groupList: [],
     };
+  },
+  watch: {
+    selectFiles: {
+      handler(newVal) {
+        console.log(newVal)
+      }
+    },
+    deep: true
   },
   methods: {
     ...mapActions({
       handleGroups: 'gallery/handleGroups',
       handleMaterials: 'gallery/handleMaterials',
     }),
+    nm(val) {
+      console.log(val)
+    },
     async checkGroup(index) {
       console.log(index);
       this.currentIndex = index;
@@ -136,12 +165,6 @@ export default {
       await this.handleMaterials({ page: 1, size: 10 });
       console.log(this.$store.getters.materials);
     },
-    // editGroup(item) {
-    //   try {
-    //     const res = this.handlePPGroup()
-    //   }
-    //   console.log(item);
-    // },
     async handlePostGroup(data) {
       try {
         const res = await this.$yian.gallery(
@@ -241,7 +264,7 @@ export default {
         color: rgba(0, 0, 0, 0.45);
         font-weight: 500;
         font-size: 14px;
-        cursor: pointer;   //变一只手
+        cursor: pointer; //变一只手
         span {
           margin-left: 10px;
         }
@@ -278,18 +301,9 @@ export default {
     }
     .right-contain {
       .right-contain-flie {
-        padding: 10px 30px;
-        width: 96%;
+        padding: 10px 0px;
+        margin: 0px 20px;
         overflow: scroll;
-      }
-      span {
-        color: #606266;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 14px;
-        width: 84px;
-        text-align: center;
       }
     }
   }
