@@ -14,6 +14,9 @@ const getters = {
   errorLogs: state => state.errorLog.logs,
   groups: state => state.gallery.groups,
   materials: state => state.gallery.materials,
-  cascaderGroups: state => state.gallery.cascaderGroups
+  cascaderGroups: state => state.gallery.cascaderGroups,
+  containGroups: state => state.gallery.containGroups,
+  containMaterials: state => state.gallery.containMaterials,
+  containPagesCount: state => state.gallery.containPagesCount
 }
 export default getters

@@ -76,8 +76,8 @@ export default class api {
     }
     return new Promise((resolve, reject) => {
       let data;
-      if (method === 'get' || method === 'delete') data = { params };
-      if (method === 'post' || method === 'put') data = { data: params };
+      if (method === 'get') data = { params };
+      if (method === 'post' || method === 'put' || method === 'delete') data = { data: params };
       this.youstructor.interceptor({
         url,
         method,
