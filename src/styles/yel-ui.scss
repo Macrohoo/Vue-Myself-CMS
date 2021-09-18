@@ -103,7 +103,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 14px;
-    width: 64px;
+    width: 80px;
     text-align: center;
   }
 }
@@ -143,22 +143,6 @@
   .el-cascader-menu__wrap {
     border-right: 1px solid #e4e7ed;
   }
-  .el-cascader-node.in-active-path {
-    color: #623ceb;
-  }
-  .el-cascader-node.is-active {
-    color: #623ceb;
-  }
-  .el-cascader-node.is-selectable.in-checked-path {
-    color: #623ceb;
-  }
-  .el-radio__inner {
-    &:hover {
-      border-color: #623ceb;
-    }
-  }
-  .el-radio__input.is-checked .el-radio__inner {
-    border-color: #623ceb;
-    background: #623ceb;
-  }
 }
+
+

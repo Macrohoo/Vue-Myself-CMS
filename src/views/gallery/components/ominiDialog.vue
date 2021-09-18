@@ -18,10 +18,10 @@ export default {
       default: false,
     },
     parent_id: {
-      type: Number,
+      type: [Number, String],
     },
     id: {
-      type: Number,
+      type: [Number, String],
     },
   },
   data() {

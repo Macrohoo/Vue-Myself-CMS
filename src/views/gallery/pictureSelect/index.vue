@@ -22,7 +22,8 @@
             <div
               class="left-groups-row"
               :class="{ current: index === currentIndex }"
-              @click.self="checkGroup(index)"
+              :data-id="item.id"
+              @click.self="checkGroup(index, $event)"
             >
               <div class="flex align-center">
                 <svg-icon icon-class="wenjian" style="width:20px; height:20px" />
@@ -41,12 +42,8 @@
                 <el-popover placement="top" width="160" v-model="item.cancelVisible">
                   <p>警告:确定删除素材分组?</p>
                   <div style="text-align: right; margin: 0">
-                    <el-button size="mini" type="text" @click="item.cancelVisible = false"
-                      >取消</el-button
-                    >
-                    <el-button type="primary" size="mini" @click="() => handleDeleteGroup(item)"
-                      >确定</el-button
-                    >
+                    <el-button size="mini" type="text" @click="item.cancelVisible = false">取消</el-button>
+                    <el-button type="primary" size="mini" @click="() => handleDeleteGroup(item)">确定</el-button>
                   </div>
                   <el-button slot="reference" type="text">删除</el-button>
                 </el-popover>
@@ -65,53 +62,136 @@
       </OMDialog>
     </el-card>
     <div class="right flex flex-direction">
-      <div class="right-tool flex flex-shrink-0 justify-start align-center">
-        <el-button size="small" class="yael-button" v-show="currentIndex !== -1"
-          >上传图片</el-button
-        >
-        <el-button size="small" class="yael-button" v-show="currentIndex !== -1"
-          >新建子分组</el-button
-        >
-        <!--         <el-checkbox
-          :indeterminate="isIndeterminate"
-          v-model="checkAll"
-          @change="handleCheckAllChange"
-          style="margin: 0 20px"
-          >全选</el-checkbox
-        > -->
-        <el-button size="small" class="yael-button" :disabled="true">删除</el-button>
-        <OMCascader style="margin: 0px 10px" :options="this.$store.getters.cascaderGroups" @confirm="nm">
-          <el-button size="small" class="yael-button">移动至</el-button>
-        </OMCascader>
-        <el-button size="small" class="yael-button">重命名</el-button>
-      </div>
-      <div
-        class="right-contain flex flex-grow-1 flex-direction justify-between"
-        v-if="currentIndex === -1"
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :page-size="10"
+        layout="prev, pager, next, jumper"
+        :total="this.$store.getters.containPagesCount > 0 ? this.$store.getters.containPagesCount : 10"
+        background
+        class="pageClass"
       >
-        <div class="right-contain-flie flex justify-start" style="height: 30%; border-bottom: 2px solid #E3E3E3;">
-          <div v-for="(item, index) in this.$store.getters.groups" :key="index">
-            <YaLabel @selectX="(val) => selectFiles = val" :options="item" :selectData="selectFiles"></YaLabel>
-<!--             <label class="ya-label">
-              <input type="checkbox" class="ya-select" :value="item" v-model="selectFiles" />
-              <div class="file-contain-item flex flex-direction justify-center align-center">
-                <svg-icon icon-class="ziluobu" class="icon" />
-                <el-image
-                  style="width:64px; height:64px;"
-                  src="http://manongyun.oss-cn-hangzhou.aliyuncs.com/Qmpaas/le-icon-folder.png"
-                ></el-image>
-                <span>{{ item.name }}</span>
-              </div>
-            </label> -->
+      </el-pagination>
+
+      <div class="right-tool flex flex-shrink-0 justify-start align-center">
+        <el-popover placement="top" width="160" v-model="repeatVisible">
+          <p>警告:确定删除?</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="repeatVisible = false">取消</el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              @click="() => handleDeleteIn({ gp: selectFiles, ml: selectMaterials })"
+              >确定</el-button
+            >
+          </div>
+          <el-button
+            size="small"
+            class="yael-button"
+            slot="reference"
+            :disabled="
+              (selectMaterials.length > 0 && selectFiles.length > 0) ||
+                (selectFiles.length === 0 && selectMaterials.length === 0) ||
+                selectMaterials.length > 1
+            "
+            >删除</el-button
+          >
+        </el-popover>
+        <OMCascader
+          style="margin: 0px 10px"
+          :options="this.$store.getters.cascaderGroups"
+          @confirm="(val) => moveGroup(val, { gp: selectFiles, ml: selectMaterials })"
+          :disabled="
+            (selectMaterials.length > 0 && selectFiles.length > 0) ||
+              (selectFiles.length === 0 && selectMaterials.length === 0)
+          "
+        >
+          <el-button
+            size="small"
+            class="yael-button"
+            :disabled="
+              (selectMaterials.length > 0 && selectFiles.length > 0) ||
+                (selectFiles.length === 0 && selectMaterials.length === 0)
+            "
+            >移动至</el-button
+          >
+        </OMCascader>
+        <OMDialog
+          title="重命名分组"
+          @confirm="handlePutGroup"
+          :placeholder="selectFiles.length > 0 ? selectFiles[0].name : ''"
+          :parent_id="selectFiles.length > 0 ? selectFiles[0].parent_id : ''"
+          :id="selectFiles.length > 0 ? selectFiles[0].id : ''"
+          :disabled="selectMaterials.length > 0 || selectFiles.length !== 1"
+        >
+          <el-button size="small" class="yael-button" :disabled="selectMaterials.length > 0 || selectFiles.length !== 1"
+            >重命名</el-button
+          >
+        </OMDialog>
+        <OMDialog title="新建子分组" @confirm="handlePostGroup" style="margin: 0px 10px" :parent_id="parentIdNeeded">
+          <el-button size="small" class="yael-button" v-show="currentIndex !== -1">新建子分组</el-button>
+        </OMDialog>
+        <el-upload
+          class="upload-demo"
+          action="http://localhost:7001/v2/qiniu/upload"
+          :multiple="false"
+          :on-success="handlethumbnailSuccess"
+          :before-upload="beforethumbnailUpload"
+          :data="{ type: '1', group_id: `${parentIdNeeded}` }"
+          :with-credentials="true"
+          :headers="myHeaders"
+        >
+          <el-button size="small" class="yael-button" v-show="currentIndex !== -1">上传图片</el-button>
+        </el-upload>
+      </div>
+      <div class="right-contain flex flex-grow-1 flex-direction justify-between" v-if="currentIndex === -1">
+        <div class="right-contain-flie flex justify-start">
+          <div v-for="(item, index) in this.$store.getters.containGroups" :key="index">
+            <YaLabel
+              @selectX="(val) => (selectFiles = val)"
+              :options="item"
+              :selectData="selectFiles"
+              @dblclick.native.capture="handleDblclick(item.id, $event)"
+            ></YaLabel>
           </div>
         </div>
-
-        <div class="right-contain-pv flex flex-wrap" style="height: 70%; padding: 40px 20px;">
-          <div v-for="(item, index) in this.$store.getters.materials" :key="index">
-            <div class="flex flex-direction justify-center align-center">
-              <el-image style="width:84px; height:84px; margin: 10px" :src="item.url"></el-image>
-              <span>{{ item.title }}</span>
-            </div>
+        <div class="right-contain-pv flex flex-wrap">
+          <div v-for="(item, index) in this.$store.getters.containMaterials" :key="index">
+            <YaLabel
+              @selectX="(val) => (selectMaterials = val)"
+              :options="item"
+              :selectData="selectMaterials"
+              :linkSrc="item.url"
+              :srcWidth="64"
+              :srcHeight="64"
+              :width="104"
+              :height="104"
+            ></YaLabel>
+          </div>
+        </div>
+      </div>
+      <div v-else class="right-contain flex flex-grow-1 flex-direction justify-between">
+        <div class="right-contain-flie flex justify-start">
+          <div v-for="(item, index) in this.$store.getters.containGroups" :key="index">
+            <YaLabel
+              @selectX="(val) => (selectFiles = val)"
+              :options="item"
+              :selectData="selectFiles"
+              @dblclick.native.capture="handleDblclick(item.id, $event)"
+            ></YaLabel>
+          </div>
+        </div>
+        <div class="right-contain-pv flex flex-wrap">
+          <div v-for="(item, index) in this.$store.getters.containMaterials" :key="index">
+            <YaLabel
+              @selectX="(val) => (selectMaterials = val)"
+              :options="item"
+              :selectData="selectMaterials"
+              :linkSrc="item.url"
+              :srcWidth="64"
+              :srcHeight="64"
+              :width="104"
+              :height="104"
+            ></YaLabel>
           </div>
         </div>
       </div>
@@ -121,63 +201,142 @@
 
 <script>
 import OMDialog from '../components/ominiDialog.vue';
-import OMCascader from '../components/ominiCascader.vue'
-import YaLabel from '../components/yaLabel.vue'
-import { mapGetters, mapActions } from 'vuex';
+import OMCascader from '../components/ominiCascader.vue';
+import YaLabel from '../components/yaLabel.vue';
+import { mapActions, mapMutations } from 'vuex';
+import { getToken } from '@/utils/auth';
 
 export default {
+  inject: ['reload'],
   components: {
     OMDialog,
     OMCascader,
-    YaLabel
+    YaLabel,
   },
   data() {
     return {
+      myHeaders: { Authorization: `Bearer ${getToken()}` },
+      parentIdNeeded: -1, //创建子分组必须要的父分组id
+      repeatVisible: false,
       currentIndex: Number,
       selectFiles: [],
-      selectMaterials: []
-      //groupList: [],
+      selectMaterials: [],
     };
   },
   watch: {
     selectFiles: {
       handler(newVal) {
-        console.log(newVal)
-      }
+        console.log(newVal);
+      },
     },
-    deep: true
+    deep: true,
+    selectMaterials: {
+      handler(newVal) {
+        console.log(newVal);
+      },
+    },
+    deep: true,
+    parentIdNeeded: {
+      handler(newVal) {
+        console.log(newVal);
+      },
+    },
   },
   methods: {
     ...mapActions({
       handleGroups: 'gallery/handleGroups',
       handleMaterials: 'gallery/handleMaterials',
+      handleSingleGroups: 'gallery/handleSingleGroups',
+      createMaterials: 'gallery/createMaterials',
     }),
-    nm(val) {
-      console.log(val)
+    ...mapMutations({
+      resetContainGroups: 'gallery/SET_RESETCONTAINGROUPS',
+      resetContainMaterials: 'gallery/SET_RESETCONTAINMATERIALS',
+    }),
+    //移动至  包含分组的移动和素材的移动
+    async moveGroup(val, data) {
+      try {
+        console.log(val);
+        console.log(data);
+        let res;
+        if (data.gp.length > 0) {
+          //当移动素材分组时
+          let id = [];
+          this.selectFiles.forEach((v) => {
+            id.push(v.id);
+          });
+          res = await this.$yian.gallery(
+            'put',
+            { id: id.toString() },
+            { include: 'group' },
+            { behavior: 'batch' },
+            { parent_id: val[0] }
+          );
+        } else {
+          //当移动素材时
+          let id = [];
+          this.selectMaterials.forEach((v) => {
+            id.push(v.id);
+          });
+          res = await this.$yian.gallery(
+            'put',
+            { id: id.toString() },
+            { include: 'material' },
+            { behavior: 'batch' },
+            { group_id: val[0] }
+          );
+        }
+        if (res) {
+          this.$message({
+            type: 'success',
+            message: res.message,
+          });
+          this.reload();
+        }
+      } catch (err) {
+        this.$throw(err);
+      }
     },
-    async checkGroup(index) {
-      console.log(index);
+    async handleDblclick(id, $event) {
+      //console.log(id);
+      this.parentIdNeeded = id;
+      await this.handleSingleGroups({ id: id, page: 1, size: 10 });
+      this.selectFiles = [];
+      this.selectMaterials = [];
+    },
+    async checkGroup(index, $event) {
       this.currentIndex = index;
+      this.parentIdNeeded = $event.currentTarget.dataset.id;
+      await this.handleSingleGroups({ id: $event.currentTarget.dataset.id, page: 1, size: 10 });
+      this.selectFiles = [];
+      this.selectMaterials = [];
+      //console.log(this.$store.getters.containGroups)
     },
     async checkGroupAll($event) {
       this.currentIndex = parseInt($event.currentTarget.dataset.index);
-      console.log(this.currentIndex);
-      await this.handleMaterials({ page: 1, size: 10 });
-      console.log(this.$store.getters.materials);
+      await this.createMaterials({ page: 1, size: 10 });
+      //console.log($event);
+      this.resetContainGroups(this.$store.getters.groups);
+      this.resetContainMaterials(this.$store.getters.materials);
+      this.parentIdNeeded = -1;
+      this.selectFiles = [];
+      this.selectMaterials = [];
+      //console.log(this.$store.getters.materials);
     },
+    //新建素材分组
     async handlePostGroup(data) {
       try {
         const res = await this.$yian.gallery(
           'post',
           { include: 'group' },
-          { name: data.name, parent_id: data.parent_id }
+          { name: data.name, parent_id: parseInt(data.parent_id) }
         );
         if (res) {
           this.$message({
             type: 'success',
             message: res.message,
           });
-          await this.handleGroups();
+          this.reload();
         }
       } catch (err) {
         this.$throw(err);
@@ -189,19 +348,20 @@ export default {
           'put',
           { id: `${data.id}` },
           { include: 'group' },
-          { name: data.name, parent_id: data.parent_id }
+          { name: data.name, parent_id: parseInt(data.parent_id) }
         );
         if (res) {
           this.$message({
             type: 'success',
             message: res.message,
           });
-          await this.handleGroups();
+          this.reload();
         }
       } catch (err) {
         this.$throw(err);
       }
     },
+    //删除素材分组
     async handleDeleteGroup(data) {
       try {
         const res = await this.$yian.gallery('delete', { id: `${data.id}` }, { include: 'group' });
@@ -217,15 +377,90 @@ export default {
         this.$throw(err);
       }
     },
+    //删除按钮入口  可能删素材可能删分组
+    async handleDeleteIn(data) {
+      try {
+        //console.log(data);
+        let res;
+        if (data.gp.length > 0) {
+          //当选择删分组时
+          let id = [];
+          this.selectFiles.forEach((v) => {
+            id.push(v.id);
+          });
+          res = await this.$yian.gallery('delete', { id: id.toString() }, { include: 'group' }, { behavior: 'batch' });
+        } else {
+          //当选择删素材时
+          let id = [];
+          let url = [];
+          this.selectMaterials.forEach((v) => {
+            id.push(v.id);
+            url.push(v.url);
+          });
+          if (id.length > 1) {
+            this.$message({
+              type: 'error',
+              message: '暂无法支持批量删除素材，请逐一删除!',
+            });
+          } else {
+            res = await this.$yian.gallery(
+              'delete',
+              { id: id.toString() },
+              { include: 'material' },
+              { url: url.toString() }
+            );
+          }
+        }
+        if (res) {
+          this.$message({
+            type: 'success',
+            message: res.message,
+          });
+          this.repeatVisible = false;
+          this.reload();
+        }
+      } catch (err) {
+        this.$throw(err);
+      }
+    },
+    //分页处理
+    async handleCurrentChange(val) {
+      console.log(val);
+      if (this.parentIdNeeded == -1) {
+        await this.handleMaterials({ page: val, size: 10 });
+      } else {
+        await this.handleSingleGroups({ id: this.parentIdNeeded, page: val, size: 10 });
+      }
+    },
+
+    //upload
+    handlethumbnailSuccess(res, file) {
+      console.log(res.data.url);
+    },
+    beforethumbnailUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isPNG = file.type === 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!(isJPG || isPNG)) {
+        this.$message.error('上传文章缩略图只能是 JPG/PNG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传文章缩略图大小不能超过 2MB!');
+      }
+      return (isLt2M && isJPG) || (isPNG && isLt2M);
+    },
   },
   async created() {
     try {
       await this.handleGroups();
+      await this.createMaterials({ page: 1, size: 10 });
+      this.currentIndex = -1;
+      this.resetContainGroups(this.$store.getters.groups);
+      this.resetContainMaterials(this.$store.getters.materials);
     } catch (err) {
       this.$throw(err);
     }
-
-    //this.getList();
   },
 };
 </script>
@@ -283,27 +518,28 @@ export default {
     width: 60%;
     border: 1px solid #ebeef5;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    .pageClass {
+      position: absolute;
+      bottom: -46px;
+      right: 0px;
+    }
     .right-tool {
       width: 100%;
       height: 70px;
       padding: 20px;
-      // ::v-deep .el-checkbox__inner {
-      //   border-color: #623ceb;
-      // }
-      // ::v-deep .el-checkbox__input.is-checked .el-checkbox__inner,
-      // .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-      //   background-color: #623ceb;
-      //   border-color: #623ceb;
-      // }
-      // ::v-deep .el-checkbox__input.is-checked + .el-checkbox__label {
-      //   color: #623ceb;
-      // }
     }
     .right-contain {
       .right-contain-flie {
         padding: 10px 0px;
         margin: 0px 20px;
         overflow: scroll;
+        height: 30%;
+        border-bottom: 2px solid #e3e3e3;
+      }
+      .right-contain-pv {
+        height: 70%;
+        padding: 10px 20px;
       }
     }
   }

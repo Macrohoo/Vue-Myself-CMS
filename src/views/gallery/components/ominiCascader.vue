@@ -41,6 +41,7 @@ export default {
     },
     handleChange(e) {
       this.moveGroup_id = e.slice(-1);
+      console.log(this.moveGroup_id)
     },
   },
   render(h) {
