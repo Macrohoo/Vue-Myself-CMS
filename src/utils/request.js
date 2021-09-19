@@ -6,7 +6,6 @@ import Vue from 'vue';
 
 // create an axios instance
 const service = axios.create({
-  //baseURL: '/api',
   baseURL: process.env.VUE_APP_BASE_API,
   //baseURL: 'http://localhost:7001',
   withCredentials: true, // send cookies when cross-domain requests
