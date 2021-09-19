@@ -31,16 +31,15 @@ module.exports = {
       warnings: false,  //设置让浏览器 overlay 同时显示警告和错误
       errors: true
     },
-    //before: require('./mock/mock-server.js'),   //mock数据实现模拟配置
-    // proxy: {
-    //   "/api": {
-    //     target: "http://localhost:7001",
-    //     //target: "http://mboke.top:7001/",
-    //     changeOrigin: true, // 允许跨域
-    //     ws: true,
-    //     pathRewrite: {"^/api" : ""}
-    //   }
-    // }
+    proxy: {
+      "/api": {
+        target: "http://localhost:7001",
+        //target: "http://mboke.top:7001/",
+        changeOrigin: true, // 允许跨域
+        ws: true,
+        pathRewrite: {"^/api" : ""}
+      }
+    }
   },
   configureWebpack: {
     //configureWebpack如果这个值是一个对象，则会通过 webpack-merge 合并到最终的配置中
