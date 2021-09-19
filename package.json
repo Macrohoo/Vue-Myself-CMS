@@ -3,7 +3,7 @@
   "version": "4.4.0",
   "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
   "author": "Marhoo <zhezhetianzhe@gmail.com>",
-  "homepage": "https://Marhooo.github.io",
+  "homepage": "https://Marhooo.github.io/Vue-Myself-CMS",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
