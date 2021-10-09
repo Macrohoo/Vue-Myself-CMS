@@ -81,6 +81,7 @@ export default {
     };
   },
   mounted() {
+    console.log(UserInfo)
     this.getList({
       currentPage: 1,
       pageSize: 10,

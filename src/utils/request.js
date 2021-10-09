@@ -6,6 +6,7 @@ import Vue from 'vue';
 
 // create an axios instance
 const service = axios.create({
+  //baseURL: 'https://mboke.top',
   baseURL: process.env.VUE_APP_BASE_API,
   //baseURL: 'http://localhost:7001',
   withCredentials: true, // send cookies when cross-domain requests
@@ -76,14 +77,11 @@ service.interceptors.response.use(
         path: '/login',
       });
     } else {
-      return Promise.resolve(data);
+      return data
     }
   },
-  // (response) => {
-  //   return Promise.resolve(response.data)
-  // },
   (error) => {
-    // 如果不是服务器内部错误，error响应数据会被赋值给response字段
+    // 如果不是>400类型错误，error响应数据会被赋值给response字段
     if (error.response.status == 401 && error.response.data.code == 10000) {
       Message({
         message: error.response.data.message,

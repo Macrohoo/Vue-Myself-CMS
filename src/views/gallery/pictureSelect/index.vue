@@ -144,7 +144,7 @@
         </el-upload>
       </div>
       <div class="right-contain flex flex-grow-1 flex-direction justify-between" v-if="currentIndex === -1">
-        <div class="right-contain-flie flex justify-start">
+        <div class="right-contain-flie flex justify-start align-center">
           <div v-for="(item, index) in this.$store.getters.containGroups" :key="index">
             <YaLabel
               @selectX="(val) => (selectFiles = val)"
@@ -160,7 +160,7 @@
               @selectX="(val) => (selectMaterials = val)"
               :options="item"
               :selectData="selectMaterials"
-              :linkSrc="item.url"
+              :linkSrc="item.type === '1' ? item.url : item.thumbnail"
               :srcWidth="64"
               :srcHeight="64"
               :width="104"
@@ -170,7 +170,7 @@
         </div>
       </div>
       <div v-else class="right-contain flex flex-grow-1 flex-direction justify-between">
-        <div class="right-contain-flie flex justify-start">
+        <div class="right-contain-flie flex justify-start align-center">
           <div v-for="(item, index) in this.$store.getters.containGroups" :key="index">
             <YaLabel
               @selectX="(val) => (selectFiles = val)"
@@ -186,7 +186,7 @@
               @selectX="(val) => (selectMaterials = val)"
               :options="item"
               :selectData="selectMaterials"
-              :linkSrc="item.url"
+              :linkSrc="item.type === '1' ? item.url : item.thumbnail"
               :srcWidth="64"
               :srcHeight="64"
               :width="104"

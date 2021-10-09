@@ -109,11 +109,9 @@
 }
 
 .ya-select {
-  visibility: hidden; /* 隐藏选择框，但仍占据块 */
+  display: none;       /* visibility: hidden;  隐藏选择框，但仍占据块 */
   + div {
     /* 选择框input隔壁就是主图块 */
-    // width: 84px;
-    // height: 84px;
     position: relative;
     margin: 0px 6px;
     .icon {

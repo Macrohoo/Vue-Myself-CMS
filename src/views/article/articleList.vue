@@ -92,7 +92,6 @@ export default {
     getList(postdata) {
       fetchArticleList(postdata)
         .then(response => {
-          //console.log(response)
           for (let i = 0; i < response.data.rows.length; i++) {
             response.data.rows[i].created_at = this.$yian.utils.getDateDiff(response.data.rows[i].created_at)
             if (response.data.rows[i].title.length > 22) {

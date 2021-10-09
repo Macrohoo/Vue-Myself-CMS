@@ -61,6 +61,7 @@ export default class api {
    * axios外侧第一层封装请求体，设置成实例方法，为了content定制interceptor
    * @param {Object} options [url请求地址, params请求body或者请求主query, qc配置信息{loading加载是否开启}, method请求方式]
    */
+  //定义在类的原型上，所以46行代码处可以直接用this访问到
   request(options) {
     const {
       url, params, qc = { loading: false }, method, headers = {'content-type': 'application/json'}

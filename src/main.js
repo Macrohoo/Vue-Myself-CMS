@@ -22,6 +22,7 @@ import yian from '@/yian/index';
 //import yian from 'yian'
 import service from '@/utils/request'; // interceptor可以在大入口外面自己封装
 import order from '@/views/order/index';
+import gallery from '@/views/gallery/index'
 
 Vue.use(ElementUI, { locale });
 
@@ -44,6 +45,7 @@ const requireAll = (requireContext) => requireContext.keys().map(requireContext)
 requireAll(req);
 
 Vue.use(order);
+Vue.use(gallery)
 
 new Vue({
   el: '#app',

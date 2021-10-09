@@ -34,7 +34,7 @@ module.exports = {
     proxy: {
       "/api": {
         target: "http://localhost:7001",
-        //target: "http://mboke.top:7001/",
+        //target: "https://mboke.top",
         changeOrigin: true, // 允许跨域
         ws: true,
         pathRewrite: {"^/api" : ""}

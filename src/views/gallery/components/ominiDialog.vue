@@ -54,6 +54,20 @@ export default {
   render(h) {
     let { dialogVisible, handleOpen, handleClose, handleConfirm, placeholder, title } = this;
     const dialogData = {
+      // VNode 数据对象中有自己的顶级字段。此对象还允许您绑定普通的 HTML 属性以及 DOM 属性
+      // 注意区分attrs和domProps
+      // Normal HTML attributes
+      // attrs: {
+      //   id: 'foo'
+      // },
+      // Component props
+      // props: {
+      //   myProp: 'bar'
+      // },
+      // DOM properties
+      // domProps: {
+      //   innerHTML: 'baz'
+      // },
       props: {
         title: title,
         width: '360px',

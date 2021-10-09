@@ -31,7 +31,7 @@ export default {
     },
     linkSrc: {
       type: String,
-      default: 'http://manongyun.oss-cn-hangzhou.aliyuncs.com/Qmpaas/le-icon-folder.png',
+      default: 'https://kodo.mboke.top/le-icon-folder.png',
     },
   },
   data() {
@@ -52,30 +52,39 @@ export default {
   },
   methods: {
     hoverChange() {
-      this.hoverKey ? this.hoverKey = false : this.hoverKey = true
+      this.hoverKey ? (this.hoverKey = false) : (this.hoverKey = true);
     },
   },
   render(h) {
     const { width, height, srcWidth, srcHeight, options, linkSrc } = this;
     let linkImgStyle;
     this.hoverKey
-      ? (linkImgStyle = { width: `${srcWidth + 4}px`, height: `${srcHeight + 4}px`})
-      : (linkImgStyle = { width: `${srcWidth}px`, height: `${srcHeight}px`});
+      ? (linkImgStyle = { width: `${srcWidth + 4}px`, height: `${srcHeight + 4}px`, borderRadius: '6px' })
+      : (linkImgStyle = { width: `${srcWidth}px`, height: `${srcHeight}px`, borderRadius: '6px' });
     return (
-      <label class="ya-label">
+      <label class="ya-label" style={{ width: `${width + 12}px`, height: `${height}px` }}>
         <input type="checkbox" class="ya-select" value={options} v-model={this.selectVal} />
         <div
           class="flex flex-direction justify-center align-center"
           style={{ width: `${width}px`, height: `${height}px` }}
         >
           <svg-icon icon-class="ziluobu" class="icon" />
-          <img
-            class="imageH"
-            style={linkImgStyle}
-            src={linkSrc}
-            vOn:mouseenter={this.hoverChange.bind(this)}
-            vOn:mouseleave={this.hoverChange.bind(this)}
-          ></img>
+          <div style="position: relative">
+            <img
+              class="videoFrame"
+              v-show={linkSrc.length > 1000}
+              style={linkImgStyle}
+              src="https://kodo.mboke.top/svgVideo.svg"
+              vOn:mouseenter={this.hoverChange.bind(this)}
+              vOn:mouseleave={this.hoverChange.bind(this)}
+            ></img>
+            <img
+              style={linkImgStyle}
+              src={linkSrc}
+              vOn:mouseenter={this.hoverChange.bind(this)}
+              vOn:mouseleave={this.hoverChange.bind(this)}
+            ></img>
+          </div>
           <span>{options.name}</span>
           <span>{options.title}</span>
         </div>
@@ -86,4 +95,10 @@ export default {
 </script>
 
 <style lang="scss">
+.videoFrame {
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 99;
+  position: absolute;
+  top: 0;
+}
 </style>

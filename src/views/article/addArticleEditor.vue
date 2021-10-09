@@ -68,7 +68,7 @@ export default {
         id: '',
         title: '',
         describe: '',
-        article_label: '',
+        article_label: [],
         top: false,
         content_html: '',
         thumbnail: '',
@@ -141,6 +141,9 @@ export default {
           type: 'error'
         })
       } else {
+        if(this.article.id.length === 0) {
+          delete this.article.id
+        }
         fetchAddArticle(this.article).then(response => {
           if (response) {
             this.$message({

@@ -12,15 +12,16 @@ class youstructor {
   }
 
   axios(options) {
-    const { url, params, method } = options;
+    const { url, params, method, headers = {'content-type': 'application/json'} } = options;
     return new Promise((resolve, reject) => {
       let data = {};
-      if (method.toLowerCase() === 'get') data = { params };
-      if (method.toLowerCase() === 'post') data = { data: params };
+      if (method === 'get') data = { params };
+      if (method === 'post' || method === 'put' || method === 'delete') data = { data: params };
       this.interceptor({
         url,
         method,
         ...data,
+        headers,
         adapter: cache({
           time: 1000
         })

@@ -90,11 +90,11 @@ export default {
                 type: 'success',
                 message: res.message
               })
+              setTimeout(function() {
+                Cookies.remove('access_token')
+                location.reload()
+              }, 1000)
             }
-            setTimeout(function() {
-              Cookies.remove('access_token')
-              location.reload()
-            }, 1000)
           }).catch(err => {
             this.$throw(err)
           })
