@@ -81,7 +81,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'contain',
-        component: () => import('@/views/gallery/index'),
+        component: () => import('@/views/gallery/index.vue'),
         meta: { title: '素材管理', icon: 'wenjian' },
       }
     ]

@@ -58,6 +58,9 @@
       :needCanvas="true"
       :fields="{ type: '1', group_id: '4' }"
     />
+    <img>
+    haha
+    <img>
   </div>
 </template>
 
@@ -68,7 +71,7 @@ import testcom from './testcom.vue';
 import testcom2 from './testcom2.vue';
 
 export default {
-  //inject: ['reload'],
+  inject: ['reload'],
   components: {
     testcom,
     testcom2,

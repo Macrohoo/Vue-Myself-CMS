@@ -4,7 +4,7 @@
       <el-table-column fixed prop="createdAt" label="评论时间" width="200" />
       <el-table-column prop="article_title" label="所属文章" />
       <el-table-column prop="content" label="内容" />
-      <el-table-column prop="author_name" label="评论人" width="150" />
+      <el-table-column prop="commenter_name" label="评论人" width="150" />
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button

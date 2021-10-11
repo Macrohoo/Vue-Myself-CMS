@@ -22,14 +22,21 @@ export default class yian {
   static get_proxy(config) {
     var _Proxy = new Proxy(new youstructor(config, this), {
       _validator: {},
+      _upload: false,
       get: function(target, property, receiver) {
         if(property in target) {
           //the instance attributes of youstructor, such as utils
           return target[property]
         } else {
           if(property == 'then') {
-            //the logic processing of youstructor's request then method
-            let data = utils.copyData(this._validator)
+            let data
+            if(this._upload) {
+              data = this._validator
+              this._upload = false
+            } else {
+              //the logic processing of youstructor's request then method
+              data = utils.copyData(this._validator)
+            }
             this._validator = {}
             //Return the (pre-function) that needs to be processed before the then method
             //遇到属性then，必须返回一个函数方法，因为需要被then()调用。
@@ -55,12 +62,12 @@ export default class yian {
 
               return argumentResolve(reverse)
             }
-          } else if (property == 'file' || property == 'upload' || property == 'video') {
-            //这里是youstructor的请求方法逻辑处理
-            return false
           } else {
             let self = this
             //此处匿名函数不能使用()=>,会导致内部arguments指向的是上一层
+            if(property == 'uploadFormData') {
+              self._upload = true
+            }
             return function() {
               //This step is the core step of processing all other methods before then, performing a proxy on them, and storing the relevant parameters.
               self._validator[property] = arguments || ''

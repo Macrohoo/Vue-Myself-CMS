@@ -41,7 +41,8 @@ export default class api {
             url: value.url,
             params: value.data,
             qc: value.options,
-            method: value.method
+            method: value.method,
+            headers: value.headers
           };
           this.request(options).then(res => {
             resolve(res);
@@ -63,9 +64,7 @@ export default class api {
    */
   //定义在类的原型上，所以46行代码处可以直接用this访问到
   request(options) {
-    const {
-      url, params, qc = { loading: false }, method, headers = {'content-type': 'application/json'}
-    } = options;
+    const {url, params, qc = { loading: false }, method, headers} = options;
     let loadingInstance;
     if (qc.loading && method.toLowerCase() === 'get') {
       loadingInstance = Loading.service({

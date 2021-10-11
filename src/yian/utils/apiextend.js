@@ -14,6 +14,7 @@ export const defaulter = {
     let options;
     let keys;
     let argument;
+    let headers
     keys = Object.keys(value); //目前设计只会有两个keys，一个是请求关键url部分，一个是page
     options = {
       loading: config.ElementUILoading,
@@ -22,6 +23,7 @@ export const defaulter = {
     method = argument[0].toLowerCase();
     let page = value['page'] ?? null;   //page({ currentPage: 1, pageSize: 10 })
     url = `/${config.baseVersionApi}/${keys[0]}`; //基底请求url构建好
+    headers = {'content-type': 'application/json'}
 
     switch (method) {
       case 'post':
@@ -160,6 +162,28 @@ export const defaulter = {
       method,
       data,
       options,
+      headers
     });
   },
 };
+
+
+export const uploadFormData = {
+  beforeEach(value, resolve, reject, config) {
+    let options;
+    let keys;
+    let argument;
+    keys = Object.keys(value); // 只有一个key
+    options = {
+      loading: config.ElementUILoading,
+    };
+    argument = value[keys[0]]  //第一个是字符串表示请求url, 第二个是请求方法, 第三个是主body
+    resolve({
+      url: `/${config.baseVersionApi}/${argument[0]}`,
+      method: argument[1].toLowerCase(),
+      headers: { 'content-type': 'multipart/form-data' },
+      data: argument[2],
+      options
+    })
+  }
+}

@@ -61,7 +61,7 @@ const directives = {
         }
       });
     },
-    // 需要考虑到vnode更新的情况(这种是vnode更新，但是组件并没有销毁重建的情况，那我们需要去触发这个钩子来对sote中的数据进行重新赋值)
+    // 需要考虑到vnode更新的情况(这种是vnode更新，但是组件并没有销毁重建的情况，那我们需要去触发这个钩子来对store中的数据进行重新赋值)
     update(el, binding, vnode) {
       !utils.empty(binding.value) ? directives.store[vnode.elm.id] = binding.value : delete directives.store[vnode.elm.id];
     }

@@ -24,7 +24,7 @@ export default {
     //自动上传?
     autoUpload: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     //按钮文字内容
     btn_words: {
@@ -90,14 +90,14 @@ export default {
             this.currentTime = 1;
           });
           video.addEventListener('seeked', function() {
-            this.width = this.videoWidth;
-            this.height = this.videoHeight;
+            // this.width = this.videoWidth;
+            // this.height = this.videoHeight;
             var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
-            canvas.width = this.width;
-            canvas.height = this.height;
+            canvas.width = 100;
+            canvas.height = 100;
             ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
-            var thumb = canvas.toDataURL('image/jpeg', 0.01);
+            var thumb = canvas.toDataURL('image/jpeg', 0.05);
             callfn(thumb);
           });
         } else {
@@ -181,6 +181,8 @@ export default {
         this.canvasDrawVedio(postFiles, (thumb) => {
           this.thumbnails.push(thumb);
         });
+        console.log(this.thumbnails)
+        this.$emit('linkBase64', this.thumbnails) //事件监听是__ob__,这里不用担心异步
       } else {
         this.$message({
           message: '非视频、图片类文件无法使用Canvas画图帧!',
@@ -192,6 +194,14 @@ export default {
 
     //数据正式上传[callback]  且onSuccess[callback]
     waitPost() {
+      if(this.postFiles.length === 0 ) {
+        this.$message({
+          message: '请先批量选择素材，再点击开始上传!',
+          type: 'error',
+          duration: 5 * 1000,
+        });
+        return
+      }
       if (/video\/.*/.test(this.postFiles[0].type) || /image\/.*/.test(this.postFiles[0].type)) {
         this.action(this.postFiles, this.fields, this.thumbnails).then((res) => {
           this.afterUpload(res);

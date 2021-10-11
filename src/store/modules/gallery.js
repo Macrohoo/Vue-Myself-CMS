@@ -57,6 +57,7 @@ const actions = {
       this._vm.$yian
         .gallery('get', { include: 'group' })
         .then((res) => {
+          console.log(res)
           res.data.forEach((element) => {
             element.cancelVisible = false; //删除重复确认属性
           });

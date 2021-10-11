@@ -21,8 +21,8 @@ import btnDirective from '@/utils/directive/button';
 import yian from '@/yian/index';
 //import yian from 'yian'
 import service from '@/utils/request'; // interceptor可以在大入口外面自己封装
-import order from '@/views/order/index';
-import gallery from '@/views/gallery/index'
+import order from '@/views/order/index.js';
+import gallery from '@/views/gallery/index.js'
 
 Vue.use(ElementUI, { locale });
 

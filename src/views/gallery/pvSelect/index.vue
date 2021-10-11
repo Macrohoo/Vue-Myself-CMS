@@ -130,33 +130,33 @@
         <OMDialog title="新建子分组" @confirm="handlePostGroup" style="margin: 0px 10px" :parent_id="parentIdNeeded">
           <el-button size="small" class="yael-button" v-show="currentIndex !== -1">新建子分组</el-button>
         </OMDialog>
-        <el-upload
-          class="upload-demo"
-          action="http://localhost:7001/v2/qiniu/upload"
-          :multiple="false"
-          :on-success="handlethumbnailSuccess"
-          :before-upload="beforethumbnailUpload"
-          :data="{ type: '1', group_id: `${parentIdNeeded}` }"
-          :with-credentials="true"
-          :headers="myHeaders"
+        <el-button
+          size="small"
+          class="yael-button"
+          v-show="currentIndex !== -1"
+          v-popup.uploadPanel="fields"
+          id="btn_upload"
+          module="gallery"
+          title="素材上传面板"
+          hide_cancel
+          sure_btn="关闭"
+          >上传面板</el-button
         >
-          <el-button size="small" class="yael-button" v-show="currentIndex !== -1">上传图片</el-button>
-        </el-upload>
       </div>
       <div class="right-contain flex flex-grow-1 flex-direction justify-between" v-if="currentIndex === -1">
         <div class="right-contain-flie flex justify-start align-center">
           <div v-for="(item, index) in this.$store.getters.containGroups" :key="index">
-            <YaLabel
+            <ya-checkbox
               @selectX="(val) => (selectFiles = val)"
               :options="item"
               :selectData="selectFiles"
               @dblclick.native.capture="handleDblclick(item.id, $event)"
-            ></YaLabel>
+            ></ya-checkbox>
           </div>
         </div>
         <div class="right-contain-pv flex flex-wrap">
           <div v-for="(item, index) in this.$store.getters.containMaterials" :key="index">
-            <YaLabel
+            <ya-checkbox
               @selectX="(val) => (selectMaterials = val)"
               :options="item"
               :selectData="selectMaterials"
@@ -165,24 +165,24 @@
               :srcHeight="64"
               :width="104"
               :height="104"
-            ></YaLabel>
+            ></ya-checkbox>
           </div>
         </div>
       </div>
       <div v-else class="right-contain flex flex-grow-1 flex-direction justify-between">
         <div class="right-contain-flie flex justify-start align-center">
           <div v-for="(item, index) in this.$store.getters.containGroups" :key="index">
-            <YaLabel
+            <ya-checkbox
               @selectX="(val) => (selectFiles = val)"
               :options="item"
               :selectData="selectFiles"
               @dblclick.native.capture="handleDblclick(item.id, $event)"
-            ></YaLabel>
+            ></ya-checkbox>
           </div>
         </div>
         <div class="right-contain-pv flex flex-wrap">
           <div v-for="(item, index) in this.$store.getters.containMaterials" :key="index">
-            <YaLabel
+            <ya-checkbox
               @selectX="(val) => (selectMaterials = val)"
               :options="item"
               :selectData="selectMaterials"
@@ -191,7 +191,7 @@
               :srcHeight="64"
               :width="104"
               :height="104"
-            ></YaLabel>
+            ></ya-checkbox>
           </div>
         </div>
       </div>
@@ -202,7 +202,6 @@
 <script>
 import OMDialog from '../components/ominiDialog.vue';
 import OMCascader from '../components/ominiCascader.vue';
-import YaLabel from '../components/yaLabel.vue';
 import { mapActions, mapMutations } from 'vuex';
 import { getToken } from '@/utils/auth';
 
@@ -211,7 +210,6 @@ export default {
   components: {
     OMDialog,
     OMCascader,
-    YaLabel,
   },
   data() {
     return {
@@ -221,6 +219,7 @@ export default {
       currentIndex: Number,
       selectFiles: [],
       selectMaterials: [],
+      fields: {},
     };
   },
   watch: {
@@ -238,7 +237,10 @@ export default {
     deep: true,
     parentIdNeeded: {
       handler(newVal) {
-        console.log(newVal);
+        //console.log(newVal);
+        this.fields = {
+          group_id: `${newVal}`
+        }
       },
     },
   },

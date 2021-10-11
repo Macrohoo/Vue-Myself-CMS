@@ -1,22 +1,22 @@
 <template>
   <div class="gallery">
     <el-tabs type="card" class="yael-tabs" v-model="activeName">
-      <el-tab-pane label="图片素材" name="image">
-        <pictureSelect></pictureSelect>
+      <el-tab-pane label="图片视频" name="image">
+        <pvSelect></pvSelect>
       </el-tab-pane>
-      <el-tab-pane label="视频素材" name="video">
-        <videoSelect></videoSelect>
+      <el-tab-pane label="其他素材" name="video">
+        <otherSelect></otherSelect>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import pictureSelect from '@/views/gallery/pictureSelect/index.vue';
-import videoSelect from '@/views/gallery/videoSelect/index.vue';
+import pvSelect from '@/views/gallery/pvSelect/index.vue';
+import otherSelect from '@/views/gallery/otherSelect/index.vue';
 
 export default {
-  components: {pictureSelect, videoSelect},
+  components: {pvSelect, otherSelect},
   data() {
     return {
       activeName: 'image',

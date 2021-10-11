@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="Ya-dialog"
-    title="title"
+    :title="title"
     :visible.sync="visible"
     :width="`${width}px`"
     :top="top"

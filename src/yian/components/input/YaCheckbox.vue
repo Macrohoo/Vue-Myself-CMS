@@ -72,7 +72,7 @@ export default {
           <div style="position: relative">
             <img
               class="videoFrame"
-              v-show={linkSrc.length > 1000}
+              v-show={linkSrc.length > 200}
               style={linkImgStyle}
               src="https://kodo.mboke.top/svgVideo.svg"
               vOn:mouseenter={this.hoverChange.bind(this)}
