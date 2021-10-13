@@ -1,11 +1,9 @@
 <template>
-  <div class="gallery-contain">
-
-  </div>
+  <div class="gallery-contain" />
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style scoped lang="scss">

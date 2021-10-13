@@ -141,7 +141,7 @@ export default {
           type: 'error'
         })
       } else {
-        if(this.article.id.length === 0) {
+        if (this.article.id.length === 0) {
           delete this.article.id
         }
         fetchAddArticle(this.article).then(response => {

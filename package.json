@@ -16,7 +16,6 @@
     "push": "npm run build:prod && scp -r dist/* ubuntu@146.56.251.74:/home/ubuntu/www",
     "predeploy": "npm run build:prod",
     "deploy": "gh-pages -d dist"
-
   },
   "dependencies": {
     "@toast-ui/editor": "^2.5.1",
@@ -30,7 +29,8 @@
     "vue": "2.6.10",
     "vue-router": "3.0.6",
     "vuex": "3.1.0",
-    "wangeditor": "^4.4.0"
+    "wangeditor": "^4.4.0",
+    "yian": "^1.1.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.4.4",

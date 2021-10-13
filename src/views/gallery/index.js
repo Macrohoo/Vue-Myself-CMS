@@ -1,5 +1,5 @@
-import yian from '@/yian/index'
-//import yian from 'yian'
+//import yian from '@/yian/index'
+import yian from 'yian'
 import uploadPanel from './components/uploadPanel.vue'
 
 const modules = {}

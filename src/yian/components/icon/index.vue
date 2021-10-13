@@ -23,25 +23,25 @@ export default {
   },
   computed: {
     isExternal() {
-      return this.$yian.utils.isExternal(this.iconClass);
+      return this.$yian.utils.isExternal(this.iconClass)
     },
     iconName() {
-      return `#icon-${this.iconClass}`;
+      return `#icon-${this.iconClass}`
     },
     svgClass() {
       if (this.className) {
-        return `svg-icon ${this.className}`;
+        return `svg-icon ${this.className}`
       }
-      return 'svg-icon';
+      return 'svg-icon'
     },
     styleExternalIcon() {
       return {
         mask: `url(${this.iconClass}) no-repeat 50% 50%`,
         '-webkit-mask': `url(${this.iconClass}) no-repeat 50% 50%`
-      };
+      }
     }
   }
-};
+}
 </script>
 
 <style scoped>

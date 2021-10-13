@@ -5,11 +5,12 @@
     :visible.sync="visible"
     :width="`${width}px`"
     :top="top"
-    center>
-    <component ref="cpo" :is="content" v-model="value"></component>
-    <span slot="footer" class="dialog-footer" v-if="!hide_footer">
-      <el-button @click="handleClosed" v-if="!hide_cancel">取 消</el-button>
-      <el-button type="primary" @click="handleOk">{{sure_btn}}</el-button>
+    center
+  >
+    <component :is="content" ref="cpo" v-model="value" />
+    <span v-if="!hide_footer" slot="footer" class="dialog-footer">
+      <el-button v-if="!hide_cancel" @click="handleClosed">取 消</el-button>
+      <el-button type="primary" @click="handleOk">{{ sure_btn }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -50,24 +51,24 @@ export default {
     return {
       visible: true,
       affirm: false
-    };
+    }
   },
   methods: {
     handleClosed() {
-      this.visible = false;
+      this.visible = false
     },
     async handleOk() {
-      this.affirm = true;
+      this.affirm = true
       try {
-        await this.$refs.cpo.affirm(this);
+        await this.$refs.cpo.affirm(this)
         // 关闭窗口交给子component
       } catch (error) {
-        console.error('affirm事件不存在[Please define affirm event in the component]!', error);
+        console.error('affirm事件不存在[Please define affirm event in the component]!', error)
       }
     }
   }
 
-};
+}
 </script>
 
 <style scoped lang="scss">
