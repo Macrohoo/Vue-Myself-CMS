@@ -10,7 +10,7 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   // baseURL: 'http://localhost:7001',
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000
+  timeout: 20000
 })
 
 // request interceptor
