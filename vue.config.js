@@ -19,7 +19,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: './',   //部署应用包时的基本 URL
+  publicPath: './public',   //部署应用包时的基本 URL
   outputDir: 'dist',  //生成的生产环境构建文件的目录
   assetsDir: 'static',  //放置生成的静态资源 (js、css、img、fonts)的(相对于 outputDir 的)目录
   lintOnSave: process.env.NODE_ENV === 'development',  //当 lintOnSave 是一个 truthy 的值时，eslint-loader 在开发和生产构建下都会被启用
